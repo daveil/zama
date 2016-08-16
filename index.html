@@ -27,7 +27,7 @@
 	<script data-main="config/main.js" src="app/bower_components/requirejs/require.js"> </script>
 </head>
 
-<body ng-controller="RootController" class="full">
+<body ng-controller="RootController" class="">
     <div id="wrapper" class="ease" ng-class="{'toggled':__SIDEBAR_OPEN}">
 		<div class="sidebar-blind ease">
 			<div class="btn-group btn-sm" ng-if="__SIDEBAR_OPEN"> 
@@ -49,14 +49,41 @@
                 </li>
 				<li class="separator">
                 </li>
-				 <li>
-                    <a href="/app">App</a>
-                </li>
+				
                 <li>
                     <a href="#/">Home</a>
                 </li>
 				 <li>
                     <a href="#/pages/dashboard">Dashboard</a>
+                </li>
+				
+				<li>
+                    <a href="#/">User Registration</a>
+                </li>
+				<li>
+                    <a href="#/">Maintenance</a>
+					<ul>
+						<li><a href="">Department</a></li>
+						<li><a href="">Categories</a></li>
+						<li><a href="">Subcategories</a></li>
+						<li><a href="">Line/Machine</a></li>
+					</ul>
+                </li>
+				<li>
+                    <a href="#/">Pareto</a>
+                </li>
+				<li>
+                    <a href="#/">Plan</a>
+                </li>
+				<li>
+                    <a href="#/">Report</a>
+					<ul>
+						<li><a href="">Pareto</a></li>
+						<li><a href="">Daily KPI</a></li>
+						<li><a href="">Daily Plan</a></li>
+						<li><a href="">Monthly Target</a></li>
+						<li><a href="">Monthly KPI</a></li>
+					</ul>
                 </li>
 			</ul>
         </div>
