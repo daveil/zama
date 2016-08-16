@@ -1,0 +1,48 @@
+<div class="row" ng-controller="PageController" ng-init="init()">
+	<div class="row" style="padding-bottom:1rem;">
+		<div class="col-md-12">
+			<div class="btn-group">
+				<button class="btn " ng-class="{'btn-primary':ActiveDept===dept,'btn-default':ActiveDept!==dept}" ng-click="setActiveDept(dept)" ng-repeat="dept in Deparments">
+					 {{dept}}
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="list-group-item">
+				<h4>Category</h4>
+				<canvas id="doughnut" class="chart chart-doughnut"
+				  chart-data="PieData" chart-labels="PieLabels">
+				</canvas> 
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="list-group-item">
+				<h4>Pareto</h4>
+				<canvas id="bar" class="chart chart-bar"
+				  chart-data="BarData" chart-labels="BarLabels" chart-colors="ChartColors"> 
+				</canvas>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="list-group-item">
+				<h4>Performance</h4>
+				<canvas id="bar" class="chart-horizontal-bar"
+				  chart-data="BarData" chart-labels="BarLabels"  chart-colors="ChartColors"> 
+				</canvas>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="list-group-item">
+				<h4>CAPA Load</h4>
+				<canvas id="polar-area" class="chart chart-polar-area"
+				  chart-data="PieData" chart-labels="PieLabels">
+				</canvas> 
+			</div>
+		</div>
+	</div>
+	
+</div>
