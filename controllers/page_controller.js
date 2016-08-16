@@ -3,6 +3,11 @@ define(['app','api'], function (app) {
     app.register.controller('PageController',['$scope','$rootScope','api', function ($scope,$rootScope,api) {
        $scope.init = function (module_name) { 
 			$rootScope.__MODULE_NAME = 'ZAMA';
+			$scope.workHour = 0;
+			$scope.cycleTime = 0;
+			$scope.targetEfficiency = 0;
+			$scope.targetDelivery = 0;
+			$scope.shiftNo = 0;
 			 $scope.ChartColors = ['#45b7cd', '#ff6384', '#ff8e72'];
 			$scope.Deparments = [
 						'Assembly',

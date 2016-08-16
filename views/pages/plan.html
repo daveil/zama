@@ -1,0 +1,161 @@
+<div class="row" ng-controller="PageController" ng-init="init()">
+	<div class="col-md-4">
+		<div class="list-group">
+			<div class="list-group-item list-group-header">
+				<label>Die Casting Daily Plan</label>
+			</div>
+			<div class="list-group-canvas">
+				<div class="list-group-item"> 
+					<div class="form-group">
+						<label>Category</label>
+						<select name="" id="" class="form-control">
+							<option value="">Machine Efficiency</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Sub Category</label>
+						<select name="" id="" class="form-control">
+							<option value="">Setup Adjustment</option>
+							<option value="">Machine Maintenance</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Line/Machine</label>
+						<select name="" id="" class="form-control">
+							<option value="">Line 1</option>
+							<option value="">Line 2</option>
+							<option value="">Line 3</option>
+							<option value="">Line 4</option>
+							<option value="">Line 5</option>
+							<option value="">Line 6</option>
+						</select>
+						
+					</div>
+					<div class="form-group">
+					<input type="text" class="form-control" placeholder="Model" />
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<label>Day Shift</label>
+								<select name="" id="" class="form-control">
+									<option value="">Day Code</option>
+									<option value="">MP1</option>
+									<option value="">MP2</option>
+									<option value="">TR</option>
+									<option value="">CO</option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<label>Night Shift</label>
+								<select name="" id="" class="form-control">
+									<option value="">Night Code</option>
+									<option value="">MP1</option>
+									<option value="">MP2</option>
+									<option value="">TR</option>
+									<option value="">CO</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<label>Date From</label>
+								<input type="date" class="form-control" />
+							</div>
+							<div class="col-md-6">
+								<label>To</label>
+								<input type="date" class="form-control" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-5"> 
+		<div class="list-group">
+			<div class="list-group-item list-group-header">
+				<label class="pull-left">Daily Plan</label>
+				<div class="btn-group btn-group-xs pull-right">
+					<button class="btn btn-default ">CANCEL</button>
+					<button class="btn btn-primary ">SUBMIT</button>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="list-group-canvas">
+				<div class="list-group-item">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th class="col-md-9">Field</th>
+								<th class="col-md-3">Value</th>
+							</tr>
+						</thead>
+						<tbody>
+					
+							<tr>
+								<td>Work Hour</td>
+								<td><input type="number" class="form-control" ng-model="workHour" /></td>
+							</tr>
+							<tr>
+								<td>Cycle Time</td>
+								<td><input type="number" class="form-control" ng-model="cycleTime" /></td>
+							</tr>
+							<tr>
+								<td>Target Efficiency</td>
+								<td><input type="number" class="form-control" ng-model="targetEfficiency" /></td>
+							</tr>
+							<tr>
+								<td>Target Delivery</td>
+								<td><input type="number" class="form-control" ng-model="targetDelivery"/></td>
+							</tr>
+							<tr>
+								<td>Shift No</td>
+								<td><input type="number" class="form-control" ng-model="shiftNo"/></td>
+							</tr>
+						</tbody>
+						<tfoot> 
+							<tr>
+								<td>
+									<h4>Production Plan</h4>
+								</td>
+								<td class="text-right">
+									<h4>{{shiftNo*cycleTime*workHour*targetEfficiency}}</h4>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3"> 
+		<div class="list-group">
+			<div class="list-group-item list-group-header">
+				<label>Monthly Production Plan</label>
+			</div>
+			<div class="list-group-canvas"> 
+				<div class="list-group-item list-group-header">
+					<div class="row">
+					<div class="col-md-12 amount amount-total">
+						<label>August</label>
+						<h3 class="amount total">{{25+(shiftNo*cycleTime*workHour*targetEfficiency)}}</h3>
+					</div>
+					</div>
+				</div>
+				<div class="list-group-item list-group-header"> 
+					<h5 class="pull-left">AUG 1-15</h5>
+					<b class="pull-right">25</b>
+					<div class="clearfix"></div>
+				</div>
+				<div class="list-group-item list-group-header"> 
+					<h5 class="pull-left">AUG 16-30</h5>
+					<b class="pull-right">{{shiftNo*cycleTime*workHour*targetEfficiency}}</b>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
