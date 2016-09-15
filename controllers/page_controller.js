@@ -10,12 +10,9 @@ define(['app','api'], function (app) {
 			$scope.shiftNo = 0;
 			 $scope.ChartColors = ['#45b7cd', '#ff6384', '#ff8e72'];
 			$scope.Deparments = [
-						'Assembly',
-						'Sub assembly',
 						'Die Cast',
-						'Body Machining',
-						'Parts Machining',
-						'Cover Machining'
+						'Machining',
+						'Assembly'
 			];
 			$scope.setActiveDept = function(dept){
 				$scope.ActiveDept = dept;

@@ -1,0 +1,65 @@
+<div class="row" ng-controller="PageController" ng-init="init()">
+	<div class="col-md-4">
+		<div class="list-group">
+			<div class="list-group-item list-group-header">
+				<label>Part No.</label>
+				<div class="btn-group btn-group-xs pull-right">
+					<button class="btn btn-default ">CANCEL</button>
+					<button class="btn btn-primary ">SUBMIT</button>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="list-group-canvas">
+				<div class="list-group-item list-group-header">
+					<h5>Information</h5>
+				</div>
+				<div class="list-group-item"> 
+					<div class="form-group">
+						<label>Department</label>
+						<select name="" id="" class="form-control"></select>
+					</div>
+					<div class="form-group">
+						<label>Category</label>
+						<select name="" id="" class="form-control"></select>
+					</div>
+					<div class="form-group">
+						<label>Sub-Category</label>
+						<select name="" id="" class="form-control"></select>
+					</div>
+					<div class="form-group">
+						<label>Line/Machine</label>
+						<select name="" id="" class="form-control"></select>
+					</div>
+					<div class="form-group">
+						<label>Part No</label>
+						<input type="text" class="form-control" />
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-8"> 
+		<div class="list-group">
+			<div class="list-group-item list-group-header">
+				<label>Part Nos.</label>
+			</div>
+			<div class="list-group-canvas">
+				<div class="list-group-item">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th class="col-md-4">Part/No</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="line in ['1','3','4']">
+							<td>PNO{{line}}</td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
