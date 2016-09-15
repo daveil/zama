@@ -11,14 +11,49 @@
 	<div class="row">
 		<div class="col-md-6">
 			<div class="list-group-item">
-				<h4>Pareto</h4>
+				<h4>Machine Efficiency</h4>
 				<canvas id="bar" class="chart chart-bar"
 				  chart-data="BarData" chart-labels="BarLabels" chart-colors="ChartColors"> 
 				</canvas>
 			</div>
+			<table class="table table-condensed table-bordered">
+					<thead>
+						<tr>
+							<th>Machine</th>
+							<th ng-repeat="head in BarData[0]">Line {{$index+1}}</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="line in BarData">
+							<td>SZ000{{$index+1}}</td>
+							<td ng-repeat="l in line">{{l | number : 2}}</td>
+						</tr>
+					</tbody>
+				</table>
 		</div>
 		<div class="col-md-6">
-				<table class="table table-condensed table-bordered">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="list-group-item">
+					<h4>Scrap/Rework</h4>
+					<canvas id="bar" class="chart chart-bar"
+					  chart-data="BarData" chart-labels="BarLabels" chart-colors="ChartColors"> 
+					</canvas>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="list-group-item">
+					<h4>Daily SAP</h4>
+					<canvas id="line" class="chart chart-line"
+					  chart-data="BarData" chart-labels="BarLabels" chart-colors="ChartColors"> 
+					</canvas>
+				</div>
+			</div>
+		</div>
+		<hr />
+			
+			<table class="table table-condensed table-bordered">
 					<thead>
 						<tr>
 							<th>Machine</th>
