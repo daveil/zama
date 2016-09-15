@@ -1,0 +1,137 @@
+<div class="row" ng-controller="PageController" ng-init="init()">
+	<div class="row" style="padding-bottom:1rem;">
+		<div class="col-md-12">
+			<div class="btn-group">
+				<button class="btn " ng-class="{'btn-primary':ActiveDept===dept,'btn-default':ActiveDept!==dept}" ng-click="setActiveDept(dept)" ng-repeat="dept in Deparments">
+					 {{dept}}
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+		<div class="list-group-item">
+				<h4>Daily KPI Dashboard filter</h4>
+				<div class="row">
+					<div class="col-md-4"> 
+						<div class="form-group">
+							<label for="">Month</label>
+							<select name="" id="" class="form-control"></select>
+						</div>
+					</div>
+					<div class="col-md-4"> 
+						<div class="form-group">
+							<label for="">Line/Machine</label>
+							<select name="" id="" class="form-control"></select>
+						</div>
+					</div>
+					<div class="col-md-4"> 
+						<div class="form-group">
+							<label for="">Cavity</label>
+							<select name="" id="" class="form-control"></select>
+						</div>
+					</div>
+					<div class="col-md-4"> 
+						<div class="form-group">
+							<label for="">Area</label>
+							<select name="" id="" class="form-control"></select>
+						</div>
+					</div>
+					<div class="col-md-4"> 
+						<div class="form-group">
+							<label for="">Part No.</label>
+							<select name="" id="" class="form-control"></select>
+						</div>
+					</div>
+				</div>
+		</div>
+		</div>
+	</div>
+	<hr />
+	<div class="row">
+		<div class="col-md-6">
+			<div class="list-group-item">
+				<h4>Machine Efficiency</h4>
+				<canvas id="bar" class="chart chart-bar"
+				  chart-data="BarData" chart-labels="BarLabels" chart-colors="ChartColors"> 
+				</canvas>
+			</div>
+		</div>
+		<div class="col-md-6">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="list-group-item">
+					<h4>Scrap/Rework</h4>
+					<canvas id="bar" class="chart chart-bar"
+					  chart-data="BarData" chart-labels="BarLabels" chart-colors="ChartColors"> 
+					</canvas>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="list-group-item">
+					<h4>Daily SAP</h4>
+					<canvas id="line" class="chart chart-line"
+					  chart-data="BarData" chart-labels="BarLabels" chart-colors="ChartColors"> 
+					</canvas>
+				</div>
+			</div>
+		</div>
+		<hr />
+			
+			<table class="table table-condensed table-bordered">
+					<thead>
+						<tr>
+							<th>Machine</th>
+							<th ng-repeat="head in BarData[0]">Line {{$index+1}}</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="line in BarData">
+							<td>SZ000{{$index+1}}</td>
+							<td ng-repeat="l in line">{{l | number : 2}}</td>
+						</tr>
+					</tbody>
+				</table>
+		</div>
+		
+	</div>
+	
+	<div class="row hide">
+		<div class="col-md-6">
+			<div class="list-group-item">
+				<h4>Category</h4>
+				<canvas id="doughnut" class="chart chart-doughnut"
+				  chart-data="PieData" chart-labels="PieLabels">
+				</canvas> 
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="list-group-item">
+				<h4>Pareto</h4>
+				<canvas id="bar" class="chart chart-bar"
+				  chart-data="BarData" chart-labels="BarLabels" chart-colors="ChartColors"> 
+				</canvas>
+			</div>
+		</div>
+	</div>
+	<div class="row hide">
+		<div class="col-md-6">
+			<div class="list-group-item">
+				<h4>Performance</h4>
+				<canvas id="bar" class="chart-horizontal-bar"
+				  chart-data="BarData" chart-labels="BarLabels"  chart-colors="ChartColors"> 
+				</canvas>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="list-group-item">
+				<h4>CAPA Load</h4>
+				<canvas id="polar-area" class="chart chart-polar-area"
+				  chart-data="PieData" chart-labels="PieLabels">
+				</canvas> 
+			</div>
+		</div>
+	</div>
+	
+</div>

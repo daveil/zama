@@ -3,27 +3,40 @@ define(['app','api'], function (app) {
     app.register.controller('PageController',['$scope','$rootScope','api', function ($scope,$rootScope,api) {
        $scope.init = function (module_name) { 
 			$rootScope.__MODULE_NAME = 'ZAMA';
-			$scope.colors = ['#45b7cd', '#ff6384', '#ff8e72'];
-
-			$scope.labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-			$scope.data = [
-			  [65, -59, 80, 81, -56, 55, -40],
-			  [28, 48, -40, 19, 86, 27, 90]
+			$scope.workHour = 0;
+			$scope.cycleTime = 0;
+			$scope.targetEfficiency = 0;
+			$scope.targetDelivery = 0;
+			$scope.shiftNo = 0;
+			 $scope.ChartColors = ['#45b7cd', '#ff6384', '#ff8e72'];
+			$scope.Deparments = [
+						'Die Cast',
+						'Machining',
+						'Assembly'
 			];
-			$scope.datasetOverride = [
-			  {
-				label: "Bar chart",
-				borderWidth: 1,
-				type: 'bar'
-			  },
-			  {
-				label: "Line chart",
-				borderWidth: 3,
-				hoverBackgroundColor: "rgba(255,99,132,0.4)",
-				hoverBorderColor: "rgba(255,99,132,1)",
-				type: 'line'
-			  }
-			];
+			$scope.setActiveDept = function(dept){
+				$scope.ActiveDept = dept;
+				$scope.PieData = [];
+				$scope.PieData.push(renderRandom(100));
+				$scope.PieData.push(renderRandom(100));
+				$scope.PieData.push(renderRandom(100));
+				$scope.BarData = [];
+				for(var j=0;j<2;j++){
+					$scope.BarData[j]=[];
+					for(var i=1;i<=7;i++){
+						$scope.BarData[j].push(renderRandom(50));
+					}
+					
+				}
+				
+			}
+			$scope.PieLabels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+			$scope.BarLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+			$scope.series = ['Series A', 'Series B'];
+			$scope.setActiveDept($scope.Deparments[0]);
+			function renderRandom(num){
+				return Math.random()*num;
+			}
 	  }
     }]);
 });

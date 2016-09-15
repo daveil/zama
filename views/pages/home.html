@@ -1,23 +1,73 @@
 <div class="row" ng-controller="PageController" ng-init="init()">
-	<button class="btn btn-primary btn-fab fixed top right">
-		<span class="glyphicon glyphicon-plus"></span>
-	</button>
+	<div class="row" style="padding-bottom:1rem;">
+		<div class="col-md-12">
+			<div class="btn-group">
+				<button class="btn " ng-class="{'btn-primary':ActiveDept===dept,'btn-default':ActiveDept!==dept}" ng-click="setActiveDept(dept)" ng-repeat="dept in Deparments">
+					 {{dept}}
+				</button>
+			</div>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-md-6">
 			<div class="list-group-item">
-				<canvas id="base" class="chart-bar"
-				  chart-data="data" chart-labels="labels" chart-colors="colors"
-				  chart-dataset-override="datasetOverride" >
-				</canvas> 
+				<h4>Machine Efficiency</h4>
+				<canvas id="bar" class="chart chart-bar"
+				  chart-data="BarData" chart-labels="BarLabels" chart-colors="ChartColors"> 
+				</canvas>
 			</div>
+			<table class="table table-condensed table-bordered">
+					<thead>
+						<tr>
+							<th>Machine</th>
+							<th ng-repeat="head in BarData[0]">Line {{$index+1}}</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="line in BarData">
+							<td>SZ000{{$index+1}}</td>
+							<td ng-repeat="l in line">{{l | number : 2}}</td>
+						</tr>
+					</tbody>
+				</table>
 		</div>
 		<div class="col-md-6">
-			<div class="list-group-item">
-				<canvas id="base2" class="chart-line"
-				  chart-data="data" chart-labels="labels" chart-colors="colors"
-				  chart-dataset-override="datasetOverride" >
-				</canvas> 
+		<div class="row">
+			<div class="col-md-6">
+				<div class="list-group-item">
+					<h4>Scrap/Rework</h4>
+					<canvas id="bar" class="chart chart-bar"
+					  chart-data="BarData" chart-labels="BarLabels" chart-colors="ChartColors"> 
+					</canvas>
+				</div>
 			</div>
+			<div class="col-md-6">
+				<div class="list-group-item">
+					<h4>Daily SAP</h4>
+					<canvas id="line" class="chart chart-line"
+					  chart-data="BarData" chart-labels="BarLabels" chart-colors="ChartColors"> 
+					</canvas>
+				</div>
+			</div>
+		</div>
+		<hr />
+			
+			<table class="table table-condensed table-bordered">
+					<thead>
+						<tr>
+							<th>Machine</th>
+							<th ng-repeat="head in BarData[0]">Line {{$index+1}}</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="line in BarData">
+							<td>SZ000{{$index+1}}</td>
+							<td ng-repeat="l in line">{{l | number : 2}}</td>
+						</tr>
+					</tbody>
+				</table>
 		</div>
 	</div>
 	
