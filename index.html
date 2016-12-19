@@ -61,6 +61,9 @@
                     <a href="#/pages/register">User Registration</a>
                 </li>
 				<li ng-if="__USER.user_type=='admin'">
+                    <a href="#/access">Access Control</a>
+                </li>
+				<li ng-if="__USER.user_type=='admin'">
                     <a ng-click="__MENU_MAINTENANCE=!__MENU_MAINTENANCE">
 						Maintenance
 						<div class="pull-right"><i
@@ -99,8 +102,7 @@
 						<li><a href="">Monthly KPI</a></li>
 					</ul>
                 </li>
-				<li class="separator">
-                </li>
+				
 				<li>
                     <a href="#/logout">Logout</a>
                 </li>

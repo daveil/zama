@@ -3,6 +3,29 @@ define(['root','directives','settings','angularAMD','angular-route', 'angular-co
 function (root,directives,settings,angularAMD) {
     var app = angular.module("mainModule", 
         ['ngRoute', 'ngCookies', 'chart.js','ui.bootstrap','ui.tree']);
+	var mainRouter = angularAMD.route({
+        templateUrl: function (rp) { 
+			if(!rp.action)  rp.action ='index';
+			return settings.VIEWS_DIRECTORY+'/' + rp.controller + '/' + rp.action +'.'+settings.VIEW_EXTENSION;
+		},
+        resolve: {
+        load: ['$q', '$rootScope', '$location', 
+            function ($q, $rootScope, $location) {
+                var path = $location.path();
+                var parsePath = path.split("/");
+				var controllerName = parsePath[1];
+                var loadController =  settings.CTRLS_DIRECTORY+"/"  + 
+                                      controllerName + "_controller";
+                var deferred = $q.defer();
+                require([loadController], function () {
+                    $rootScope.$apply(function () {
+                        deferred.resolve();
+                        });
+            });
+            return deferred.promise;
+            }]
+            }
+        });
     app.config(['$routeProvider', function ($routeProvider) {
    
     $routeProvider
@@ -33,30 +56,8 @@ function (root,directives,settings,angularAMD) {
 		},
 		controllerUrl:  settings.CTRLS_DIRECTORY+"/page_controller"      
 	}))
-	
-	.when("/:controller/:action", angularAMD.route({
-        templateUrl: function (rp) { 
-			if(!rp.action)  rp.action ='index';
-			return settings.VIEWS_DIRECTORY+'/' + rp.controller + '/' + rp.action +'.'+settings.VIEW_EXTENSION;
-		},
-        resolve: {
-        load: ['$q', '$rootScope', '$location', 
-            function ($q, $rootScope, $location) {
-                var path = $location.path();
-                var parsePath = path.split("/");
-				var controllerName = parsePath[1];
-                var loadController =  settings.CTRLS_DIRECTORY+"/"  + 
-                                      controllerName + "_controller";
-                var deferred = $q.defer();
-                require([loadController], function () {
-                    $rootScope.$apply(function () {
-                        deferred.resolve();
-                        });
-            });
-            return deferred.promise;
-            }]
-            }
-        }))
+	.when("/:controller", mainRouter)
+	.when("/:controller/:action", mainRouter)
         .otherwise({ redirectTo: '/' }) 
     }]);                
 	app.config(['$uibModalProvider', function($uibModalProvider) {
