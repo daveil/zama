@@ -2,15 +2,18 @@
 	<div class="col-md-4 col-md-offset-4">
 		<form action="" class="form-vertical">
 			<h2 class="text-center">Welcome to ZAMA</h2>
+			<div class=" alert-danger help-text" style="color:#a94442;margin-bottom:5px;padding:1rem;" ng-if="loginMessage">{{loginMessage}}</div>
+			<div class="list-group-item">
 			<div class="form-group"><input type="text" class="form-control" placeholder="Username" ng-model="User.name"/></div>
 			<div class="form-group"><input type="password" class="form-control" placeholder="Password" ng-model="User.password"/></div>
 			<div class="row">
 				<div class="col-md-6"> 
-					<button class="btn btn-default btn-block" ng-click="cancel()" type="button">CANCEL</button>
+					<button class="btn btn-default btn-block" ng-click="cancel()" ng-disabled="LoggingIn" type="button">CANCEL</button>
 				</div>
 				<div class="col-md-6"> 
-					<button class="btn btn-primary btn-block" ng-click="login()" type="button">LOGIN</button>
+					<button class="btn btn-primary btn-block" ng-click="login()"  ng-disabled="LoggingIn" LoggingIntype="button">LOGIN</button>
 				</div>
+			</div>
 			</div>
 			
 		</form>
