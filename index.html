@@ -42,7 +42,7 @@
 				   <span>Toggle Menu</span>
 				</button>
 			</div>
-            <ul class="sidebar-nav">
+            <ul class="sidebar-nav" ng-if="__USER">
                 <li class="sidebar-brand">
                     <div id="user-name">Welcome!</div>
                     <div id="company-name">ZAMA Inc.</div>
@@ -57,12 +57,21 @@
                     <a href="#/pages/dashboard">Dashboard</a>
                 </li>
 				
-				<li>
+				<li ng-if="__USER.user_type=='admin'">
                     <a href="#/pages/register">User Registration</a>
                 </li>
-				<li>
-                    <a href="#/">Maintenance</a>
-					<ul>
+				<li ng-if="__USER.user_type=='admin'">
+                    <a href="#/access">Access Control</a>
+                </li>
+				<li ng-if="__USER.user_type=='admin'">
+                    <a ng-click="__MENU_MAINTENANCE=!__MENU_MAINTENANCE">
+						Maintenance
+						<div class="pull-right"><i
+						class="glyphicon glyphicon-chevron-down"
+						ng-class="{'glyphicon-chevron-down':!__MENU_MAINTENANCE,'glyphicon-chevron-up':__MENU_MAINTENANCE}"
+						></i>&nbsp;&nbsp;</div>
+					</a>
+					<ul ng-if="__MENU_MAINTENANCE">
 						<li><a href="#/pages/department">Department</a></li>
 						<li><a href="#/pages/category">Category</a></li>
 						<li><a href="#/pages/subcategory">Sub-Category</a></li>
@@ -78,8 +87,14 @@
                     <a href="#/pages/plan">Plan</a>
                 </li>
 				<li>
-                    <a href="#/">Report</a>
-					<ul>
+                    <a ng-click="__MENU_REPORTS=!__MENU_REPORTS">
+						Report
+						<div class="pull-right"><i
+						class="glyphicon glyphicon-chevron-down"
+						ng-class="{'glyphicon-chevron-down':!__MENU_REPORTS,'glyphicon-chevron-up':__MENU_REPORTS}"
+						></i>&nbsp;&nbsp;</div>
+					</a>
+					<ul ng-if="__MENU_REPORTS">
 						<li><a href="">Pareto</a></li>
 						<li><a href="">Daily KPI</a></li>
 						<li><a href="">Daily Plan</a></li>
@@ -87,13 +102,17 @@
 						<li><a href="">Monthly KPI</a></li>
 					</ul>
                 </li>
+				
+				<li>
+                    <a href="#/logout">Logout</a>
+                </li>
 			</ul>
         </div>
         <!-- /#sidebar-wrapper -->
 
         <!-- Page Content -->
 		<div class="navbar navbar-default navbar-fixed-top" id="navbar-toggle" ng-class="{'blur': __MODAL_OPEN}">
-				<button type="button" class=" navbar-toggle c-hamburger c-hamburger--htx fade out"  ng-class="{'in':__APP_READY}" id="menu-toggle-1"  ng-click="__toggleSideBar()">
+				<button type="button" class=" navbar-toggle c-hamburger c-hamburger--htx fade out"  ng-if="__USER" ng-class="{'in':__APP_READY}" id="menu-toggle-1"  ng-click="__toggleSideBar()">
 				   <span>Toggle Menu</span>
 				</button>
 				<a class="navbar-brand fade out"  ng-class="{'in':__FAB_READY}">KPI Monitoring</a>

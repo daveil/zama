@@ -9,11 +9,11 @@ define(['app','api'], function (app) {
 			$scope.targetDelivery = 0;
 			$scope.shiftNo = 0;
 			 $scope.ChartColors = ['#45b7cd', '#ff6384', '#ff8e72'];
-			$scope.Deparments = [
-						'Die Cast',
-						'Machining',
-						'Assembly'
-			];
+			 $scope.Departments = [{name:'Loading...'}];
+			api.GET('departments',function(response){
+				$scope.Departments = response.data;
+				$scope.setActiveDept($scope.Departments[0]);
+			});
 			$scope.setActiveDept = function(dept){
 				$scope.ActiveDept = dept;
 				$scope.PieData = [];
@@ -33,7 +33,7 @@ define(['app','api'], function (app) {
 			$scope.PieLabels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
 			$scope.BarLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
 			$scope.series = ['Series A', 'Series B'];
-			$scope.setActiveDept($scope.Deparments[0]);
+			
 			function renderRandom(num){
 				return Math.random()*num;
 			}

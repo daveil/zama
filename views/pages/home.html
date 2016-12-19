@@ -2,8 +2,8 @@
 	<div class="row" style="padding-bottom:1rem;">
 		<div class="col-md-12">
 			<div class="btn-group">
-				<button class="btn " ng-class="{'btn-primary':ActiveDept===dept,'btn-default':ActiveDept!==dept}" ng-click="setActiveDept(dept)" ng-repeat="dept in Deparments">
-					 {{dept}}
+				<button class="btn " ng-class="{'btn-primary':ActiveDept===dept,'btn-default':ActiveDept!==dept}" ng-click="setActiveDept(dept)" ng-repeat="dept in Departments">
+					 {{dept.name}}
 				</button>
 			</div>
 		</div>
