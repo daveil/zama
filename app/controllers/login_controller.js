@@ -23,7 +23,7 @@ define(['app','api'], function (app) {
 			});
 		}
 		api.GET('departments',function(response){
-			$rootScope.Departments = response.data;
+			$scope.Departments = response.data;
 		});
 	}]);
 	
