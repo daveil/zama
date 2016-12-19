@@ -1,14 +1,23 @@
 "use strict";
 define(['settings','demo'], function(settings,demo){
-	var RootController =  function ($scope, $rootScope,$timeout,$cookies,$http,$q) {
+	var RootController =  function ($scope, $rootScope,$timeout,$cookies,$http,$q,$window) {
 		$rootScope.__toggleSideBar = function(){
 			$rootScope.__SIDEBAR_OPEN = !$rootScope.__SIDEBAR_OPEN;
 		}
-		$rootScope.$on('$routeChangeStart', function (scope, next, current) {
+		$rootScope.$on('$routeChangeStart', function (scope, current, next) {
 			$rootScope.__APP_READY = false;
 			$rootScope.__FAB_READY = false;
 		});
-		$rootScope.$on('$routeChangeSuccess', function (scope, next, current) {
+		$rootScope.$on('$routeChangeSuccess', function (scope, current, next) {
+			try{
+				$rootScope.__USER =  JSON.parse($cookies.get('__USER'));
+			}catch(e){
+				$rootScope.__USER = null;
+			}
+			
+			if(!$rootScope.__USER&&current.originalPath!='/login'){
+				$window.location.href="#/login";
+			}
 			$timeout(function(){
 				$rootScope.__APP_READY = true;
 				$timeout(function(){
@@ -31,6 +40,6 @@ define(['settings','demo'], function(settings,demo){
 						console.log('ERROR:'+response.meta.message);
 					},$rootScope,$http,$timeout,$q);
 	};
-	RootController.$inject = ['$scope', '$rootScope','$timeout','$cookieStore','$http','$q'];
+	RootController.$inject = ['$scope', '$rootScope','$timeout','$cookies','$http','$q','$window'];
 	return RootController;
 });

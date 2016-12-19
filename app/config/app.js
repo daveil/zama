@@ -14,6 +14,19 @@ function (root,directives,settings,angularAMD) {
 		controllerUrl: settings.CTRLS_DIRECTORY+"/page_controller"            
     }))
 	
+	.when("/login", angularAMD.route({
+        templateUrl: function (rp) {
+			return "app/views/login."+settings.VIEW_EXTENSION;
+		},
+		controllerUrl: "controllers/login_controller"            
+    }))
+	.when("/logout", angularAMD.route({
+        templateUrl: function (rp) {
+			return "app/views/login."+settings.VIEW_EXTENSION;
+		},
+		controllerUrl: "controllers/login_controller"            
+    }))
+	
 	.when("/pages/:page",angularAMD.route({
 		templateUrl: function (rp) {
 			return settings.VIEWS_DIRECTORY+'/pages/'+rp.page+'.'+settings.VIEW_EXTENSION;
