@@ -783,3 +783,17 @@ input[type="number"]{text-align:right;}
  .align-middle {
 	 vertical-align:middle !important;
  }
+ 
+ .dark,.dark #page-content-wrapper {
+	background: #53585c;
+ }
+ .dark #navbar-toggle{
+	 background: #33383c;
+ }
+ 
+ .dark h2,.dark a.navbar-brand,.dark a.navbar-brand:hover{
+	 color:#fff;
+ }
+  .dark table{
+	  background:#fff;
+  }
