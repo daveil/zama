@@ -1,4 +1,4 @@
-<div class="row" ng-controller="PageController" ng-init="init()">
+<div class="row" ng-controller="RegisterController" ng-init="init()">
 	<div class="col-md-4">
 		<div class="list-group">
 			<div class="list-group-item list-group-header">
@@ -30,11 +30,18 @@
 						<input type="text" class="form-control" />
 					</div>
 					<div class="form-group">
+						<label>Username</label>
+						<input type="text" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>Password</label>
+						<input type="password" class="form-control" />
+					</div>
+					<div class="form-group">
 						<label>Restriction</label>
 						<select name="" id="" class="form-control">
-							<option value="">Pareto/Report</option>
-							<option value="">Plan/Report</option>
-							<option value="">Super User</option>
+							<option value="">Select Restriction</option>
+							<option ng-repeat="rest in Restriction" value="{{rest.id}}">{{rest.name}}</option>
 						</select>
 					</div>
 				</div>
