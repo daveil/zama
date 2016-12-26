@@ -14,14 +14,7 @@
 					<h5>Information</h5>
 				</div>
 				<div class="list-group-item"> 
-					<div class="form-group" ng-repeat="ui in UI_RENDER">
-						<label>{{ui.label}}</label>
-						<select ng-show="ui.type=='dropdown'" class="form-control">
-							<option value="">Select {{ui.label}}</option>
-							<option ng-repeat="value in UI_DRPDWN[ui.endpoint]" value="value.id">{{value.name}}</option>
-						</select>
-						<input ng-show="ui.type=='text'" type="text" class="form-control">
-					</div>
+					<div ng-include="'views/maintenance/__form_template.html'"></div>
 				</div>
 			</div>
 		</div>
