@@ -1,8 +1,8 @@
-<div class="row" ng-controller="PageController" ng-init="init()">
+<div class="row" ng-controller="MaintenanceController" ng-init="init(MNT_STRUCT.DEPARTMENT)">
 	<div class="col-md-4">
 		<div class="list-group">
 			<div class="list-group-item list-group-header">
-				<label>Line/Machine</label>
+				<label>Deparment</label>
 				<div class="btn-group btn-group-xs pull-right">
 					<button class="btn btn-default ">CANCEL</button>
 					<button class="btn btn-primary ">SUBMIT</button>
@@ -15,19 +15,11 @@
 				</div>
 				<div class="list-group-item"> 
 					<div class="form-group">
-						<label>Department</label>
-						<select name="" id="" class="form-control"></select>
+						<label>Code</label>
+						<input type="text" class="form-control" />
 					</div>
 					<div class="form-group">
-						<label>Category</label>
-						<select name="" id="" class="form-control"></select>
-					</div>
-					<div class="form-group">
-						<label>Sub-Category</label>
-						<select name="" id="" class="form-control"></select>
-					</div>
-					<div class="form-group">
-						<label>Line/Machine</label>
+						<label>Name</label>
 						<input type="text" class="form-control" />
 					</div>
 					
@@ -38,19 +30,21 @@
 	<div class="col-md-8"> 
 		<div class="list-group">
 			<div class="list-group-item list-group-header">
-				<label>Lines/Machines</label>
+				<label>Deparments</label>
 			</div>
 			<div class="list-group-canvas">
 				<div class="list-group-item">
 				<table class="table table-bordered">
 					<thead>
 						<tr>
-							<th class="col-md-4">Machine</th>
+							<th class="col-md-4">Code</th>
+							<th class="col-md-8">Name</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="line in ['1','3','4']">
-							<td>Machine {{line}}</td>
+						<tr ng-repeat="line in ['A','B','C']">
+							<td>DEP{{line}}</td>
+							<td>Department {{line}}</td>
 						</tr>
 					</tbody>
 				</table>

@@ -1,4 +1,4 @@
-<div class="row" ng-controller="PageController" ng-init="init()">
+<div class="row" ng-controller="MaintenanceController" ng-init="init(MNT_STRUCT.CAVITY)">
 	<div class="col-md-4">
 		<div class="list-group">
 			<div class="list-group-item list-group-header">
@@ -14,29 +14,13 @@
 					<h5>Information</h5>
 				</div>
 				<div class="list-group-item"> 
-					<div class="form-group">
-						<label>Department</label>
-						<select name="" id="" class="form-control"></select>
-					</div>
-					<div class="form-group">
-						<label>Category</label>
-						<select name="" id="" class="form-control"></select>
-					</div>
-					<div class="form-group">
-						<label>Sub-Category</label>
-						<select name="" id="" class="form-control"></select>
-					</div>
-					<div class="form-group">
-						<label>Line/Machine</label>
-						<select name="" id="" class="form-control"></select>
-					</div>
-					<div class="form-group">
-						<label>Part No</label>
-						<select name="" id="" class="form-control"></select>
-					</div>
-					<div class="form-group">
-						<label>Cavity</label>
-						<input type="text" class="form-control" />
+					<div class="form-group" ng-repeat="ui in UI_RENDER">
+						<label>{{ui.label}}</label>
+						<select ng-show="ui.type=='dropdown'" class="form-control">
+							<option value="">Select {{ui.label}}</option>
+							<option ng-repeat="value in UI_DRPDWN[ui.endpoint]" value="value.id">{{value.name}}</option>
+						</select>
+						<input ng-show="ui.type=='text'" type="text" class="form-control">
 					</div>
 				</div>
 			</div>
