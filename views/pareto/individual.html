@@ -1,0 +1,68 @@
+<div class="row" ng-controller="IndividualController" ng-init="init()">
+	<div class="col-md-4">
+		<div class="list-group">
+			<div class="list-group-item list-group-header">
+				<label>Daily Pareto</label>
+			</div>
+			<div class="list-group-canvas">
+				<div class="list-group-item list-group-header">
+					<h5>{{Department.name}}</h5>
+				</div>
+				<div class="list-group-item"> 
+					<div class="form-group">
+						<label>Category</label>
+						<select name="" id="" class="form-control" ng-disabled="!Categories.length">
+							<option value="">Select Category</option>
+							<option ng-repeat="category in Categories" ng-value="category.id">
+								{{category.name}}
+							</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Sub Category</label>
+						<select name="" id="" class="form-control" ng-disabled="!Categories.length">
+							<option value="">Select Sub Category</option>
+							<option ng-repeat="subcategory in SubCategories" ng-value="subcategory.id">
+								{{subcategory.name}}
+							</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Date</label>
+						<input type="date" class="form-control" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-8"> 
+		<div class="list-group">
+			<div class="list-group-item list-group-header">
+				<label class="pull-left">Daily Pareto</label>
+				<div class="btn-group btn-group-xs pull-right">
+					<button class="btn btn-default ">CANCEL</button>
+					<button class="btn btn-primary ">SUBMIT</button>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="list-group-canvas">
+				<div class="list-group-item">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th class="col-md-4">Line</th>
+							<th class="col-md-8">Quantity</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="line in [1,2,3,4,5]">
+							<td>Line {{line}}</td>
+							<td><input type="number" class="form-control" /></td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
