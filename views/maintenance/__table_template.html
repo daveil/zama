@@ -1,9 +1,9 @@
 	<div class="list-group">
 			<div class="list-group-item list-group-header">
 				<div class="input-group input-group-sm col-md-12">
-					<input type="text" class="form-control" placeholder="Search" ng-model="$parent.SearchKeyword"/>
+					<input type="text" class="form-control" placeholder="Search" ng-model="$parent.SearchKeyword" ng-disabled="RecordMode=='DELETE'"/>
 					<div class="input-group-btn">
-						<button class="btn btn-default" ng-click="confirmSearch()"><i class="glyphicon glyphicon-search"></i></button>
+						<button class="btn btn-default" ng-click="confirmSearch()" ng-disabled="RecordMode=='DELETE'"><i class="glyphicon glyphicon-search"></i></button>
 					</div>
 				</div>
 			</div>
@@ -27,7 +27,13 @@
 							    ng-hide="key=='id'&&!UI_SHOWCODE">
 									{{value}}
 							</td>
-							<td class="text-center"><button class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove"></i></button></td>
+							<td class="text-center">
+								<button class="btn btn-danger btn-sm"
+								ng-click="setDeleteRecord(row)"
+								ng-disabled="RecordMode=='DELETE'">
+									<i class="glyphicon glyphicon-remove"></i>
+								</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>

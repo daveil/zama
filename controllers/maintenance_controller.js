@@ -50,25 +50,38 @@ define(['app','api'], function (app) {
 			})($scope,requests,0);
 			$scope.UI_RENDER =  uis;
 			$scope.DATA_ENDPOINT = MNT_APIS[i-1];
+			$scope.RecordMode = 'ADD';
 			loadData();
 		}
 		$scope.submitData = function(){
 			var data =  $scope.MNT_FIELDS;
-			console.log(data,$scope.MNT_FIELDS,$scope.DATA_ENDPOINT);
-			api.POST($scope.DATA_ENDPOINT,data,function(response){
-				$scope.MNT_FIELDS={};
-				loadData();
-			});
+			switch($scope.RecordMode){
+				case 'ADD':case'EDIT':
+					api.POST($scope.DATA_ENDPOINT,data,function(response){
+						$scope.MNT_FIELDS={};
+						$scope.RecordMode = 'ADD';
+						loadData();
+					});
+				break;
+				case 'DELETE':
+				break;
+			}
+			
 		}
 		$scope.cancelData = function(){
 			$scope.MNT_FIELDS={};
+			$scope.RecordMode = 'ADD';
 		}
 		$scope.confirmSearch = function(){
-			console.log($scope.SearchKeyword);
 			loadData({keyword:$scope.SearchKeyword,fields:['name']});
 		}
 		$scope.setActiveRecord = function(data){
+			$scope.RecordMode = 'EDIT';
 			$scope.MNT_FIELDS =  angular.copy(data);
+		}
+		$scope.setDeleteRecord = function(data){
+			$scope.RecordMode = 'DELETE';
+			$scope.MNT_FIELDS =  angular.copy(data);	
 		}
 		function loadData(data){
 			console.log(data);
