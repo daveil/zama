@@ -2,12 +2,8 @@
 	<div class="col-md-4">
 		<div class="list-group">
 			<div class="list-group-item list-group-header">
-				<label>Sub-Category</label>
-				<div class="btn-group btn-group-xs pull-right">
-					<button class="btn btn-default ">CANCEL</button>
-					<button class="btn btn-primary ">SUBMIT</button>
-				</div>
-				<div class="clearfix"></div>
+				<label class="pull-left">Sub-Category</label>
+				<div ng-include="'views/maintenance/__action_template.html'"></div>
 			</div>
 			<div class="list-group-canvas">
 				<div class="list-group-item list-group-header">
@@ -20,28 +16,6 @@
 		</div>
 	</div>
 	<div class="col-md-8"> 
-		<div class="list-group">
-			<div class="list-group-item list-group-header">
-				<label>Sub-Categories</label>
-			</div>
-			<div class="list-group-canvas">
-				<div class="list-group-item">
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th class="col-md-4">Code</th>
-							<th class="col-md-8">Name</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="line in ['A','B','C']">
-							<td>SUB{{line}}</td>
-							<td>Sub-Category {{line}}</td>
-						</tr>
-					</tbody>
-				</table>
-				</div>
-			</div>
-		</div>
+		<div ng-include="'views/maintenance/__table_template.html'"></div>
 	</div>
 </div>

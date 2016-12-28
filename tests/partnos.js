@@ -6,9 +6,9 @@ define(['model'],function($model){
 					title: 'Part No',
 				},
 				data:[
-					{id:'pno1',name:'Part No 1'},
-					{id:'pno2',name:'Part No 2'},
-					{id:'pno3',name:'Part No 3'},
+					{department_id:'dcast',category_id:'cat3',subcategory_id:'scat3',linemachine_id:'lnm3',id:'pno1',name:'Part No 1'},
+					{department_id:'dcast',category_id:'cat3',subcategory_id:'scat3',linemachine_id:'lnm3',id:'pno2',name:'Part No 2'},
+					{department_id:'dcast',category_id:'cat3',subcategory_id:'scat3',linemachine_id:'lnm3',id:'pno3',name:'Part No 3'},
 				]
 			}
 		);

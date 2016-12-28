@@ -1,8 +1,9 @@
 "use strict";
 define(['app','api'], function (app) {
 	const MNT_APIS = 'departments|categories|subcategories|linemachines|partnos|cavities'.split('|');
-	const MNT_FIELDS = 'Department|Category|Sub Category|Line/Machine|Part No|Cavity'.split('|');
-	const MNT_MAX = (MNT_FIELDS.length*2)-1;
+	const MNT_FIELDS = 'department|category|subcategory|linemachine|partno|cavity'.split('|');
+	const MNT_LABELS = 'Department|Category|Sub Category|Line/Machine|Part No|Cavity'.split('|');
+	const MNT_MAX = (MNT_LABELS.length*2)-1;
 	const MNT_STRUCT = {
 		DEPARTMENT:11,
 		CATEGORY:9,
@@ -12,26 +13,30 @@ define(['app','api'], function (app) {
 		CAVITY:1,
 	};
     app.register.controller('MaintenanceController',['$scope','$rootScope','api', function ($scope,$rootScope,api) {
+		$scope.MNT_FIELDS = {};
 		$scope.MNT_STRUCT = angular.copy(MNT_STRUCT);
-		
 		$scope.init =  function(type){
+			$scope.SearchKeyword = null;
 			$scope.UI_DRPDWN = {};
+			$scope.UI_SHOWCODE=false;
 			var limit = type;
 			var uis = [];
 			var requests = [];
-			for(var i=0, ctr=MNT_MAX;i<MNT_FIELDS.length&&ctr>=limit;i++,ctr-=2){
+			for(var i=0, ctr=MNT_MAX;i<MNT_LABELS.length&&ctr>=limit;i++,ctr-=2){
+				var label =  MNT_LABELS[i];
 				var field =  MNT_FIELDS[i];
 				if(ctr==limit){
 					if(ctr>=MNT_STRUCT.SUB_CATEGORY){
-						uis.push({label:"Code",type:"text"});
-						uis.push({label:"Name",type:"text"});
+						$scope.UI_SHOWCODE = true;
+						uis.push({label:"Code",type:"text",field:'id'});
+						uis.push({label:"Name",type:"text",field:'name'});
 					}else{
-						uis.push({label:field,type:"text"});
+						uis.push({label:label,type:"text",field:'name'});
 					}
 				}else{
 					var endpoint = MNT_APIS[i];
 					requests.push(endpoint);
-					uis.push({label:field,type:"dropdown",endpoint:endpoint});
+					uis.push({label:label,type:"dropdown",field:field,endpoint:endpoint});
 				}
 			}
 			(function req_api($scope,requests,index){
@@ -44,7 +49,48 @@ define(['app','api'], function (app) {
 				}				
 			})($scope,requests,0);
 			$scope.UI_RENDER =  uis;
+			$scope.DATA_ENDPOINT = MNT_APIS[i-1];
+			$scope.RecordMode = 'ADD';
+			loadData();
+		}
+		$scope.submitData = function(){
+			var data =  $scope.MNT_FIELDS;
+			var success = function(response){
+						$scope.MNT_FIELDS={};
+						$scope.RecordMode = 'ADD';
+						loadData();
+					};
+			switch($scope.RecordMode){
+				case 'ADD':case'EDIT':
+					api.POST($scope.DATA_ENDPOINT,data,success);
+				break;
+				case 'DELETE':
+					data =  {id:data.id};
+					api.DELETE($scope.DATA_ENDPOINT,data,success);
+				break;
+			}
 			
 		}
+		$scope.cancelData = function(){
+			$scope.MNT_FIELDS={};
+			$scope.RecordMode = 'ADD';
+		}
+		$scope.confirmSearch = function(){
+			loadData({keyword:$scope.SearchKeyword,fields:['name']});
+		}
+		$scope.setActiveRecord = function(data){
+			$scope.RecordMode = 'EDIT';
+			$scope.MNT_FIELDS =  angular.copy(data);
+		}
+		$scope.setDeleteRecord = function(data){
+			$scope.RecordMode = 'DELETE';
+			$scope.MNT_FIELDS =  angular.copy(data);	
+		}
+		function loadData(data){
+			console.log(data);
+			api.GET($scope.DATA_ENDPOINT,data,function(response){
+				$scope.DATA_GRID =  response.data;
+			});
+		};
 	}]);
 });
