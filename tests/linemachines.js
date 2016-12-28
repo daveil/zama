@@ -6,9 +6,9 @@ define(['model'],function($model){
 					title: 'Line Machines',
 				},
 				data:[
-					{id:'lnm1',deparment:'Dept 1',category:'Cat 1',subcategory:'Sub 1',name:'Line Machine 1'},
-					{id:'lnm2',deparment:'Dept 1',category:'Cat 1',subcategory:'Sub 1',name:'Line Machine 2'},
-					{id:'lnm3',deparment:'Dept 1',category:'Cat 1',subcategory:'Sub 1',name:'Line Machine 3'},
+					{department_id:'dcast',category_id:'cat3',subcategory_id:'scat3',id:'lnm1',name:'Line Machine 1'},
+					{department_id:'dcast',category_id:'cat3',subcategory_id:'scat3',id:'lnm2',name:'Line Machine 2'},
+					{department_id:'dcast',category_id:'cat3',subcategory_id:'scat3',id:'lnm3',name:'Line Machine 3'},
 				]
 			}
 		);
