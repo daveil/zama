@@ -6,9 +6,9 @@ define(['model'],function($model){
 					title: 'Categories',
 				},
 				data:[
-					{id:'cat1',name:'Category 1'},
-					{id:'cat2',name:'Category 2'},
-					{id:'cat3',name:'Category 3'},
+					{id:'cat1',deparment:'Dept 1', name:'Category 1'},
+					{id:'cat2',deparment:'Dept 2', name:'Category 2'},
+					{id:'cat3',deparment:'Dept 2', name:'Category 3'},
 				]
 			}
 		);
