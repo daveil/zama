@@ -67,7 +67,9 @@ define(['app','api'], function (app) {
 			console.log($scope.SearchKeyword);
 			loadData({keyword:$scope.SearchKeyword,fields:['name']});
 		}
-		
+		$scope.setActiveRecord = function(data){
+			$scope.MNT_FIELDS =  angular.copy(data);
+		}
 		function loadData(data){
 			console.log(data);
 			api.GET($scope.DATA_ENDPOINT,data,function(response){

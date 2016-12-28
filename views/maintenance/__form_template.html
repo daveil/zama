@@ -2,7 +2,7 @@
 	<label>{{ui.label}}</label>
 	<select ng-model="MNT_FIELDS[ui.field+'_id']" ng-show="ui.type=='dropdown'" class="form-control">
 		<option value="">Select {{ui.label}}</option>
-		<option ng-repeat="value in UI_DRPDWN[ui.endpoint]" ng-value="value.id">{{value.name}}</option>
+		<option ng-repeat="value in UI_DRPDWN[ui.endpoint]" ng-value="value.id" ng-selected="value.id==MNT_FIELDS[ui.field+'_id']">{{value.name}}</option>
 	</select>
 	<input ng-model="MNT_FIELDS[ui.field]" ng-show="ui.type=='text'" type="text" class="form-control">
 </div>
