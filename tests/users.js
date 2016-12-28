@@ -8,20 +8,27 @@ define(["model"],function($model){
 			  "data": [
 			    {
 			      "id": 0,
+			      "employee_name":"Admin",
+			      "employee_no":1234,
 				 "username":"admin",
 				 "password":"password",
-				 "user_type":"admin"
+				 "user_type":"admin",
+				 "department":"all",
 			    },
 			    {
 			      "id": 1,
+			      "employee_name":"Juan",
+			      "employee_no":1124,
 			     "username":"user",
 				 "password":"password",
-				 "user_type":"user"
+				 "user_type":"user",
+				 "department":"dcast",
 			    }
 			  ]
 			}
 		);
 		user.POST = function(data){
+			data.action = data.action||'register';
 			switch(data.action){
 				case 'login':
 					var __MSG = 'Invalid username/password';
