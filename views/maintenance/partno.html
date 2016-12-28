@@ -20,27 +20,6 @@
 		</div>
 	</div>
 	<div class="col-md-8"> 
-		<div class="list-group">
-			<div class="list-group-item list-group-header">
-				<label>Cavities</label>
-			</div>
-			<div class="list-group-canvas">
-				<div class="list-group-item">
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th class="col-md-8">Cavity</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="line in ['1','3','4']">
-							
-							<td>Cavity {{line}}</td>
-						</tr>
-					</tbody>
-				</table>
-				</div>
-			</div>
-		</div>
+		<div ng-include="'views/maintenance/__table_template.html'"></div>
 	</div>
 </div>
