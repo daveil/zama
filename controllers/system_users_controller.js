@@ -14,6 +14,9 @@ define(['app','api'], function (app) {
 			$scope.User = {};
 			loadData();		
 		};
+		$scope.confirmSearch = function(){
+			loadData({keyword:$scope.SearchKeyword,fields:['employee_name','employee_no']});
+		}
 		$scope.submitData = function(){
 			var data =  $scope.User;
 			var success = function(response){
@@ -35,6 +38,14 @@ define(['app','api'], function (app) {
 		$scope.cancelData = function(){
 			$scope.User = {};
 			$scope.RecordMode = 'ADD';
+		}
+		$scope.setActiveUser = function(data){
+			$scope.RecordMode = 'EDIT';
+			$scope.User =  angular.copy(data);
+		}
+		$scope.setDeleteUser = function(data){
+			$scope.RecordMode = 'DELETE';
+			$scope.User =  angular.copy(data);	
 		}
 		function loadData(data){
 			console.log(USER_API);
