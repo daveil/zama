@@ -21,7 +21,7 @@ define(["model"],function($model){
 			      "employee_no":1124,
 			     "username":"user",
 				 "password":"password",
-				 "user_type":"user",
+				 "user_type":"dept-user",
 				 "department":"dcast",
 			    }
 			  ]

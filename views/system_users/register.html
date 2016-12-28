@@ -47,7 +47,7 @@
 						<label>Restriction</label>
 						<select ng-model="User.user_type" class="form-control" ng-disabled="RecordMode=='DELETE'">
 							<option value="">Select Restriction</option>
-							<option ng-repeat="rest in Restriction" ng-value="{{rest.id}}">{{rest.name}}</option>
+							<option ng-repeat="rest in Restriction" ng-value="{{rest.id}}" ng-selected="User.user_type==rest.id">{{rest.name}}</option>
 						</select>
 					</div>
 				</div>
