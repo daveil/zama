@@ -12,9 +12,9 @@ define(['app','api'], function (app) {
 		CAVITY:1,
 	};
     app.register.controller('MaintenanceController',['$scope','$rootScope','api', function ($scope,$rootScope,api) {
-		
 		$scope.MNT_STRUCT = angular.copy(MNT_STRUCT);
 		$scope.init =  function(type){
+			$scope.SearchKeyword = null;
 			$scope.UI_DRPDWN = {};
 			var limit = type;
 			var uis = [];
@@ -49,10 +49,12 @@ define(['app','api'], function (app) {
 		}
 		
 		$scope.confirmSearch = function(){
+			console.log($scope.SearchKeyword);
 			loadData({keyword:$scope.SearchKeyword,fields:['name']});
 		}
 		
 		function loadData(data){
+			console.log(data);
 			api.GET($scope.DATA_ENDPOINT,data,function(response){
 				$scope.DATA_GRID =  response.data;
 			});
