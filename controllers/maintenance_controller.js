@@ -47,11 +47,13 @@ define(['app','api'], function (app) {
 			$scope.DATA_ENDPOINT = MNT_APIS[i-1];
 			$scope.loadData();
 		}
-		$scope.loadData = function(search){
-			var data = {};
+		$scope.loadData = function(data){
 			api.GET($scope.DATA_ENDPOINT,data,function(response){
 				$scope.DATA_GRID =  response.data;
 			});
+		};
+		$scope.confirmSearch = function(){
+			loadData({keyword:$scope.SearchKeyword,fields:['name']});
 		}
 	}]);
 });
