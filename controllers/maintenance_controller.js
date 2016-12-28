@@ -16,6 +16,7 @@ define(['app','api'], function (app) {
 		$scope.init =  function(type){
 			$scope.SearchKeyword = null;
 			$scope.UI_DRPDWN = {};
+			$scope.UI_SHOWCODE=false;
 			var limit = type;
 			var uis = [];
 			var requests = [];
@@ -23,6 +24,7 @@ define(['app','api'], function (app) {
 				var field =  MNT_FIELDS[i];
 				if(ctr==limit){
 					if(ctr>=MNT_STRUCT.SUB_CATEGORY){
+						$scope.UI_SHOWCODE = true;
 						uis.push({label:"Code",type:"text"});
 						uis.push({label:"Name",type:"text"});
 					}else{

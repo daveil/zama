@@ -18,8 +18,8 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="row in DATA_GRID">
-							<td ng-repeat="cell in row">
-									{{cell}}
+							<td ng-repeat="(key, value) in row" ng-hide="key=='id'&&!UI_SHOWCODE">
+									{{value}}
 							</td>
 							<td class="text-center"><button class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove"></i></button></td>
 						</tr>
