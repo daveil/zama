@@ -12,8 +12,8 @@ define(['app','api'], function (app) {
 		CAVITY:1,
 	};
     app.register.controller('MaintenanceController',['$scope','$rootScope','api', function ($scope,$rootScope,api) {
-		$scope.MNT_STRUCT = angular.copy(MNT_STRUCT);
 		
+		$scope.MNT_STRUCT = angular.copy(MNT_STRUCT);
 		$scope.init =  function(type){
 			$scope.UI_DRPDWN = {};
 			var limit = type;
@@ -45,15 +45,17 @@ define(['app','api'], function (app) {
 			})($scope,requests,0);
 			$scope.UI_RENDER =  uis;
 			$scope.DATA_ENDPOINT = MNT_APIS[i-1];
-			$scope.loadData();
+			loadData();
 		}
-		$scope.loadData = function(data){
+		
+		$scope.confirmSearch = function(){
+			loadData({keyword:$scope.SearchKeyword,fields:['name']});
+		}
+		
+		function loadData(data){
 			api.GET($scope.DATA_ENDPOINT,data,function(response){
 				$scope.DATA_GRID =  response.data;
 			});
 		};
-		$scope.confirmSearch = function(){
-			loadData({keyword:$scope.SearchKeyword,fields:['name']});
-		}
 	}]);
 });
