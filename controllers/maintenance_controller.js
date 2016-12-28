@@ -55,15 +55,18 @@ define(['app','api'], function (app) {
 		}
 		$scope.submitData = function(){
 			var data =  $scope.MNT_FIELDS;
-			switch($scope.RecordMode){
-				case 'ADD':case'EDIT':
-					api.POST($scope.DATA_ENDPOINT,data,function(response){
+			var success = function(response){
 						$scope.MNT_FIELDS={};
 						$scope.RecordMode = 'ADD';
 						loadData();
-					});
+					};
+			switch($scope.RecordMode){
+				case 'ADD':case'EDIT':
+					api.POST($scope.DATA_ENDPOINT,data,success);
 				break;
 				case 'DELETE':
+					data =  {id:data.id};
+					api.DELETE($scope.DATA_ENDPOINT,data,success);
 				break;
 			}
 			
