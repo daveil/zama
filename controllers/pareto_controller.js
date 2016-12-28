@@ -4,10 +4,11 @@ define(['app','api'], function (app) {
     	var dept  = $rootScope.__USER.department;
     	api.GET('departments',{id:dept},function(response){
     		$scope.Department = response.data[0];
-    		api.GET('categories',{department_id:dept},function(response){
+    		var data  ={department_id:dept};
+    		api.GET('categories',data,function(response){
     			$scope.Categories = response.data;
     		});
-    		api.GET('subcategories',{department_id:dept},function(response){
+    		api.GET('subcategories',data,function(response){
     			$scope.SubCategories = response.data;
     		});
     	});
