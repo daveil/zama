@@ -4,8 +4,13 @@
 			<div class="list-group-item list-group-header">
 				<label>User</label>
 				<div class="btn-group btn-group-xs pull-right">
-					<button class="btn btn-default ">CANCEL</button>
-					<button class="btn btn-primary ">SUBMIT</button>
+					<button class="btn btn-default " ng-click="cancelData()">CANCEL</button>
+					<button class="btn btn-primary"
+					ng-class="{
+						'btn-primary':RecordMode!='DELETE',
+						'btn-danger':RecordMode=='DELETE',
+						}"
+					ng-click="submitData()" >{{RecordMode=='DELETE'?'DELETE':'SUBMIT'}}</button>	
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -16,32 +21,33 @@
 				<div class="list-group-item"> 
 					<div class="form-group">
 						<label>Department</label>
-						<select name="" id="" class="form-control">
+						<select ng-model="User.department" class="form-control" ng-disabled="RecordMode=='DELETE'">
 							<option value="">Select Department</option>
-							<option ng-repeat="dept in Departments" value="{{dept.id}}">{{dept.name}}</option>
+							<option ng-repeat="dept in Departments" ng-selected="User.department==dept.id" ng-value="dept.id">{{dept.name}}</option>
+							<option ng-selected="User.department=='all'" value="all">All</option>
 						</select>
 					</div>
 					<div class="form-group">
 						<label>Employee Name</label>
-						<input type="text" class="form-control" />
+						<input ng-model="User.employee_name" type="text" class="form-control" ng-disabled="RecordMode=='DELETE'" />
 					</div>
 					<div class="form-group">
 						<label>Employee No</label>
-						<input type="text" class="form-control" />
+						<input  ng-model="User.employee_no"type="text" class="form-control" ng-disabled="RecordMode=='DELETE'"/>
 					</div>
 					<div class="form-group">
 						<label>Username</label>
-						<input type="text" class="form-control" />
+						<input ng-model="User.username" type="text" class="form-control" ng-disabled="RecordMode=='DELETE'"/>
 					</div>
 					<div class="form-group">
 						<label>Password</label>
-						<input type="password" class="form-control" />
+						<input ng-model="User.password" type="password" class="form-control" ng-disabled="RecordMode=='DELETE'"/>
 					</div>
 					<div class="form-group">
 						<label>Restriction</label>
-						<select name="" id="" class="form-control">
+						<select ng-model="User.user_type" class="form-control" ng-disabled="RecordMode=='DELETE'">
 							<option value="">Select Restriction</option>
-							<option ng-repeat="rest in Restriction" value="{{rest.id}}">{{rest.name}}</option>
+							<option ng-repeat="rest in Restriction" ng-value="{{rest.id}}" ng-selected="User.user_type==rest.id">{{rest.name}}</option>
 						</select>
 					</div>
 				</div>
@@ -51,11 +57,12 @@
 	<div class="col-md-8"> 
 		<div class="list-group">
 			<div class="list-group-item list-group-header">
-				<label class="col-md-3">Users</label>
-				<div class="input-group input-group-sm col-md-9">
-					<input type="text" class="form-control" placeholder="Search" />
+				<div class="input-group input-group-sm col-md-12">
+					<input type="text" class="form-control" placeholder="Search" ng-model="SearchKeyword" ng-disabled="RecordMode=='DELETE'"/>
 					<div class="input-group-btn">
-						<button class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+						<button class="btn btn-default" ng-disabled="RecordMode=='DELETE'" ng-click="confirmSearch()">
+							<i class="glyphicon glyphicon-search"></i>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -72,12 +79,22 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="line in ['A','B','C']">
-							<td>DEP{{line}}</td>
-							<td>USER {{line}}</td>
-							<td>EMP1 {{line}}</td>
-							<td>Pareto</td>
-							<td class="text-center"><button class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove"></i></button></td>
+						<tr ng-repeat="user in Users"
+							ng-mouseover="ActiveRow=$index"
+							ng-mouseleave="ActiveRow=null"
+							ng-class="{active:ActiveRow==$index}" 
+							>
+							<td ng-click="setActiveUser(user)">{{user.department}}</td>
+							<td ng-click="setActiveUser(user)">{{user.employee_name}}</td>
+							<td ng-click="setActiveUser(user)">{{user.employee_no}}</td>
+							<td ng-click="setActiveUser(user)">{{user.user_type}}</td>
+							<td class="text-center">
+								<button class="btn btn-danger btn-sm"
+									ng-click="setDeleteUser(user)"
+									ng-disabled="RecordMode=='DELETE'">
+									<i class="glyphicon glyphicon-remove"></i>
+								</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>
