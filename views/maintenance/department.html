@@ -22,21 +22,29 @@
 	<div class="col-md-8"> 
 		<div class="list-group">
 			<div class="list-group-item list-group-header">
-				<label>Deparments</label>
+				<label class="col-md-3">Departments</label>
+				<div class="input-group input-group-sm col-md-9">
+					<input type="text" class="form-control" placeholder="Search" ng-model="SearchKeyword"/>
+					<div class="input-group-btn">
+						<button class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+					</div>
+				</div>
 			</div>
 			<div class="list-group-canvas">
 				<div class="list-group-item">
 				<table class="table table-bordered">
 					<thead>
 						<tr>
-							<th class="col-md-4">Code</th>
-							<th class="col-md-8">Name</th>
+							<th ng-repeat="col in UI_RENDER">{{col.label}}</th>
+							<th class="col-md-1"></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="line in ['A','B','C']">
-							<td>DEP{{line}}</td>
-							<td>Department {{line}}</td>
+						<tr ng-repeat="row in DATA_GRID">
+							<td ng-repeat="cell in row">
+									{{cell}}
+							</td>
+							<td class="text-center"><button class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove"></i></button></td>
 						</tr>
 					</tbody>
 				</table>

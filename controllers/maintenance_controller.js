@@ -44,7 +44,14 @@ define(['app','api'], function (app) {
 				}				
 			})($scope,requests,0);
 			$scope.UI_RENDER =  uis;
-			
+			$scope.DATA_ENDPOINT = MNT_APIS[i-1];
+			$scope.loadData();
+		}
+		$scope.loadData = function(search){
+			var data = {};
+			api.GET($scope.DATA_ENDPOINT,data,function(response){
+				$scope.DATA_GRID =  response.data;
+			});
 		}
 	}]);
 });
