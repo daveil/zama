@@ -2,12 +2,8 @@
 	<div class="col-md-4">
 		<div class="list-group">
 			<div class="list-group-item list-group-header">
-				<label>Category</label>
-				<div class="btn-group btn-group-xs pull-right">
-					<button class="btn btn-default" ng-click="cancelData()">CANCEL</button>
-					<button class="btn btn-primary" ng-click="submitData()" >SUBMIT</button>
-				</div>
-				<div class="clearfix"></div>
+				<label class="pull-left">Category</label>
+				<div ng-include="'views/maintenance/__action_template.html'"></div>
 			</div>
 			<div class="list-group-canvas">
 				<div class="list-group-item list-group-header">
