@@ -4,8 +4,8 @@
 			<div class="list-group-item list-group-header">
 				<label>User</label>
 				<div class="btn-group btn-group-xs pull-right">
-					<button class="btn btn-default ">CANCEL</button>
-					<button class="btn btn-primary ">SUBMIT</button>
+					<button class="btn btn-default " ng-click="cancelData()">CANCEL</button>
+					<button class="btn btn-primary " ng-click="submitData()">SUBMIT</button>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -16,32 +16,32 @@
 				<div class="list-group-item"> 
 					<div class="form-group">
 						<label>Department</label>
-						<select name="" id="" class="form-control">
+						<select ng-model="User.department" class="form-control">
 							<option value="">Select Department</option>
-							<option ng-repeat="dept in Departments" value="{{dept.id}}">{{dept.name}}</option>
+							<option ng-repeat="dept in Departments" ng-value="{{dept.id}}">{{dept.name}}</option>
 						</select>
 					</div>
 					<div class="form-group">
 						<label>Employee Name</label>
-						<input type="text" class="form-control" />
+						<input ng-model="User.employee_name" type="text" class="form-control" />
 					</div>
 					<div class="form-group">
 						<label>Employee No</label>
-						<input type="text" class="form-control" />
+						<input  ng-model="User.employee_no"type="text" class="form-control" />
 					</div>
 					<div class="form-group">
 						<label>Username</label>
-						<input type="text" class="form-control" />
+						<input ng-model="User.username" type="text" class="form-control" />
 					</div>
 					<div class="form-group">
 						<label>Password</label>
-						<input type="password" class="form-control" />
+						<input ng-model="User.password" type="password" class="form-control" />
 					</div>
 					<div class="form-group">
 						<label>Restriction</label>
-						<select name="" id="" class="form-control">
+						<select ng-model="User.user_type" class="form-control">
 							<option value="">Select Restriction</option>
-							<option ng-repeat="rest in Restriction" value="{{rest.id}}">{{rest.name}}</option>
+							<option ng-repeat="rest in Restriction" ng-value="{{rest.id}}">{{rest.name}}</option>
 						</select>
 					</div>
 				</div>
@@ -72,11 +72,11 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="line in ['A','B','C']">
-							<td>DEP{{line}}</td>
-							<td>USER {{line}}</td>
-							<td>EMP1 {{line}}</td>
-							<td>Pareto</td>
+						<tr ng-repeat="user in Users">
+							<td>{{user.department}}</td>
+							<td>{{user.employee_name}}</td>
+							<td>{{user.employee_no}}</td>
+							<td>{{user.user_type}}</td>
 							<td class="text-center"><button class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove"></i></button></td>
 						</tr>
 					</tbody>
