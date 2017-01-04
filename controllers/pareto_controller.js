@@ -3,18 +3,19 @@ define(['app','api'], function (app) {
     app.register.controller('IndividualController',['$scope','$rootScope','api', function ($scope,$rootScope,api) {
     	var dept  = $rootScope.__USER.department;
         var data  ={department_id:dept};
-        function getData(type){
+        function getData(type,data){
             switch(type){
                 case 'dept':
                     api.GET('departments',{id:dept},function(response){
                         $scope.Department =  response.data[0];
-                        getData('cat');
-                        getData('subcat');
+                        getData('pno',data);
+                        getData('cav',data);
+                        getData('cat',data);
                     });
                 break;
                 case 'cav':
                     api.GET('cavities',data,function(response){
-                        $scope.Categories = response.data;
+                        $scope.Cavities = response.data;
                     });
                 break;
                 case 'pno':
@@ -25,6 +26,11 @@ define(['app','api'], function (app) {
                 case 'cat':
                     api.GET('categories',data,function(response){
                         $scope.Categories = response.data;
+                    });
+                break;
+                case 'kpi':
+                   api.GET('kpis',data,function(response){
+                    $scope.KPIs = response.data;
                     });
                 break;
                 case 'subcat':
@@ -39,14 +45,13 @@ define(['app','api'], function (app) {
                 break;
             }
         }
-        getData('dept');
+        getData('dept',{department_id:dept});
+        getData('lnmn',{department_id:dept});
         $scope.$watch('Category',function(){
-            data.category_id =  $scope.Category;
-            getData('subcat');
+            getData('kpi',{category_id:$scope.Category});
         });
-        $scope.$watch('SubCategory',function(){
-            data.subcategory_id =  $scope.SubCategory;
-            getData('lnmn');
+        $scope.$watch('KPI',function(){
+            getData('subcat',{kpi_id:$scope.KPI});
         });
 
     }]);
