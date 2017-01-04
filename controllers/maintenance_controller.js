@@ -37,7 +37,8 @@ define(['app','api'], function (app) {
 				}else{
 					var endpoint = MNT_APIS[i];
 					requests.push(endpoint);
-					uis.push({label:label,type:"dropdown",field:field,endpoint:endpoint});
+					var parent_id = i>0?MNT_FIELDS[i-1]+'_id':null;
+					uis.push({label:label,type:"dropdown",field:field,endpoint:endpoint,parent_id:parent_id});
 				}
 			}
 			(function req_api($scope,requests,index){
