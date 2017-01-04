@@ -12,6 +12,16 @@ define(['app','api'], function (app) {
                         getData('subcat');
                     });
                 break;
+                case 'cav':
+                    api.GET('cavities',data,function(response){
+                        $scope.Categories = response.data;
+                    });
+                break;
+                case 'pno':
+                    api.GET('partnos',data,function(response){
+                        $scope.PartNos = response.data;
+                    });
+                break;
                 case 'cat':
                     api.GET('categories',data,function(response){
                         $scope.Categories = response.data;
