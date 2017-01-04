@@ -6,9 +6,9 @@ define(['model'],function($model){
 					title: 'Line Machines',
 				},
 				data:[
-					{department_id:'dcast',id:'lnm11',name:'Line Machine 1.1'},
-					{department_id:'dcast',id:'lnm12',name:'Line Machine 1.2'},
-					{department_id:'dcast',id:'lnm13',name:'Line Machine 1.3'},
+					{department_id:'dcast',id:'lnm11',name:'Line 1'},
+					{department_id:'dcast',id:'lnm12',name:'Line 2'},
+					{department_id:'dcast',id:'lnm13',name:'Line 3'},
 				]
 			}
 		);
