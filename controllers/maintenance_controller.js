@@ -1,12 +1,13 @@
 "use strict";
 define(['app','api'], function (app) {
-	const MNT_APIS = 'departments|categories|subcategories|linemachines|partnos|cavities'.split('|');
-	const MNT_FIELDS = 'department|category|subcategory|linemachine|partno|cavity'.split('|');
-	const MNT_LABELS = 'Department|Category|Sub Category|Line/Machine|Part No|Cavity'.split('|');
+	const MNT_APIS = 'departments|categories|kpis|subcategories|linemachines|partnos|cavities'.split('|');
+	const MNT_FIELDS = 'department|category|kpi|subcategory|linemachine|partno|cavity'.split('|');
+	const MNT_LABELS = 'Department|Category|KPI|Sub Category|Line/Machine|Part No|Cavity'.split('|');
 	const MNT_MAX = (MNT_LABELS.length*2)-1;
 	const MNT_STRUCT = {
-		DEPARTMENT:11,
-		CATEGORY:9,
+		DEPARTMENT:13,
+		CATEGORY:11,
+		KPI:9,
 		SUB_CATEGORY:7,
 		LINE_MACHINE:5,
 		PART_NO:3,
@@ -36,7 +37,8 @@ define(['app','api'], function (app) {
 				}else{
 					var endpoint = MNT_APIS[i];
 					requests.push(endpoint);
-					uis.push({label:label,type:"dropdown",field:field,endpoint:endpoint});
+					var parent_id = i>0?MNT_FIELDS[i-1]+'_id':null;
+					uis.push({label:label,type:"dropdown",field:field,endpoint:endpoint,parent_id:parent_id});
 				}
 			}
 			(function req_api($scope,requests,index){
@@ -87,7 +89,7 @@ define(['app','api'], function (app) {
 			$scope.MNT_FIELDS =  angular.copy(data);	
 		}
 		function loadData(data){
-			console.log(data);
+			console.log(data,$scope.DATA_ENDPOINT);
 			api.GET($scope.DATA_ENDPOINT,data,function(response){
 				$scope.DATA_GRID =  response.data;
 			});
