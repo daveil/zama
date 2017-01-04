@@ -3,8 +3,8 @@ define(['model'],function($model){
 	return new $model(
 			{
 				meta:{
-					title: 'Sub-categories',
-					limit:'lesss'
+					title: 'KPI',
+					limit:'less'
 				},
 				data:[
 					{department_id:'dcast',category_id:'dcast',id:'mceff1',name:'Machine Efficiency'},
