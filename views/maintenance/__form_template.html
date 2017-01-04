@@ -1,0 +1,14 @@
+<div class="form-group" ng-repeat="ui in UI_RENDER">
+	<label>{{ui.label}}</label>
+	<select  class="form-control"
+			ng-show="ui.type=='dropdown'"
+			ng-model="MNT_FIELDS[ui.field+'_id']"
+			ng-disabled="RecordMode=='DELETE'">
+		<option value="">Select {{ui.label}}</option>
+		<option ng-repeat="obj in UI_DRPDWN[ui.endpoint] | filter:MNT_FIELDS[ui.parent_id]" value="{{obj.id}}" ng-selected="obj.id==MNT_FIELDS[ui.field+'_id']">{{obj.name}}</option>
+	</select>
+	<input type="text" class="form-control" 
+			ng-model="MNT_FIELDS[ui.field]"
+			ng-show="ui.type=='text'" 
+			ng-disabled="RecordMode=='DELETE'"/>
+</div>

@@ -1,0 +1,105 @@
+<div class="row" ng-controller="RegisterController" ng-init="init()">
+	<div class="col-md-4">
+		<div class="list-group">
+			<div class="list-group-item list-group-header">
+				<label>User</label>
+				<div class="btn-group btn-group-xs pull-right">
+					<button class="btn btn-default " ng-click="cancelData()">CANCEL</button>
+					<button class="btn btn-primary"
+					ng-class="{
+						'btn-primary':RecordMode!='DELETE',
+						'btn-danger':RecordMode=='DELETE',
+						}"
+					ng-click="submitData()" >{{RecordMode=='DELETE'?'DELETE':'SUBMIT'}}</button>	
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="list-group-canvas">
+				<div class="list-group-item list-group-header">
+					<h5>Information</h5>
+				</div>
+				<div class="list-group-item"> 
+					<div class="form-group">
+						<label>Department</label>
+						<select ng-model="User.department" class="form-control" ng-disabled="RecordMode=='DELETE'">
+							<option value="">Select Department</option>
+							<option ng-repeat="dept in Departments" ng-selected="User.department==dept.id" ng-value="dept.id">{{dept.name}}</option>
+							<option ng-selected="User.department=='all'" value="all">All</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Employee Name</label>
+						<input ng-model="User.employee_name" type="text" class="form-control" ng-disabled="RecordMode=='DELETE'" />
+					</div>
+					<div class="form-group">
+						<label>Employee No</label>
+						<input  ng-model="User.employee_no"type="text" class="form-control" ng-disabled="RecordMode=='DELETE'"/>
+					</div>
+					<div class="form-group">
+						<label>Username</label>
+						<input ng-model="User.username" type="text" class="form-control" ng-disabled="RecordMode=='DELETE'"/>
+					</div>
+					<div class="form-group">
+						<label>Password</label>
+						<input ng-model="User.password" type="password" class="form-control" ng-disabled="RecordMode=='DELETE'"/>
+					</div>
+					<div class="form-group">
+						<label>Restriction</label>
+						<select ng-model="User.user_type" class="form-control" ng-disabled="RecordMode=='DELETE'">
+							<option value="">Select Restriction</option>
+							<option ng-repeat="rest in Restriction" ng-value="{{rest.id}}" ng-selected="User.user_type==rest.id">{{rest.name}}</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-8"> 
+		<div class="list-group">
+			<div class="list-group-item list-group-header">
+				<div class="input-group input-group-sm col-md-12">
+					<input type="text" class="form-control" placeholder="Search" ng-model="SearchKeyword" ng-disabled="RecordMode=='DELETE'"/>
+					<div class="input-group-btn">
+						<button class="btn btn-default" ng-disabled="RecordMode=='DELETE'" ng-click="confirmSearch()">
+							<i class="glyphicon glyphicon-search"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="list-group-canvas">
+				<div class="list-group-item">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th class="col-md-2">Department</th>
+							<th class="col-md-4">Name</th>
+							<th class="col-md-3">No</th>
+							<th class="col-md-2">Restriction</th>
+							<th class="col-md-1"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="user in Users"
+							ng-mouseover="ActiveRow=$index"
+							ng-mouseleave="ActiveRow=null"
+							ng-class="{active:ActiveRow==$index}" 
+							>
+							<td ng-click="setActiveUser(user)">{{user.department}}</td>
+							<td ng-click="setActiveUser(user)">{{user.employee_name}}</td>
+							<td ng-click="setActiveUser(user)">{{user.employee_no}}</td>
+							<td ng-click="setActiveUser(user)">{{user.user_type}}</td>
+							<td class="text-center">
+								<button class="btn btn-danger btn-sm"
+									ng-click="setDeleteUser(user)"
+									ng-disabled="RecordMode=='DELETE'">
+									<i class="glyphicon glyphicon-remove"></i>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

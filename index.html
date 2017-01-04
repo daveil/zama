@@ -53,38 +53,71 @@
                 <li>
                     <a href="#/">Home</a>
                 </li>
-				 <li>
-                    <a href="#/pages/dashboard">Dashboard</a>
+				<li>
+                    <a href="#/pages/dashboard">Monthly KPI Dashboard</a>
                 </li>
-				
-				<li ng-if="__USER.user_type=='admin'">
-                    <a href="#/pages/register">User Registration</a>
+				<li ng-if="__USER.user_type!='admin'">
+                    <a href="#/">Login Details</a>
                 </li>
 				<li ng-if="__USER.user_type=='admin'">
-                    <a href="#/access">Access Control</a>
+                    <a ng-click="__MENU_SYSUSERS=!__MENU_SYSUSERS">
+						System Users
+						<div class="pull-right"><i
+						class="glyphicon glyphicon-chevron-down"
+						ng-class="{'glyphicon-chevron-down':!__MENU_SYSUSERS,'glyphicon-chevron-up':__MENU_SYSUSERS}"
+						></i>&nbsp;&nbsp;</div>
+					</a>
+					<ul ng-if="__MENU_SYSUSERS">
+						<li><a href="#/system_users/register">User Registration</a></li>
+						<li><a href="#/system_users/access">Access Control</a></li>
+					</ul>
                 </li>
 				<li ng-if="__USER.user_type=='admin'">
                     <a ng-click="__MENU_MAINTENANCE=!__MENU_MAINTENANCE">
-						Maintenance
+						System Maintenance
 						<div class="pull-right"><i
 						class="glyphicon glyphicon-chevron-down"
 						ng-class="{'glyphicon-chevron-down':!__MENU_MAINTENANCE,'glyphicon-chevron-up':__MENU_MAINTENANCE}"
 						></i>&nbsp;&nbsp;</div>
 					</a>
 					<ul ng-if="__MENU_MAINTENANCE">
-						<li><a href="#/pages/department">Department</a></li>
-						<li><a href="#/pages/category">Category</a></li>
-						<li><a href="#/pages/subcategory">Sub-Category</a></li>
-						<li><a href="#/pages/linemachine">Line/Machine</a></li>
-						<li><a href="#/pages/partno">Part No</a></li>
-						<li><a href="#/pages/cavity">Cavity</a></li>
+						<li><a href="#/maintenance/department">Department</a></li>
+						<li><a href="#/maintenance/category">Category</a></li>
+						<li><a href="#/maintenance/kpi">KPI</a></li>
+						<li><a href="#/maintenance/subcategory">Sub-Category</a></li>
+						<li><a href="#/maintenance/linemachine">Line/Machine</a></li>
+						<li><a href="#/maintenance/partno">Part Number</a></li>
+						<li><a href="#/maintenance/cavity">Cavity</a></li>
+						<li><a href="#/pages/backup">Back-up</a></li>
 					</ul>
                 </li>
 				<li>
-                    <a href="#/pages/pareto">Pareto</a>
+                    <a ng-click="__MENU_PARETO=!__MENU_PARETO">
+						Pareto
+						<div class="pull-right"><i
+						class="glyphicon glyphicon-chevron-down"
+						ng-class="{'glyphicon-chevron-down':!__MENU_PARETO,'glyphicon-chevron-up':__MENU_PARETO}"
+						></i>&nbsp;&nbsp;</div>
+					</a>
+					<ul ng-if="__MENU_PARETO">
+						<li><a href="#/pareto/individual">Individual</a></li>
+						<li><a href="#/">Batch</a></li>
+						<li><a href="#/">Change Option</a></li>
+					</ul>
                 </li>
 				<li>
-                    <a href="#/pages/plan">Plan</a>
+                    <a ng-click="__MENU_PLAN=!__MENU_PLAN">
+						Plan
+						<div class="pull-right"><i
+						class="glyphicon glyphicon-chevron-down"
+						ng-class="{'glyphicon-chevron-down':!__MENU_PLAN,'glyphicon-chevron-up':__MENU_PLAN}"
+						></i>&nbsp;&nbsp;</div>
+					</a>
+					<ul ng-if="__MENU_PLAN">
+						<li><a href="#/pages/plan">Individual</a></li>
+						<li><a href="#/">Batch</a></li>
+						<li><a href="#/">Change Option</a></li>
+					</ul>
                 </li>
 				<li>
                     <a ng-click="__MENU_REPORTS=!__MENU_REPORTS">
@@ -102,7 +135,6 @@
 						<li><a href="">Monthly KPI</a></li>
 					</ul>
                 </li>
-				
 				<li>
                     <a href="#/logout">Logout</a>
                 </li>
@@ -116,7 +148,7 @@
 				   <span>Toggle Menu</span>
 				</button>
 				<a class="navbar-brand fade out"  ng-class="{'in':__FAB_READY}">KPI Monitoring</a>
-				<a class="brand"><img src="webroot/img/zama-logo.png"  class="pull-right" style="height:40px;margin-top:7px" alt="" /></a>
+				<a class="brand hide"><img src="webroot/img/zama-logo.png"  class="pull-right" style="height:40px;margin-top:7px" alt="" /></a>
 				<div class="loader fade in" ng-class="{'out':__APP_READY,'in':!__APP_READY}"></div>
 			</div>
 		<div id="page-content-wrapper" class="animate hide-fab  fade out"  ng-class="{'hide-fab':!__FAB_READY,'in':__APP_READY,'blur':__SIDEBAR_OPEN|| __MODAL_OPEN}">

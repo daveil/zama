@@ -9,7 +9,8 @@ define(['model'],function($model){
 					{id:'admin',name:'Admin'},
 					{id:'manager',name:'Manager'},
 					{id:'dept-user',name:'Dept User'},
-					{id:'sub-user',name:'Sub User'},
+					{id:'sub-user-1',name:'Sub User 1'},
+					{id:'sub-user-2',name:'Sub User 2'},
 				]
 			}
 		);
