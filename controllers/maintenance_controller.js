@@ -64,9 +64,15 @@ define(['app','api'], function (app) {
 					});
 				}				
 			})($scope,requests,0);
+			console.log(uis);
 			$scope.UI_RENDER =  uis;
 			$scope.RecordMode = 'ADD';
 			loadData();
+		}
+		$scope.byParentObj = function(field,id){
+			return function(item){
+				return item[field]==id;
+			}
 		}
 		$scope.submitData = function(){
 			var data =  $scope.MNT_FIELDS;
