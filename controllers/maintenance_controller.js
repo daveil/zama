@@ -23,23 +23,37 @@ define(['app','api'], function (app) {
 			var limit = type;
 			var uis = [];
 			var requests = [];
-			for(var i=0, ctr=MNT_MAX;i<MNT_LABELS.length&&ctr>=limit;i++,ctr-=2){
+			if(limit>=MNT_STRUCT.CAVITY && limit<=MNT_STRUCT.LINE_MACHINE){
+				var max = MNT_MAX;
+				var base = MNT_STRUCT.LINE_MACHINE;
+				var i =  (max-base)/2 + (base - limit )  / 2;
 				var label =  MNT_LABELS[i];
 				var field =  MNT_FIELDS[i];
-				if(ctr==limit){
-					if(ctr>=MNT_STRUCT.SUB_CATEGORY){
-						$scope.UI_SHOWCODE = true;
-						uis.push({label:"Code",type:"text",field:'id'});
-						uis.push({label:"Name",type:"text",field:'name'});
+				var endpoint = 'deparments';
+				requests.push(endpoint);
+				uis.push({label:'Department',type:"dropdown",field:'deparment',endpoint:endpoint});	
+				uis.push({label:label,type:"text",field:'name'});
+				$scope.DATA_ENDPOINT = MNT_APIS[i];
+			}else{
+				for(var i=0, ctr=MNT_MAX;i<MNT_LABELS.length&&ctr>=limit;i++,ctr-=2){
+					var label =  MNT_LABELS[i];
+					var field =  MNT_FIELDS[i];
+					if(ctr==limit){
+						if(ctr>=MNT_STRUCT.SUB_CATEGORY){
+							$scope.UI_SHOWCODE = true;
+							uis.push({label:"Code",type:"text",field:'id'});
+							uis.push({label:"Name",type:"text",field:'name'});
+						}else{
+							uis.push({label:label,type:"text",field:'name'});
+						}
 					}else{
-						uis.push({label:label,type:"text",field:'name'});
+						var endpoint = MNT_APIS[i];
+						requests.push(endpoint);
+						var parent_id = i>0?MNT_FIELDS[i-1]+'_id':null;
+						uis.push({label:label,type:"dropdown",field:field,endpoint:endpoint,parent_id:parent_id});
 					}
-				}else{
-					var endpoint = MNT_APIS[i];
-					requests.push(endpoint);
-					var parent_id = i>0?MNT_FIELDS[i-1]+'_id':null;
-					uis.push({label:label,type:"dropdown",field:field,endpoint:endpoint,parent_id:parent_id});
 				}
+				$scope.DATA_ENDPOINT = MNT_APIS[i-1];
 			}
 			(function req_api($scope,requests,index){
 				if(index<requests.length){
@@ -51,7 +65,6 @@ define(['app','api'], function (app) {
 				}				
 			})($scope,requests,0);
 			$scope.UI_RENDER =  uis;
-			$scope.DATA_ENDPOINT = MNT_APIS[i-1];
 			$scope.RecordMode = 'ADD';
 			loadData();
 		}
