@@ -2,8 +2,8 @@
 	<h2><?php __('Subcategories');?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('code');?></th>
-			<th><?php echo $this->Paginator->sort('kpi_code');?></th>
+			<th><?php echo $this->Paginator->sort('id');?></th>
+			<th><?php echo $this->Paginator->sort('kpi_id');?></th>
 			<th><?php echo $this->Paginator->sort('name');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
@@ -18,8 +18,10 @@
 		}
 	?>
 	<tr<?php echo $class;?>>
-		<td><?php echo $subcategory['Subcategory']['code']; ?>&nbsp;</td>
-		<td><?php echo $subcategory['Subcategory']['kpi_code']; ?>&nbsp;</td>
+		<td><?php echo $subcategory['Subcategory']['id']; ?>&nbsp;</td>
+		<td>
+			<?php echo $this->Html->link($subcategory['Kpi']['name'], array('controller' => 'kpis', 'action' => 'view', $subcategory['Kpi']['id'])); ?>
+		</td>
 		<td><?php echo $subcategory['Subcategory']['name']; ?>&nbsp;</td>
 		<td><?php echo $subcategory['Subcategory']['created']; ?>&nbsp;</td>
 		<td><?php echo $subcategory['Subcategory']['modified']; ?>&nbsp;</td>

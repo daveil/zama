@@ -1,14 +1,14 @@
 <div class="categories view">
 <h2><?php  __('Category');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Code'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $category['Category']['code']; ?>
+			<?php echo $category['Category']['id']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Department Code'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Department'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $category['Category']['department_code']; ?>
+			<?php echo $this->Html->link($category['Department']['name'], array('controller' => 'departments', 'action' => 'view', $category['Department']['id'])); ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Name'); ?></dt>
@@ -31,8 +31,8 @@
 <div class="actions">
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('Edit Category', true), array('action' => 'edit', $category['Category']['code'])); ?> </li>
-		<li><?php echo $this->Html->link(__('Delete Category', true), array('action' => 'delete', $category['Category']['code']), null, sprintf(__('Are you sure you want to delete # %s?', true), $category['Category']['code'])); ?> </li>
+		<li><?php echo $this->Html->link(__('Edit Category', true), array('action' => 'edit', $category['Category']['id'])); ?> </li>
+		<li><?php echo $this->Html->link(__('Delete Category', true), array('action' => 'delete', $category['Category']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $category['Category']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('List Categories', true), array('action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Category', true), array('action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Departments', true), array('controller' => 'departments', 'action' => 'index')); ?> </li>
@@ -46,8 +46,8 @@
 	<?php if (!empty($category['Kpi'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
-		<th><?php __('Category Code'); ?></th>
-		<th><?php __('Code'); ?></th>
+		<th><?php __('Id'); ?></th>
+		<th><?php __('Category Id'); ?></th>
 		<th><?php __('Name'); ?></th>
 		<th><?php __('Created'); ?></th>
 		<th><?php __('Modified'); ?></th>
@@ -62,15 +62,15 @@
 			}
 		?>
 		<tr<?php echo $class;?>>
-			<td><?php echo $kpi['category_code'];?></td>
-			<td><?php echo $kpi['code'];?></td>
+			<td><?php echo $kpi['id'];?></td>
+			<td><?php echo $kpi['category_id'];?></td>
 			<td><?php echo $kpi['name'];?></td>
 			<td><?php echo $kpi['created'];?></td>
 			<td><?php echo $kpi['modified'];?></td>
 			<td class="actions">
-				<?php echo $this->Html->link(__('View', true), array('controller' => 'kpis', 'action' => 'view', $kpi['code'])); ?>
-				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'kpis', 'action' => 'edit', $kpi['code'])); ?>
-				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'kpis', 'action' => 'delete', $kpi['code']), null, sprintf(__('Are you sure you want to delete # %s?', true), $kpi['code'])); ?>
+				<?php echo $this->Html->link(__('View', true), array('controller' => 'kpis', 'action' => 'view', $kpi['id'])); ?>
+				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'kpis', 'action' => 'edit', $kpi['id'])); ?>
+				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'kpis', 'action' => 'delete', $kpi['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $kpi['id'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>

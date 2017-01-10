@@ -3,6 +3,7 @@
 	<fieldset>
 		<legend><?php __('Add Department'); ?></legend>
 	<?php
+		echo $this->Form->input('id',array('type'=>'text','label'=>'Code'));
 		echo $this->Form->input('name');
 	?>
 	</fieldset>

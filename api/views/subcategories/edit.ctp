@@ -3,8 +3,8 @@
 	<fieldset>
 		<legend><?php __('Edit Subcategory'); ?></legend>
 	<?php
-		echo $this->Form->input('code');
-		echo $this->Form->input('kpi_code');
+		echo $this->Form->input('id',array('type'=>'text','label'=>'Code'));
+		echo $this->Form->input('kpi_id');
 		echo $this->Form->input('name');
 	?>
 	</fieldset>

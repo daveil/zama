@@ -1,14 +1,14 @@
 <div class="subcategories view">
 <h2><?php  __('Subcategory');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Code'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $subcategory['Subcategory']['code']; ?>
+			<?php echo $subcategory['Subcategory']['id']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Kpi Code'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Kpi'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $subcategory['Subcategory']['kpi_code']; ?>
+			<?php echo $this->Html->link($subcategory['Kpi']['name'], array('controller' => 'kpis', 'action' => 'view', $subcategory['Kpi']['id'])); ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Name'); ?></dt>

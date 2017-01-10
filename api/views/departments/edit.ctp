@@ -3,7 +3,7 @@
 	<fieldset>
 		<legend><?php __('Edit Department'); ?></legend>
 	<?php
-		echo $this->Form->input('code');
+		echo $this->Form->input('id',array('type'=>'text','label'=>'Code'));
 		echo $this->Form->input('name');
 	?>
 	</fieldset>
@@ -13,7 +13,7 @@
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
 
-		<li><?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $this->Form->value('Department.code')), null, sprintf(__('Are you sure you want to delete # %s?', true), $this->Form->value('Department.code'))); ?></li>
+		<li><?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $this->Form->value('Department.id')), null, sprintf(__('Are you sure you want to delete # %s?', true), $this->Form->value('Department.id'))); ?></li>
 		<li><?php echo $this->Html->link(__('List Departments', true), array('action' => 'index'));?></li>
 		<li><?php echo $this->Html->link(__('List Categories', true), array('controller' => 'categories', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Category', true), array('controller' => 'categories', 'action' => 'add')); ?> </li>
