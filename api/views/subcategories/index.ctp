@@ -19,16 +19,14 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $subcategory['Subcategory']['code']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($subcategory['Kpi']['name'], array('controller' => 'kpis', 'action' => 'view', $subcategory['Kpi']['code'])); ?>
-		</td>
+		<td><?php echo $subcategory['Subcategory']['kpi_code']; ?>&nbsp;</td>
 		<td><?php echo $subcategory['Subcategory']['name']; ?>&nbsp;</td>
 		<td><?php echo $subcategory['Subcategory']['created']; ?>&nbsp;</td>
 		<td><?php echo $subcategory['Subcategory']['modified']; ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $subcategory['Subcategory']['code'])); ?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $subcategory['Subcategory']['code'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $subcategory['Subcategory']['code']), null, sprintf(__('Are you sure you want to delete # %s?', true), $subcategory['Subcategory']['code'])); ?>
+			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $subcategory['Subcategory']['id'])); ?>
+			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $subcategory['Subcategory']['id'])); ?>
+			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $subcategory['Subcategory']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $subcategory['Subcategory']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

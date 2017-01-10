@@ -19,9 +19,7 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $category['Category']['code']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($category['Department']['name'], array('controller' => 'departments', 'action' => 'view', $category['Department']['code'])); ?>
-		</td>
+		<td><?php echo $category['Category']['department_code']; ?>&nbsp;</td>
 		<td><?php echo $category['Category']['name']; ?>&nbsp;</td>
 		<td><?php echo $category['Category']['created']; ?>&nbsp;</td>
 		<td><?php echo $category['Category']['modified']; ?>&nbsp;</td>

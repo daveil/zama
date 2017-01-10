@@ -6,9 +6,9 @@
 			<?php echo $lineMachine['LineMachine']['id']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Department'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Department Code'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($lineMachine['Department']['name'], array('controller' => 'departments', 'action' => 'view', $lineMachine['Department']['code'])); ?>
+			<?php echo $lineMachine['LineMachine']['department_code']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Name'); ?></dt>

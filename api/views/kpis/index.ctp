@@ -18,9 +18,7 @@
 		}
 	?>
 	<tr<?php echo $class;?>>
-		<td>
-			<?php echo $this->Html->link($kpi['Category']['name'], array('controller' => 'categories', 'action' => 'view', $kpi['Category']['code'])); ?>
-		</td>
+		<td><?php echo $kpi['Kpi']['category_code']; ?>&nbsp;</td>
 		<td><?php echo $kpi['Kpi']['code']; ?>&nbsp;</td>
 		<td><?php echo $kpi['Kpi']['name']; ?>&nbsp;</td>
 		<td><?php echo $kpi['Kpi']['created']; ?>&nbsp;</td>

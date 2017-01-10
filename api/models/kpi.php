@@ -7,7 +7,7 @@ class Kpi extends AppModel {
 	var $belongsTo = array(
 		'Category' => array(
 			'className' => 'Category',
-			'foreignKey' => 'category_code',
+			'foreignKey' => 'category_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -17,7 +17,7 @@ class Kpi extends AppModel {
 	var $hasMany = array(
 		'Subcategory' => array(
 			'className' => 'Subcategory',
-			'foreignKey' => 'kpi_code',
+			'foreignKey' => 'kpi_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',

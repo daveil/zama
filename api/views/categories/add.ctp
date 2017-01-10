@@ -4,7 +4,6 @@
 		<legend><?php __('Add Category'); ?></legend>
 	<?php
 		echo $this->Form->input('department_code');
-		echo $this->Form->input('code',array('type'=>'text'));
 		echo $this->Form->input('name');
 	?>
 	</fieldset>

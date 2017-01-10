@@ -6,9 +6,9 @@
 			<?php echo $partNo['PartNo']['id']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Department'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Department Code'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($partNo['Department']['name'], array('controller' => 'departments', 'action' => 'view', $partNo['Department']['code'])); ?>
+			<?php echo $partNo['PartNo']['department_code']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Name'); ?></dt>

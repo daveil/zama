@@ -7,7 +7,7 @@ class Category extends AppModel {
 	var $belongsTo = array(
 		'Department' => array(
 			'className' => 'Department',
-			'foreignKey' => 'department_code',
+			'foreignKey' => 'department_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -17,7 +17,7 @@ class Category extends AppModel {
 	var $hasMany = array(
 		'Kpi' => array(
 			'className' => 'Kpi',
-			'foreignKey' => 'category_code',
+			'foreignKey' => 'category_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',

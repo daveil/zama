@@ -6,9 +6,9 @@
 			<?php echo $category['Category']['code']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Department'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Department Code'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($category['Department']['name'], array('controller' => 'departments', 'action' => 'view', $category['Department']['code'])); ?>
+			<?php echo $category['Category']['department_code']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Name'); ?></dt>

@@ -1,9 +1,9 @@
 <div class="kpis view">
 <h2><?php  __('Kpi');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Category'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Category Code'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($kpi['Category']['name'], array('controller' => 'categories', 'action' => 'view', $kpi['Category']['code'])); ?>
+			<?php echo $kpi['Kpi']['category_code']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Code'); ?></dt>
@@ -68,9 +68,9 @@
 			<td><?php echo $subcategory['created'];?></td>
 			<td><?php echo $subcategory['modified'];?></td>
 			<td class="actions">
-				<?php echo $this->Html->link(__('View', true), array('controller' => 'subcategories', 'action' => 'view', $subcategory['code'])); ?>
-				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'subcategories', 'action' => 'edit', $subcategory['code'])); ?>
-				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'subcategories', 'action' => 'delete', $subcategory['code']), null, sprintf(__('Are you sure you want to delete # %s?', true), $subcategory['code'])); ?>
+				<?php echo $this->Html->link(__('View', true), array('controller' => 'subcategories', 'action' => 'view', $subcategory['id'])); ?>
+				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'subcategories', 'action' => 'edit', $subcategory['id'])); ?>
+				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'subcategories', 'action' => 'delete', $subcategory['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $subcategory['id'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>

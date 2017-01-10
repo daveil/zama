@@ -19,9 +19,7 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $cavity['Cavity']['id']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($cavity['Department']['name'], array('controller' => 'departments', 'action' => 'view', $cavity['Department']['code'])); ?>
-		</td>
+		<td><?php echo $cavity['Cavity']['department_code']; ?>&nbsp;</td>
 		<td><?php echo $cavity['Cavity']['name']; ?>&nbsp;</td>
 		<td><?php echo $cavity['Cavity']['created']; ?>&nbsp;</td>
 		<td><?php echo $cavity['Cavity']['modified']; ?>&nbsp;</td>

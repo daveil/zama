@@ -19,9 +19,7 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $lineMachine['LineMachine']['id']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($lineMachine['Department']['name'], array('controller' => 'departments', 'action' => 'view', $lineMachine['Department']['code'])); ?>
-		</td>
+		<td><?php echo $lineMachine['LineMachine']['department_code']; ?>&nbsp;</td>
 		<td><?php echo $lineMachine['LineMachine']['name']; ?>&nbsp;</td>
 		<td><?php echo $lineMachine['LineMachine']['created']; ?>&nbsp;</td>
 		<td><?php echo $lineMachine['LineMachine']['modified']; ?>&nbsp;</td>

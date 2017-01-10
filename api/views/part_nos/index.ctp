@@ -19,9 +19,7 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $partNo['PartNo']['id']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($partNo['Department']['name'], array('controller' => 'departments', 'action' => 'view', $partNo['Department']['code'])); ?>
-		</td>
+		<td><?php echo $partNo['PartNo']['department_code']; ?>&nbsp;</td>
 		<td><?php echo $partNo['PartNo']['name']; ?>&nbsp;</td>
 		<td><?php echo $partNo['PartNo']['created']; ?>&nbsp;</td>
 		<td><?php echo $partNo['PartNo']['modified']; ?>&nbsp;</td>

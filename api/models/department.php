@@ -7,7 +7,7 @@ class Department extends AppModel {
 	var $hasMany = array(
 		'Category' => array(
 			'className' => 'Category',
-			'foreignKey' => 'department_code',
+			'foreignKey' => 'department_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -20,7 +20,7 @@ class Department extends AppModel {
 		),
 		'Cavity' => array(
 			'className' => 'Cavity',
-			'foreignKey' => 'department_code',
+			'foreignKey' => 'department_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -33,7 +33,7 @@ class Department extends AppModel {
 		),
 		'LineMachine' => array(
 			'className' => 'LineMachine',
-			'foreignKey' => 'department_code',
+			'foreignKey' => 'department_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -46,7 +46,7 @@ class Department extends AppModel {
 		),
 		'PartNo' => array(
 			'className' => 'PartNo',
-			'foreignKey' => 'department_code',
+			'foreignKey' => 'department_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',

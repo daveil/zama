@@ -6,7 +6,7 @@ class PartNo extends AppModel {
 	var $belongsTo = array(
 		'Department' => array(
 			'className' => 'Department',
-			'foreignKey' => 'department_code',
+			'foreignKey' => 'department_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
