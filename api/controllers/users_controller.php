@@ -16,11 +16,18 @@ class UsersController extends AppController {
 			$user = $this->Auth->user();
 			unset($user['User']['created']);
 			unset($user['User']['modified']);
+			if(!$this->RequestHandler->isAjax()){
+				$this->redirect($this->Auth->redirect());
+			}
 		}
+		
 		$this->set('user', $user);
 	}
 	function logout(){
 		$this->Auth->logout();
+		if(!$this->RequestHandler->isAjax()){
+			$this->redirect('login');
+		}
 		$this->set('user', null);
 	}
 	function index() {

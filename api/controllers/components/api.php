@@ -8,7 +8,11 @@ class ApiComponent extends Object {
    function startup(&$controller) {
 	  $params = $this->controller->params;
 	  if (	$params['url']['ext'] === 'json' ||
-			( $params['controller']=='users' && in_array($params['action'],array('register','login','logout')))
+			( 
+				$this->controller->RequestHandler->isAjax() && 
+				$params['controller']=='users' &&
+				in_array($params['action'],array('register','login','logout'))
+			)
 		){
 		  switch($_SERVER['REQUEST_METHOD']){
 			case 'GET':
@@ -126,7 +130,7 @@ class ApiComponent extends Object {
 	   $__Class = Inflector::classify($endpoint);
 	   $input = file_get_contents('php://input');
 	   $data = array($__Class=>json_decode($input,true));
-	   if( $this->controller->params['action']!='logout')
+	   if($this->controller->params['action']!='logout')
 		   foreach($data[$__Class] as $field=>$value){
 			  
 			   if(is_array($value)){

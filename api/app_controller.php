@@ -36,7 +36,7 @@ class AppController extends Controller {
 	
 	function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index');
+		$this->Auth->allow('display');
 	}
 	function redirect($config){
 		if($this->RequestHandler->isAjax()){
