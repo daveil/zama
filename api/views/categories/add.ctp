@@ -3,7 +3,8 @@
 	<fieldset>
 		<legend><?php __('Add Category'); ?></legend>
 	<?php
-		echo $this->Form->input('department_code');
+		echo $this->Form->input('id',array('type'=>'text','label'=>'Code'));
+		echo $this->Form->input('department_id');
 		echo $this->Form->input('name');
 	?>
 	</fieldset>

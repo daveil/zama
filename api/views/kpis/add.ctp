@@ -3,7 +3,8 @@
 	<fieldset>
 		<legend><?php __('Add Kpi'); ?></legend>
 	<?php
-		echo $this->Form->input('category_code');
+		echo $this->Form->input('id',array('type'=>'text','label'=>'Code'));
+		echo $this->Form->input('category_id');
 		echo $this->Form->input('name');
 	?>
 	</fieldset>
