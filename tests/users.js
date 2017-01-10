@@ -46,6 +46,9 @@ define(["model"],function($model){
 				case 'register':
 					return {success:user.save(data)};
 				break;
+				case 'logout':
+					return {success:{data:0,meta:{message:'Logout'}}};
+				break;
 			}
 			
 		}

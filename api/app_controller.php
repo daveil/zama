@@ -75,6 +75,9 @@ class AppController extends Controller {
 			$dataField = Inflector::variable($endpoint);
 			if(isset($this->viewVars[$dataField])){
 				$response['data'] = $this->viewVars[$dataField];
+			}else if($this->params['action']=='logout'){
+				$response['data']['User'] = '0';
+				$response['meta']['message'] = 'Logout';
 			}else{
 				return $this->cakeError('dataNotSet');
 			}

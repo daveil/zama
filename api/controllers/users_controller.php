@@ -19,7 +19,10 @@ class UsersController extends AppController {
 		}
 		$this->set('user', $user);
 	}
-	
+	function logout(){
+		$this->Auth->logout();
+		$this->set('user', null);
+	}
 	function index() {
 		$this->User->recursive = 0;
 		$this->set('users', $this->paginate());
