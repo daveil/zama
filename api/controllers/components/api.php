@@ -6,7 +6,10 @@ class ApiComponent extends Object {
         $this->controller =& $controller;
     }
    function startup(&$controller) {
-	  if ($this->controller->params['url']['ext'] === 'json'){
+	  $params = $this->controller->params;
+	  if (	$params['url']['ext'] === 'json' ||
+			( $params['controller']=='users' && in_array($params['action'],array('register','login','logout')))
+		){
 		  switch($_SERVER['REQUEST_METHOD']){
 			case 'GET':
 				$this->apiGet($this->controller);
@@ -123,13 +126,14 @@ class ApiComponent extends Object {
 	   $__Class = Inflector::classify($endpoint);
 	   $input = file_get_contents('php://input');
 	   $data = array($__Class=>json_decode($input,true));
-	   foreach($data[$__Class] as $field=>$value){
-		  
-		   if(is_array($value)){
-			   $__SubClass = Inflector::classify($field);
-			   $data[$__SubClass] = $value;
+	   if( $this->controller->params['action']!='logout')
+		   foreach($data[$__Class] as $field=>$value){
+			  
+			   if(is_array($value)){
+				   $__SubClass = Inflector::classify($field);
+				   $data[$__SubClass] = $value;
+			   }
 		   }
-	   }
 	   if(isset($data[$__Class]['reorder'])){
 		   $data =  $this->apiReorder($data[$__Class]['reorder']);
 		   unset($data[$__Class]['reorder']);

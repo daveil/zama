@@ -31,8 +31,11 @@ define(['app','api'], function (app) {
 		$rootScope.__SHOW_REG = false;
 		if($window.location.hash=='#/logout'){
 			$rootScope.__SIDEBAR_OPEN = false;
+			$rootScope.__USER=null;
 			$cookies.remove('__USER');
-			$window.location.href="#/";
+			api.POST('logout',function success(response){
+					$window.location.href="#/login";
+			});
 		}
 		if($rootScope.__USER){
 			$window.location.href="#/";
@@ -45,14 +48,17 @@ define(['app','api'], function (app) {
 		$scope.login = function(){
 			var data = $scope.User;
 			$scope.LoggingIn = true;
-			api.POST('login',data,function(response){
+			api.POST('login',data,function success(response){
 				$scope.LoggingIn = false;
-				if(response.data.user){
-					$cookies.put('__USER',JSON.stringify(response.data.user));
+				if(response.data){
+					$cookies.put('__USER',JSON.stringify(response.data));
 					$window.location.href="#/";
 				}else{
 					$scope.loginMessage = response.message;
 				}
+			},function error(response){
+				$scope.LoggingIn = false;
+				$scope.loginMessage = response.meta.message;
 			});
 		}
 	}]);

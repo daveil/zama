@@ -32,12 +32,12 @@ define(["model"],function($model){
 			switch(data.action){
 				case 'login':
 					var __MSG = 'Invalid username/password';
-					var __USER = {user:null};
+					var __USER = null;
 					var users =  user.data;
 					for(var index in users){
 						var u = users[index];
 						if(u.username==data.username && u.password==data.password){
-							__USER.user = angular.copy(u);
+							__USER = angular.copy(u);
 							__MSG = 'Login successful!';
 						}
 					}
@@ -45,6 +45,9 @@ define(["model"],function($model){
 				break;
 				case 'register':
 					return {success:user.save(data)};
+				break;
+				case 'logout':
+					return {success:{data:0,meta:{message:'Logout'}}};
 				break;
 			}
 			

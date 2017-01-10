@@ -13,8 +13,11 @@ define(function() {
 				},function(response){
 					error(response);
 				});
-				if(endpoint=='login' ||endpoint=='register'){
-					data.action =  endpoint;
+				if(endpoint=='register' ||endpoint=='login'||endpoint=='logout'){
+					if(endpoint=='logout')
+						data = {action:endpoint};
+					else
+						data.action =  endpoint;
 					endpoint = 'users';
 				}
 				$timeout(function(){

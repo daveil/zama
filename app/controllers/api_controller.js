@@ -32,7 +32,7 @@ define(['app','demo'], function(app,demo){
 					return demo.run(settings,method,endpoint,data,success,error,$rootScope,$timeout,$q);
 				}else{
 					var ext = '.'+settings.API_EXT;
-					if(endpoint=='login' ||endpoint=='register') ext='';
+					if(endpoint=='register' ||endpoint=='login'||endpoint=='logout') ext='';
 					var url = settings.API_URL + endpoint + ext;
 					var request ={
 						  method: method,

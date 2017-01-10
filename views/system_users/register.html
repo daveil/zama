@@ -21,10 +21,10 @@
 				<div class="list-group-item"> 
 					<div class="form-group">
 						<label>Department</label>
-						<select ng-model="User.department" class="form-control" ng-disabled="RecordMode=='DELETE'">
+						<select ng-model="User.department_id" class="form-control" ng-disabled="RecordMode=='DELETE'">
 							<option value="">Select Department</option>
-							<option ng-repeat="dept in Departments" ng-selected="User.department==dept.id" ng-value="dept.id">{{dept.name}}</option>
-							<option ng-selected="User.department=='all'" value="all">All</option>
+							<option ng-repeat="dept in Departments" ng-selected="User.department_id==dept.id" ng-value="dept.id">{{dept.name}}</option>
+							<option ng-selected="User.department_id=='all'" value="all">All</option>
 						</select>
 					</div>
 					<div class="form-group">
@@ -84,7 +84,7 @@
 							ng-mouseleave="ActiveRow=null"
 							ng-class="{active:ActiveRow==$index}" 
 							>
-							<td ng-click="setActiveUser(user)">{{user.department}}</td>
+							<td ng-click="setActiveUser(user)">{{user.department_id}}</td>
 							<td ng-click="setActiveUser(user)">{{user.employee_name}}</td>
 							<td ng-click="setActiveUser(user)">{{user.employee_no}}</td>
 							<td ng-click="setActiveUser(user)">{{user.user_type}}</td>
