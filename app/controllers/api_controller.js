@@ -1,7 +1,7 @@
 "use strict";
 define(['app','demo'], function(app,demo){
 	 app.register.factory('api',function($http,$timeout,$rootScope,$q){
-		 
+		var settings = app.settings;
 		return{
 			POST:function(){
 				return this.HTTP('POST',arguments);
@@ -28,7 +28,33 @@ define(['app','demo'], function(app,demo){
 				}else{
 					throw new Error("Incomplete arguments");
 				}
-				return demo.run(app.settings,method,endpoint,data,success,error,$rootScope,$http,$timeout,$q);
+				if(settings.DEMO_MODE){
+					return demo.run(settings,method,endpoint,data,success,error,$rootScope,$timeout,$q);
+				}else{
+					var ext = '.'+settings.API_EXT;
+					if(endpoint=='login' ||endpoint=='register') ext='';
+					var url = settings.API_URL + endpoint + ext;
+					var request ={
+						  method: method,
+						  url: url,
+						  dataType: settings.API_EXT,
+						  headers: {
+						   'X-Requested-With': 'XMLHttpRequest',
+						   'Content-Type': 'application'+settings.API_EXT,
+						   'Accepts': 'application/'+settings.API_EXT
+							}
+						};
+					
+					if(method=='GET') {
+						for(var key in data){
+							if(typeof data[key] == "object")
+								data[key] = data[key].join(',');
+						}
+						request.params = data;
+					}
+					else request.data = data;
+					return $http(request).success(success).error(error);
+				}
 			},
 			runTasks:function(tasks){
 				if(tasks.length){

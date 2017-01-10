@@ -11,10 +11,9 @@ define(['app','api'], function (app) {
 			$rootScope.__SHOW_REG = false;
 		}
 		$scope.register = function(){
-			var data =  $scope.Register;
-				data.action = 'register';
+			var data =  $scope.Register;;
 				$scope.Registering = true;
-			api.POST('users',data,function(response){
+			api.POST('register',data,function(response){
 				$scope.Registering = false;
 				if(response.data){
 					$cookies.put('__USER',JSON.stringify(response.data));
@@ -45,9 +44,8 @@ define(['app','api'], function (app) {
 		$scope.cancel();
 		$scope.login = function(){
 			var data = $scope.User;
-				data.action='login';
 			$scope.LoggingIn = true;
-			api.POST('users',data,function(response){
+			api.POST('login',data,function(response){
 				$scope.LoggingIn = false;
 				if(response.data.user){
 					$cookies.put('__USER',JSON.stringify(response.data.user));
