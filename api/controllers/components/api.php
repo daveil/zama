@@ -6,7 +6,10 @@ class ApiComponent extends Object {
         $this->controller =& $controller;
     }
    function startup(&$controller) {
-	  if ($this->controller->params['url']['ext'] === 'json'){
+	  $params = $this->controller->params;
+	  if (	$params['url']['ext'] === 'json' ||
+			( $params['controller']=='users' && in_array($params['action'],array('register','login','logout')))
+		){
 		  switch($_SERVER['REQUEST_METHOD']){
 			case 'GET':
 				$this->apiGet($this->controller);

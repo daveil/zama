@@ -2,7 +2,7 @@
 class DepartmentsController extends AppController {
 
 	var $name = 'Departments';
-
+	
 	function index() {
 		$this->Department->recursive = 0;
 		$this->set('departments', $this->paginate());
