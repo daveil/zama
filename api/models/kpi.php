@@ -1,7 +1,7 @@
 <?php
 class Kpi extends AppModel {
 	var $name = 'Kpi';
-	
+	var $consumableFields = array('department_id','category_id','id','name');
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(
