@@ -1,7 +1,7 @@
 "use strict";
 define(['app','api'], function (app) {
-	const MNT_APIS = 'departments|categories|kpis|subcategories|linemachines|partnos|cavities'.split('|');
-	const MNT_FIELDS = 'department|category|kpi|subcategory|linemachine|partno|cavity'.split('|');
+	const MNT_APIS = 'departments|categories|kpis|subcategories|line_machines|part_nos|cavities'.split('|');
+	const MNT_FIELDS = 'department|category|kpi|subcategory|line_machine|part_no|cavity'.split('|');
 	const MNT_LABELS = 'Department|Category|KPI|Sub Category|Line/Machine|Part No|Cavity'.split('|');
 	const MNT_MAX = (MNT_LABELS.length*2)-1;
 	const MNT_STRUCT = {
@@ -29,9 +29,9 @@ define(['app','api'], function (app) {
 				var i =  (max-base)/2 + (base - limit )  / 2;
 				var label =  MNT_LABELS[i];
 				var field =  MNT_FIELDS[i];
-				var endpoint = 'deparments';
+				var endpoint = 'departments';
 				requests.push(endpoint);
-				uis.push({label:'Department',type:"dropdown",field:'deparment',endpoint:endpoint});	
+				uis.push({label:'Department',type:"dropdown",field:'department',endpoint:endpoint});	
 				uis.push({label:label,type:"text",field:'name'});
 				$scope.DATA_ENDPOINT = MNT_APIS[i];
 			}else{
