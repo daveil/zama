@@ -4,6 +4,10 @@ define(['app','api'], function (app) {
     	var dept  = $rootScope.__USER.department;
         var data  ={department_id:dept};
 		$scope.init = function(){
+			$scope.LineMachine = null;
+			$scope.ShiftDay = null;
+			$scope.DateFrom = null;
+			$scope.DateTo = null;
 			$scope.workHour = 0;
 			$scope.cycleTime = 0;
 			$scope.targetEfficiency = 0;
@@ -30,7 +34,8 @@ define(['app','api'], function (app) {
 				var production_plan = $scope.workHour*$scope.cycleTime*$scope.targetEfficiency*$scope.shiftNo;
 				data.production_plan =  production_plan;
 				api.POST('plans',data,function(response){
-					
+					alert(response.meta.message);
+					$scope.init();
 					
 				});
 		}

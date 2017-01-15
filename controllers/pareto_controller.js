@@ -3,14 +3,18 @@ define(['app','api'], function (app) {
     app.register.controller('IndividualController',['$scope','$rootScope','$filter','api', function ($scope,$rootScope,$filter,api) {
     	var dept  = $rootScope.__USER.department;
         var data  ={department_id:dept};
+		$scope.init = function(){
+			$scope.ParetoDetail = [];
+			$scope.LineMachine = null;
+			$scope.ParetoDate = null;
+		}
          function getData(type,data){
             switch(type){
                 case 'dept':
                     api.GET('departments',{id:dept},function(response){
                         $scope.Department =  response.data[0];
-                        getData('pno',data);
-                        getData('cav',data);
-                        getData('cat',data);
+						getData('cat',data);
+                       
                     });
                 break;
                 case 'cav':
@@ -50,7 +54,7 @@ define(['app','api'], function (app) {
                 break;
             }
         }
-        getData('dept',{department_id:dept});
+       getData('dept',{department_id:dept});
        $scope.$watch('Category',function(){
             getData('kpi',{category_id:$scope.Category});
         });
@@ -71,11 +75,10 @@ define(['app','api'], function (app) {
 			var data  =  {};
 				data.line_machine_id = $scope.LineMachine;
 				data.pareto_date  = $filter('date')($scope.ParetoDate,'yyyy-MM-dd');
-				console.log($scope.ParetoDetail);
 				data.pareto_details =  $scope.ParetoDetail;
 			api.POST('paretos',data,function(response){
-				$scope.ParetoDetail = [];
-				alert('Entry saved');
+				alert(response.meta.message);
+				$scope.init();
 			});
 		}
 
