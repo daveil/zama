@@ -1,8 +1,8 @@
 "use strict";
 define(['app','api'], function (app) {
-	const MNT_APIS = 'departments|categories|kpis|subcategories|line_machines|part_nos|cavities'.split('|');
-	const MNT_FIELDS = 'department|category|kpi|subcategory|line_machine|part_no|cavity'.split('|');
-	const MNT_LABELS = 'Department|Category|KPI|Sub Category|Line/Machine|Part No|Cavity'.split('|');
+	const MNT_APIS = 'departments|categories|kpis|subcategories|line_machines|model_nos|cavities'.split('|');
+	const MNT_FIELDS = 'department|category|kpi|subcategory|line_machine|model|cavity'.split('|');
+	const MNT_LABELS = 'Department|Category|KPI|Sub Category|Line/Machine|Model|Cavity'.split('|');
 	const MNT_MAX = (MNT_LABELS.length*2)-1;
 	const MNT_STRUCT = {
 		DEPARTMENT:13,
@@ -10,7 +10,7 @@ define(['app','api'], function (app) {
 		KPI:9,
 		SUB_CATEGORY:7,
 		LINE_MACHINE:5,
-		PART_NO:3,
+		MODEL:3,
 		CAVITY:1,
 	};
     app.register.controller('MaintenanceController',['$scope','$rootScope','api', function ($scope,$rootScope,api) {
@@ -23,7 +23,7 @@ define(['app','api'], function (app) {
 			var limit = type;
 			var uis = [];
 			var requests = [];
-			if(limit>=MNT_STRUCT.CAVITY && limit<=MNT_STRUCT.LINE_MACHINE){
+			if(limit>=MNT_STRUCT.CAVITY && limit<=MNT_STRUCT.LINE_MACHINE && false){
 				var max = MNT_MAX;
 				var base = MNT_STRUCT.LINE_MACHINE;
 				var i =  (max-base)/2 + (base - limit )  / 2;
