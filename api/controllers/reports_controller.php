@@ -14,7 +14,7 @@ class ReportsController extends AppController {
 			$report['totals']['paretos']=array();
 			$report['totals']['percentages']=array();
 			$plan = $this->Report->getPlanTotal($kpi_id)[0];
-			$dayDiff = 4;//$plans['0']['days_count'];
+			$dayDiff = 5;//$plan['0']['days_count'];
 			$runDate=date_create($plan['plans']['date_from']);
 			
 			
