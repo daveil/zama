@@ -70,7 +70,7 @@ define(['app','api'], function (app) {
 		$scope.submitPareto = function(){
 			var data  =  {};
 				data.line_machine_id = $scope.LineMachine;
-				data.pareto_date  = $filter('date')(new Date($scope.ParetoDate),'yyyy-MM-dd');
+				data.pareto_date  = $filter('date')($scope.ParetoDate,'yyyy-MM-dd');
 				console.log($scope.ParetoDetail);
 				data.pareto_details =  $scope.ParetoDetail;
 			api.POST('paretos',data,function(response){

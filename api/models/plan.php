@@ -28,10 +28,24 @@ class Plan extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-	function beforeSave(){
-		$dateFrom=date_create($this->data['Plan']['date_from']);
-		$dateTo=date_create( $this->data['Plan']['date_to']);
+	public function buildDetail($plan){
+		$dateFrom=date_create($plan['date_from']);
+		$dateTo=date_create( $plan['date_to']);
 		$dateDiff=date_diff($dateFrom,$dateTo);
-		echo $dateDiff;
+		$dayDiff = $dateDiff->days+1;
+		$details = array();
+		for($runDate = $dateFrom,$count=1;$count<=$dayDiff;$count++){
+			$detail = array(
+				'target_delivery' =>$runDate->format('Y-m-d'),
+				'work_hour' =>$plan['work_hour'],
+				'cycle_time' =>$plan['cycle_time'],
+				'target_efficiency' =>$plan['target_efficiency'],
+				'shift_no' =>$plan['shift_no'],
+			);
+			array_push($details,$detail);
+			$runDate->modify('+1 day');
+		}
+		
+		return $details;
 	}
 }

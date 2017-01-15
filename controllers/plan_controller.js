@@ -16,16 +16,16 @@ define(['app','api'], function (app) {
 		};
 		$scope.submitPlan = function(){
 			var data = {};
-				data.line_machine_id =  $scope.Line;
+				data.line_machine_id =  $scope.LineMachine;
 				data.shift_day =  $scope.ShiftDay;
 				data.shift_night =  $scope.ShiftNight;
-				data.date_from =  $filter('date')(new Date($scope.DateFrom),'yyyy-MM-dd');
-				data.date_to =  $filter('date')(new Date($scope.DateTo),'yyyy-MM-dd');
+				data.date_from =  $filter('date')($scope.DateFrom,'yyyy-MM-dd');
+				data.date_to =  $filter('date')($scope.DateTo,'yyyy-MM-dd');
 				
-				date.work_hour =  $scope.workHour;
-				date.cycle_time =  $scope.cycleTime;
-				date.target_efficiecny =  $scope.targetEfficiency;
-				date.shift_no =  $scope.shiftNo;
+				data.work_hour =  $scope.workHour;
+				data.cycle_time =  $scope.cycleTime;
+				data.target_efficiency =  $scope.targetEfficiency;
+				data.shift_no =  $scope.shiftNo;
 				
 				var production_plan = $scope.workHour*$scope.cycleTime*$scope.targetEfficiency*$scope.shiftNo;
 				data.production_plan =  production_plan;

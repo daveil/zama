@@ -19,7 +19,8 @@ class PlansController extends AppController {
 	function add() {
 		if (!empty($this->data)) {
 			$this->Plan->create();
-			if ($this->Plan->save($this->data)) {
+			$this->data['PlanDetail']=$this->Plan->buildDetail($this->data['Plan']);
+			if ($this->Plan->saveAll($this->data)){
 				$this->Session->setFlash(__('The plan has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
