@@ -1,13 +1,13 @@
 <?php
 class LineMachine extends AppModel {
 	var $name = 'LineMachine';
-	var $consumableFields = array('department_id','id','name');
+	var $consumableFields = array('department_id','category_id','kpi_id','subcategory_id','id','name');
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(
-		'Department' => array(
-			'className' => 'Department',
-			'foreignKey' => 'department_id',
+		'Subcategory' => array(
+			'className' => 'Subcategory',
+			'foreignKey' => 'subcategory_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

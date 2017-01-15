@@ -10,24 +10,6 @@
 				</div>
 				<div class="list-group-item"> 
 					<div class="form-group">
-						<label>Part No</label>
-						<select ng-model="PartNo" name="" id="" class="form-control" ng-disabled="!PartNos.length">
-							<option value="">Select Part No</option>
-							<option ng-repeat="partno in PartNos" ng-value="partno.id">
-								{{partno.name}}
-							</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label>Cavity</label>
-						<select ng-model="Cavity" name="" id="" class="form-control" ng-disabled="!Cavities.length">
-							<option value="">Select Cavity</option>
-							<option ng-repeat="cavity in Cavities" ng-value="cavity.id">
-								{{cavity.name}}
-							</option>
-						</select>
-					</div>
-					<div class="form-group">
 						<label>Category</label>
 						<select ng-model="Category" name="" id="" class="form-control" ng-disabled="!Categories.length">
 							<option value="">Select Category</option>
@@ -55,6 +37,15 @@
 						</select>
 					</div>
 					<div class="form-group">
+						<label>Line/Machine</label>
+						<select ng-model="LineMachine" name="" id="" class="form-control" ng-disabled="!LineMachines.length">
+							<option value="">Select Line</option>
+							<option ng-repeat="line in LineMachines" ng-value="line.id">
+								{{line.name}}
+							</option>
+						</select>
+					</div>
+					<div class="form-group">
 						<label>Shift</label>
 						<select class="form-control">
 							<option value="DS">Day Shift</option>
@@ -63,7 +54,7 @@
 					</div>
 					<div class="form-group">
 						<label>Date</label>
-						<input type="date" class="form-control" />
+						<input type="date" ng-model="ParetoDate" class="form-control" />
 					</div>
 				</div>
 			</div>
@@ -74,8 +65,8 @@
 			<div class="list-group-item list-group-header">
 				<label class="pull-left">Daily Pareto</label>
 				<div class="btn-group btn-group-xs pull-right">
-					<button class="btn btn-default ">CANCEL</button>
-					<button class="btn btn-primary ">SUBMIT</button>
+					<button class="btn btn-default " ng-click="cancelPareto()">CANCEL</button>
+					<button class="btn btn-primary " ng-click="submitPareto()">SUBMIT</button>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -84,14 +75,17 @@
 				<table class="table table-bordered">
 					<thead>
 						<tr>
-							<th class="col-md-4">Line</th>
+							<th class="col-md-4">Model</th>
 							<th class="col-md-8">Quantity</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="lnmn in LineMachines">
-							<td>{{lnmn.name}}</td>
-							<td><input type="number" class="form-control" /></td>
+						<tr ng-repeat="mod in Models">
+							<td>
+								{{mod.name}}
+								<input type="hidden" ng-model="ParetoDetail[$index].model_no_id"  />
+							</td>
+							<td><input type="number" ng-model="ParetoDetail[$index].quantity" class="form-control" /></td>
 						</tr>
 					</tbody>
 				</table>

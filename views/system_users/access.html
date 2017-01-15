@@ -19,10 +19,10 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="module in Modules">
+							<tr ng-repeat="(mod, module) in Modules">
 								<td>{{module.name}}</td>
-								<td class="text-center" ng-repeat="group in Groups">
-									<input type="checkbox" ng-model="Access[group.id][module.id]"></input>
+								<td class="text-center" ng-repeat="(grp, group) in Groups">
+									<input type="checkbox" name="{{grp}}-{{mod}}" ng-model="Access[group.id][module.token]">
 								</td>
 							</tr>
 						</tbody>

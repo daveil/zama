@@ -1,13 +1,12 @@
 <?php
-class PartNo extends AppModel {
-	var $name = 'PartNo';
-	var $consumableFields = array('department_id','id','name');
+class PlanDetail extends AppModel {
+	var $name = 'PlanDetail';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(
-		'Department' => array(
-			'className' => 'Department',
-			'foreignKey' => 'department_id',
+		'Plan' => array(
+			'className' => 'Plan',
+			'foreignKey' => 'plan_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

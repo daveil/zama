@@ -63,7 +63,8 @@ define(['app','api'], function (app) {
 			api.GET('groups',function(response){
 				$scope.Groups = response.data;
 			});
-			api.GET('modules',function(response){
+			var filter = {is_parent:1};
+			api.GET('modules',filter,function(response){
 				$scope.Modules = response.data;
 			});
 		}

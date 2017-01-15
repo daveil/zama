@@ -44,19 +44,6 @@ class Department extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'PartNo' => array(
-			'className' => 'PartNo',
-			'foreignKey' => 'department_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'department_id',

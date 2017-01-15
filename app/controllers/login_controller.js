@@ -33,6 +33,7 @@ define(['app','api'], function (app) {
 			$rootScope.__SIDEBAR_OPEN = false;
 			$rootScope.__USER=null;
 			$cookies.remove('__USER');
+			$cookies.remove('__MENUS');
 			api.POST('logout',function success(response){
 					$window.location.href="#/login";
 			});
@@ -52,7 +53,11 @@ define(['app','api'], function (app) {
 				$scope.LoggingIn = false;
 				if(response.data){
 					$cookies.put('__USER',JSON.stringify(response.data));
-					$window.location.href="#/";
+					api.GET('modules',function(response){
+						$cookies.put('__MENUS',JSON.stringify(response.data));
+						$window.location.href="#/";
+					});
+					
 				}else{
 					$scope.loginMessage = response.message;
 				}
