@@ -52,7 +52,11 @@ define(['app','api'], function (app) {
 				$scope.LoggingIn = false;
 				if(response.data){
 					$cookies.put('__USER',JSON.stringify(response.data));
-					$window.location.href="#/";
+					api.GET('modules',function(response){
+						$cookies.put('__MENUS',JSON.stringify(response.data));
+						$window.location.href="#/";
+					});
+					
 				}else{
 					$scope.loginMessage = response.message;
 				}

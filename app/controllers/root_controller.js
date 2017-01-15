@@ -11,6 +11,8 @@ define(['settings'], function(settings){
 		$rootScope.$on('$routeChangeSuccess', function (scope, current, next) {
 			try{
 				$rootScope.__USER =  JSON.parse($cookies.get('__USER'));
+				$rootScope.__MENUS =  JSON.parse($cookies.get('__MENUS'));
+				$rootScope.__MENU_PARENT = $rootScope.__MENU_PARENT || {};
 			}catch(e){
 				$rootScope.__USER = null;
 			}

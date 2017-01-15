@@ -6,11 +6,22 @@ class ModulesController extends AppController {
 	function index() {
 		if($this->RequestHandler->isAjax()||$this->RequestHandler->ext=='json'){
 			$modules = array();
-			$treelist = $this->Module->generatetreelist(null, null, null, '&nbsp;&nbsp;&nbsp;');
+			$treelist = $this->Module->generatetreelist(null,null,null,' ');
+			$parents = array();
 			foreach($treelist as $id=>$name){
 				$mod = $this->Module->findById($id);
 				$link = $mod['Module']['link'];
-				array_push($modules,array('Module'=>array('name'=>$name,'link'=>$link)));
+				$parent_id = $mod['Module']['parent_id'];
+				$is_parent = $mod['Module']['is_parent'];
+				$mod['nonce'] = rand();
+				$token = '_'.substr(md5(json_encode($mod)),0,5);
+				$module =  array('Module'=>array('token'=>$token,'name'=>$name,'link'=>$link,'is_parent'=>$is_parent));
+				
+				$parents[$id] =  $token;
+				if(isset($parents[$parent_id])){
+					$module['Module']['parent_token'] = $parents[$parent_id];
+				}
+				array_push($modules,$module);
 			}
 			$this->set(compact('modules'));
 		}else{
@@ -32,6 +43,13 @@ class ModulesController extends AppController {
 		if (!empty($this->data)) {
 			$this->Module->create();
 			if ($this->Module->save($this->data)) {
+				if(isset($this->data['Module']['parent_id'])){
+					$parent_id = $this->data['Module']['parent_id'];
+					if($parent_id){
+						$this->Module->id = $parent_id;
+						$this->Module->save(array('is_parent'=>true));
+					}
+				}
 				$this->Session->setFlash(__('The module has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -49,7 +67,12 @@ class ModulesController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
+			$module =  $this->Module->findById($id);
 			if ($this->Module->save($this->data)) {
+				$prev_parent = $module['Module']['parent_id'];
+				$curr_parent = $this->data['Module']['parent_id'];
+				$this->_updateIsParent($prev_parent);
+				$this->_updateIsParent($curr_parent);
 				$this->Session->setFlash(__('The module has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -59,6 +82,10 @@ class ModulesController extends AppController {
 		if (empty($this->data)) {
 			$this->data = $this->Module->read(null, $id);
 		}
+		$conditions = array('NOT'=>array('Module.id'=>$id));
+			$parents = $this->Module->find('list',compact('conditions'));
+			$parents[0]= 'ROOT';
+			$this->set(compact('parents'));
 		
 	}
 
@@ -67,11 +94,23 @@ class ModulesController extends AppController {
 			$this->Session->setFlash(__('Invalid id for module', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		if ($this->Module->delete($id)) {
+		$module =  $this->Module->findById($id);
+		if ($this->Module->delete($id)){
+			$parent_id = $module['Module']['parent_id'];
+			$this->_updateIsParent($parent_id);	
 			$this->Session->setFlash(__('Module deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}
 		$this->Session->setFlash(__('Module was not deleted', true));
 		$this->redirect(array('action' => 'index'));
+	}
+	protected function _updateIsParent($parent_id){
+		return;
+		$conditions = array('Module.parent_id'=>$parent_id);
+		$count = $this->Module->find('count',compact('conditions'));
+		$module = array('Module'=>array('id'=>$parent_id,'is_parent'=>$count));
+		$this->Module->save($module);
+		
+		
 	}
 }

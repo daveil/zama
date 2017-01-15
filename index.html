@@ -48,94 +48,24 @@
                     <div id="company-name">ZAMA Inc.</div>
                 </li>
 				<li class="separator">
+					
                 </li>
-				
-                <li>
+				 <li>
                     <a href="#/">Home</a>
                 </li>
-				<li>
-                    <a href="#/pages/dashboard">Monthly KPI Dashboard</a>
-                </li>
-				<li ng-if="__USER.user_type!='admin'">
-                    <a href="#/">Login Details</a>
-                </li>
-				<li ng-if="__USER.user_type=='admin'">
-                    <a ng-click="__MENU_SYSUSERS=!__MENU_SYSUSERS">
-						System Users
-						<div class="pull-right"><i
+				<li ng-repeat="menu in __MENUS"  ng-show="__MENU_PARENT[menu.parent_token] || (!menu.parent_token && menu.is_parent) ">
+					<a ng-show="!menu.is_parent"href="#{{menu.link}}">&nbsp;&nbsp;&nbsp;{{menu.name}}</a>
+					<a ng-show="menu.is_parent" ng-click="__MENU_PARENT[menu.token]=!__MENU_PARENT[menu.token]">
+						{{menu.name}}
+						<div class="pull-right" ng-if="menu.is_parent">
+						<i
 						class="glyphicon glyphicon-chevron-down"
-						ng-class="{'glyphicon-chevron-down':!__MENU_SYSUSERS,'glyphicon-chevron-up':__MENU_SYSUSERS}"
+						ng-class="{'glyphicon-chevron-down':!__MENU_PARENT[menu.token],'glyphicon-chevron-up':__MENU_PARENT[menu.token]}"
 						></i>&nbsp;&nbsp;</div>
 					</a>
-					<ul ng-if="__MENU_SYSUSERS">
-						<li><a href="#/system_users/register">User Registration</a></li>
-						<li><a href="#/system_users/access">Access Control</a></li>
-					</ul>
-                </li>
-				<li ng-if="__USER.user_type=='admin'">
-                    <a ng-click="__MENU_MAINTENANCE=!__MENU_MAINTENANCE">
-						System Maintenance
-						<div class="pull-right"><i
-						class="glyphicon glyphicon-chevron-down"
-						ng-class="{'glyphicon-chevron-down':!__MENU_MAINTENANCE,'glyphicon-chevron-up':__MENU_MAINTENANCE}"
-						></i>&nbsp;&nbsp;</div>
-					</a>
-					<ul ng-if="__MENU_MAINTENANCE">
-						<li><a href="#/maintenance/department">Department</a></li>
-						<li><a href="#/maintenance/category">Category</a></li>
-						<li><a href="#/maintenance/kpi">KPI</a></li>
-						<li><a href="#/maintenance/subcategory">Sub-Category</a></li>
-						<li><a href="#/maintenance/linemachine">Line/Machine</a></li>
-						<li><a href="#/maintenance/partno">Part Number</a></li>
-						<li><a href="#/maintenance/cavity">Cavity</a></li>
-						<li><a href="#/pages/backup">Back-up</a></li>
-					</ul>
-                </li>
-				<li>
-                    <a ng-click="__MENU_PARETO=!__MENU_PARETO">
-						Pareto
-						<div class="pull-right"><i
-						class="glyphicon glyphicon-chevron-down"
-						ng-class="{'glyphicon-chevron-down':!__MENU_PARETO,'glyphicon-chevron-up':__MENU_PARETO}"
-						></i>&nbsp;&nbsp;</div>
-					</a>
-					<ul ng-if="__MENU_PARETO">
-						<li><a href="#/pareto/individual">Individual</a></li>
-						<li><a href="#/">Batch</a></li>
-						<li><a href="#/">Change Option</a></li>
-					</ul>
-                </li>
-				<li>
-                    <a ng-click="__MENU_PLAN=!__MENU_PLAN">
-						Plan
-						<div class="pull-right"><i
-						class="glyphicon glyphicon-chevron-down"
-						ng-class="{'glyphicon-chevron-down':!__MENU_PLAN,'glyphicon-chevron-up':__MENU_PLAN}"
-						></i>&nbsp;&nbsp;</div>
-					</a>
-					<ul ng-if="__MENU_PLAN">
-						<li><a href="#/pages/plan">Individual</a></li>
-						<li><a href="#/">Batch</a></li>
-						<li><a href="#/">Change Option</a></li>
-					</ul>
-                </li>
-				<li>
-                    <a ng-click="__MENU_REPORTS=!__MENU_REPORTS">
-						Report
-						<div class="pull-right"><i
-						class="glyphicon glyphicon-chevron-down"
-						ng-class="{'glyphicon-chevron-down':!__MENU_REPORTS,'glyphicon-chevron-up':__MENU_REPORTS}"
-						></i>&nbsp;&nbsp;</div>
-					</a>
-					<ul ng-if="__MENU_REPORTS">
-						<li><a href="">Pareto</a></li>
-						<li><a href="">Daily KPI</a></li>
-						<li><a href="">Daily Plan</a></li>
-						<li><a href="">Monthly Target</a></li>
-						<li><a href="">Monthly KPI</a></li>
-					</ul>
-                </li>
-				<li>
+						
+				</li>
+               <li>
                     <a href="#/logout">Logout</a>
                 </li>
 			</ul>
