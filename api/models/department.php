@@ -1,6 +1,7 @@
 <?php
 class Department extends AppModel {
 	var $name = 'Department';
+	var $order = 'Department.index_order';
 	var $consumableFields = array('id','name');
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
