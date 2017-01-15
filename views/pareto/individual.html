@@ -2,13 +2,19 @@
 	<div class="col-md-4">
 		<div class="list-group">
 			<div class="list-group-item list-group-header">
-				<label>Daily Pareto</label>
+				<label>{{Department.name}} Daily Pareto</label>
 			</div>
 			<div class="list-group-canvas">
-				<div class="list-group-item list-group-header">
-					<h5>{{Department.name}}</h5>
-				</div>
 				<div class="list-group-item"> 
+					<div class="form-group" ng-show="__USER.department_id=='all'">
+						<label>Deparment</label>
+						<select ng-model="Deparment" class="form-control" ng-disabled="!Departments.length">
+							<option value="">Select Department</option>
+							<option ng-repeat="department in Departments" ng-value="department.id">
+								{{department.name}}
+							</option>
+						</select>
+					</div>
 					<div class="form-group">
 						<label>Category</label>
 						<select ng-model="Category" name="" id="" class="form-control" ng-disabled="!Categories.length">
@@ -38,7 +44,7 @@
 					</div>
 					<div class="form-group">
 						<label>Line/Machine</label>
-						<select ng-model="LineMachine" name="" id="" class="form-control" ng-disabled="!LineMachines.length">
+						<select ng-model="LineMachine" ng-change="updateModel()" class="form-control" ng-disabled="!LineMachines.length">
 							<option value="">Select Line</option>
 							<option ng-repeat="line in LineMachines" ng-value="line.id">
 								{{line.name}}

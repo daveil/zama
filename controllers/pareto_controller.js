@@ -1,9 +1,9 @@
 "use strict";
 define(['app','api'], function (app) {
     app.register.controller('IndividualController',['$scope','$rootScope','$filter','api', function ($scope,$rootScope,$filter,api) {
-    	var dept  = $rootScope.__USER.department;
-        var data  ={department_id:dept};
+    	var dept  = $rootScope.__USER.department_id;
 		$scope.init = function(){
+			$scope.Models = [];
 			$scope.ParetoDetail = [];
 			$scope.LineMachine = null;
 			$scope.ParetoDate = null;
@@ -11,8 +11,14 @@ define(['app','api'], function (app) {
          function getData(type,data){
             switch(type){
                 case 'dept':
-                    api.GET('departments',{id:dept},function(response){
-                        $scope.Department =  response.data[0];
+                    var data = {};
+					if(dept!='all')
+						data.id = dept;
+                    api.GET('departments',data,function(response){
+						$scope.Departments = response.data;
+						$scope.Department = {};
+						if(dept!='all')
+							$scope.Department =  response.data[0];
 						getData('cat',data);
                        
                     });
@@ -54,7 +60,7 @@ define(['app','api'], function (app) {
                 break;
             }
         }
-       getData('dept',{department_id:dept});
+       getData('dept');
        $scope.$watch('Category',function(){
             getData('kpi',{category_id:$scope.Category});
         });
@@ -64,12 +70,13 @@ define(['app','api'], function (app) {
 		$scope.$watch('SubCategory',function(){
             getData('lnmn',{subcategory_id:$scope.SubCategory});
         });
-		$scope.$watch('LineMachine',function(){
+		$scope.updateModel = function(){
 			if($scope.LineMachine){
+				$scope.Models = [];
 				$scope.ParetoDetail = [];
 				getData('mod',{line_machine_id:$scope.LineMachine});
 			}
-        });
+		}
 		
 		$scope.submitPareto = function(){
 			var data  =  {};

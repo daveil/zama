@@ -5,7 +5,18 @@
 				<label>{{Department.name}} Daily Plan</label>
 			</div>
 			<div class="list-group-canvas">
-				<div class="list-group-item"> 
+				<div class="list-group-item">
+				
+					
+					<div class="form-group" ng-show="__USER.department_id=='all'">
+						<label>Deparment</label>
+						<select ng-model="Deparment" class="form-control" ng-disabled="!Departments.length">
+							<option value="">Select Department</option>
+							<option ng-repeat="department in Departments" ng-value="department.id">
+								{{department.name}}
+							</option>
+						</select>
+					</div>
 					<div class="form-group">
 						<label>Category</label>
 						<select ng-model="Category" name="" id="" class="form-control" ng-disabled="!Categories.length">
