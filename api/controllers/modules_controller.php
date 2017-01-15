@@ -6,24 +6,37 @@ class ModulesController extends AppController {
 	function index() {
 		if($this->RequestHandler->isAjax()||$this->RequestHandler->ext=='json'){
 			$modules = array();
-			$treelist = $this->Module->generatetreelist($this->conditions,null,null,' ');
-			$parents = array();
-			foreach($treelist as $id=>$name){
-				$mod = $this->Module->findById($id);
-				$link = $mod['Module']['link'];
-				$parent_id = $mod['Module']['parent_id'];
-				$is_parent = $mod['Module']['is_parent'];
-				$mod['nonce'] = rand();
-				$token = '_'.substr(md5(json_encode($mod)),0,5);
-				$module =  array('Module'=>array('token'=>$token,'name'=>$name,'link'=>$link,'is_parent'=>$is_parent));
-				
-				$parents[$id] =  $token;
-				if(isset($parents[$parent_id])){
-					$module['Module']['parent_token'] = $parents[$parent_id];
+			$user_type = $this->Auth->user()['User']['user_type'];
+			$this->Module->Right->recursive=-1;
+			$rights = array();
+			foreach($this->Module->Right->findAllByGroupId($user_type) as $right){
+				array_push($rights,$right['Right']['module_id']);
+			}
+			if(count($rights)){
+				$this->conditions['OR'] = array(
+							'Module.id'=>$rights,
+							'Module.parent_id'=>$rights,
+				);
+				$treelist = $this->Module->generatetreelist($this->conditions,null,null,' ');
+				$parents = array();
+				foreach($treelist as $id=>$name){
+					$mod = $this->Module->findById($id);
+					$link = $mod['Module']['link'];
+					$parent_id = $mod['Module']['parent_id'];
+					$is_parent = $mod['Module']['is_parent'];
+					$mod['nonce'] = rand();
+					$token = '_'.substr(md5(json_encode($mod)),0,5);
+					$module =  array('Module'=>array('id'=>$id,'token'=>$token,'name'=>$name,'link'=>$link,'is_parent'=>$is_parent));
+					
+					$parents[$id] =  $token;
+					if(isset($parents[$parent_id])){
+						$module['Module']['parent_token'] = $parents[$parent_id];
+					}
+					array_push($modules,$module);
 				}
-				array_push($modules,$module);
 			}
 			$this->set(compact('modules'));
+			
 		}else{
 			$this->Module->recursive = 0;
 			$this->set('modules', $this->paginate());

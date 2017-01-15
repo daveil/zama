@@ -48,9 +48,7 @@ define(['app','api'], function (app) {
 			$scope.User =  angular.copy(data);	
 		}
 		function loadData(data){
-			console.log(USER_API);
 			api.GET(USER_API,data,function(response){
-				console.log(response);
 				$scope.Users =  response.data;
 			});
 		};
@@ -62,12 +60,45 @@ define(['app','api'], function (app) {
 		$scope.init =function(){
 			api.GET('groups',function(response){
 				$scope.Groups = response.data;
+				$scope.Access = {};
+				(function runRequest(index){
+					var group =  $scope.Groups[index];
+					var data = {group_id:group.id};
+					$scope.Access[group.id]={};
+					api.GET('rights',data,function(response){
+						var rights =response.data;
+						for(var j in rights){
+							var right =  rights[j];
+							$scope.Access[right.group_id][right.module_id]=true;
+						}
+					});
+					return runRequest(index+1);
+				}(0));
 			});
+			
 			var filter = {is_parent:1};
 			api.GET('modules',filter,function(response){
 				$scope.Modules = response.data;
 			});
 		}
+		$scope.submitAccess = function(){
+			for(var group_id in $scope.Access){
+				var rights = $scope.Access[group_id];
+				var access = [];
+				console.log(rights);
+				for(var module_id in rights){
+					var allowed =  rights[module_id];
+					if(allowed) access.push(module_id);
+				}
+				var data = {};
+					data.action = 'access';
+					data.group_id = group_id;
+					data.access = access.length?access:null;
+				api.POST('rights',data,function(response){
+					console.log(response);
+				});
+			}
+		};
 
     }]);
 });
