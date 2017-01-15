@@ -15,7 +15,7 @@ class ModulesController extends AppController {
 				$is_parent = $mod['Module']['is_parent'];
 				$mod['nonce'] = rand();
 				$token = '_'.substr(md5(json_encode($mod)),0,5);
-				$module =  array('Module'=>array('token'=>$token,'name'=>$name,'link'=>$link,'is_parent'=>$is_parent));
+				$module =  array('Module'=>array('id'=>$id,'token'=>$token,'name'=>$name,'link'=>$link,'is_parent'=>$is_parent));
 				
 				$parents[$id] =  $token;
 				if(isset($parents[$parent_id])){
