@@ -19,7 +19,7 @@ class ParetosController extends AppController {
 	function add() {
 		if (!empty($this->data)) {
 			$this->Pareto->create();
-			if ($this->Pareto->save($this->data)) {
+			if ($this->Pareto->saveAll($this->data)) {
 				$this->Session->setFlash(__('The pareto has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {

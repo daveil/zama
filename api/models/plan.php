@@ -28,5 +28,10 @@ class Plan extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-
+	function beforeSave(){
+		$dateFrom=date_create($this->data['Plan']['date_from']);
+		$dateTo=date_create( $this->data['Plan']['date_to']);
+		$dateDiff=date_diff($dateFrom,$dateTo);
+		echo $dateDiff;
+	}
 }

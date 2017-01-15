@@ -28,5 +28,5 @@ class Pareto extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-
+	
 }
