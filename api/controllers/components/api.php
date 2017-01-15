@@ -87,6 +87,7 @@ class ApiComponent extends Object {
 		$meta['message'] = Inflector::humanize($endpoint);
 		if($keyword)
 			$meta['keyword'] = $_GET['keyword'];
+		if($Endpoint->useTable)
 		switch($this->controller->action){
 			case 'index':
 				//Pagination count
@@ -116,13 +117,13 @@ class ApiComponent extends Object {
 				if($sort&&$direction) $paginate['order']=array($__Class.'.'.$sort=>$direction);
 				$paginate['limit']=$limit?$limit:$count;
 				$this->controller->paginate = array($__Class => $paginate);
-				$this->controller->conditions = $conditions;
 				$paginate['limit']=$count;
 			break;
 			case 'view':
 				$meta['message'] ='View '.Inflector::singularize($meta['message']).' '.$this->controller->params['id'];
 			break;
 		}
+		$this->controller->conditions = $conditions;
 		$meta['epoch'] = time();
 		$this->controller->Session->write('meta',$meta);
    }
