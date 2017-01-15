@@ -6,7 +6,7 @@ class ModulesController extends AppController {
 	function index() {
 		if($this->RequestHandler->isAjax()||$this->RequestHandler->ext=='json'){
 			$modules = array();
-			$treelist = $this->Module->generatetreelist(null,null,null,' ');
+			$treelist = $this->Module->generatetreelist($this->conditions,null,null,' ');
 			$parents = array();
 			foreach($treelist as $id=>$name){
 				$mod = $this->Module->findById($id);

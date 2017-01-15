@@ -33,6 +33,7 @@ define(['app','api'], function (app) {
 			$rootScope.__SIDEBAR_OPEN = false;
 			$rootScope.__USER=null;
 			$cookies.remove('__USER');
+			$cookies.remove('__MENUS');
 			api.POST('logout',function success(response){
 					$window.location.href="#/login";
 			});

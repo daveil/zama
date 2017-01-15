@@ -116,6 +116,7 @@ class ApiComponent extends Object {
 				if($sort&&$direction) $paginate['order']=array($__Class.'.'.$sort=>$direction);
 				$paginate['limit']=$limit?$limit:$count;
 				$this->controller->paginate = array($__Class => $paginate);
+				$this->controller->conditions = $conditions;
 				$paginate['limit']=$count;
 			break;
 			case 'view':
