@@ -72,6 +72,7 @@ define(['app','api'], function (app) {
             getData('lnmn',{subcategory_id:$scope.SubCategory});
         });
 		$scope.byParentObj = function(id,field){
+			return true;
 			return function(item){
 				return item[field]==id;
 			}

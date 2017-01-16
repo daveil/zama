@@ -100,6 +100,7 @@ define(['app','api'], function (app) {
             getData('mod',{line_machine_id:$scope.Line});
         });
 		$scope.byParentObj = function(id,field){
+			return true;
 			return function(item){
 				return item[field]==id;
 			}
