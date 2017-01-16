@@ -7,6 +7,7 @@ define(['app','api'], function (app) {
 			$scope.ParetoDetail = [];
 			$scope.LineMachine = null;
 			$scope.ParetoDate = null;
+			$scope.Submitting=false;
 		}
          function getData(type,data){
             switch(type){
@@ -70,6 +71,11 @@ define(['app','api'], function (app) {
 		$scope.$watch('SubCategory',function(){
             getData('lnmn',{subcategory_id:$scope.SubCategory});
         });
+		$scope.byParentObj = function(field,id){
+			return function(item){
+				return item[field]==id;
+			}
+		}
 		$scope.updateModel = function(){
 			if($scope.LineMachine){
 				$scope.Models = [];
@@ -83,6 +89,7 @@ define(['app','api'], function (app) {
 				data.line_machine_id = $scope.LineMachine;
 				data.pareto_date  = $filter('date')($scope.ParetoDate,'yyyy-MM-dd');
 				data.pareto_details =  $scope.ParetoDetail;
+			$scope.Submitting=true;
 			api.POST('paretos',data,function(response){
 				alert(response.meta.message);
 				$scope.init();

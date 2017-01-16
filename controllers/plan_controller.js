@@ -12,6 +12,7 @@ define(['app','api'], function (app) {
 			$scope.targetEfficiency = 0;
 			$scope.targetDelivery = 0;
 			$scope.shiftNo = 0;
+			$scope.Submitting=false;
 		}
 		 $scope.formatDate = function(date){
 			  var dateOut = new Date(date);
@@ -32,6 +33,7 @@ define(['app','api'], function (app) {
 				
 				var production_plan = $scope.workHour*$scope.cycleTime*$scope.targetEfficiency*$scope.shiftNo;
 				data.production_plan =  production_plan;
+				$scope.Submitting=true;
 				api.POST('plans',data,function(response){
 					alert(response.meta.message);
 					$scope.init();
@@ -48,7 +50,7 @@ define(['app','api'], function (app) {
 						$scope.Departments = response.data;
 						$scope.Department = {};
 						if(dept!='all')
-							$scope.Department =  response.data[0];
+							$scope.Department =  response.data[0].id;
 						getData('cat',data);
                     });
                 break;
@@ -97,6 +99,10 @@ define(['app','api'], function (app) {
 		$scope.$watch('Line',function(){
             getData('mod',{line_machine_id:$scope.Line});
         });
-
+		$scope.byParentObj = function(id,field){
+			return function(item){
+				return item[field]==id;
+			}
+		}
     }]);
 });

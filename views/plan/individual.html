@@ -59,7 +59,7 @@
 							<div class="col-md-6">
 								<label>Day Shift</label>
 								<select ng-model="ShiftDay" class="form-control">
-									<option value="">Night Code</option>
+									<option value="">Day Code</option>
 									<option value="MP1">MP1</option>
 									<option value="MP2">MP2</option>
 									<option value="TR">TR</option>
@@ -99,8 +99,8 @@
 			<div class="list-group-item list-group-header">
 				<label class="pull-left">Daily Plan</label>
 				<div class="btn-group btn-group-xs pull-right">
-					<button class="btn btn-default " ng-click="cancelPlan()">CANCEL</button>
-					<button class="btn btn-primary " ng-click="submitPlan()">SUBMIT</button>
+					<button class="btn btn-default " ng-click="cancelPlan()" ng-disabled="Submitting">CANCEL</button>
+					<button class="btn btn-primary " ng-click="submitPlan()" ng-disabled="Submitting">SUBMIT</button>
 				</div>
 				<div class="clearfix"></div>
 			</div>

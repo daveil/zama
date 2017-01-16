@@ -10,7 +10,11 @@ define(['app','api'], function (app) {
 			$scope.shiftNo = 0;
 			 $scope.ChartColors = ['#45b7cd', '#ff6384', '#ff8e72'];
 			 $scope.Departments = [{name:'Loading...'}];
-			api.GET('departments',function(response){
+			 var data = {};
+			 if($rootScope.__USER.department_id!='all'){
+				 data.id = $rootScope.__USER.department_id;
+			 }
+			api.GET('departments',data,function(response){
 				$scope.Departments = response.data;
 				$scope.setActiveDept($scope.Departments[0]);
 			});
