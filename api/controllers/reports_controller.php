@@ -8,7 +8,7 @@ class ReportsController extends AppController {
 		if($this->RequestHandler->isAjax()||$this->RequestHandler->ext=='json'){
 			$report = array('kpi'=>null,'plans'=>array(),'paretos'=>array(),'percentages'=>array(),'totals'=>array());
 			$kpi_id =$_GET['kpi_id'];
-			$month =date('m',strtotime($_GET['month']));
+			//$month =date('m',strtotime($_GET['month']));
 			$kpi = $this->Kpi->findById($kpi_id)['Kpi'];
 			$report['kpi'] =  array('id'=>$kpi['id'],'name'=>$kpi['name']);
 			$report['totals']['plan']=0;

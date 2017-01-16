@@ -45,7 +45,7 @@ define(['app','api'], function (app) {
         $scope.submitFilter =  function(){
 			var data = {};
 				data.kpi_id = $scope.KPI;
-				data.month = $filter('date')($scope.MonthFilter,'yyyy-MM');;
+				//data.month = $filter('date')($scope.MonthFilter,'yyyy-MM')
 				getData('subcat',data);
 			api.GET('reports',data,function(response){
 				$scope.KPI_Name = response.data[0].kpi.name;
