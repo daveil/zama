@@ -71,17 +71,17 @@ define(['app','api'], function (app) {
 		$scope.$watch('SubCategory',function(){
             getData('lnmn',{subcategory_id:$scope.SubCategory});
         });
-		$scope.byParentObj = function(field,id){
+		$scope.byParentObj = function(id,field){
 			return function(item){
 				return item[field]==id;
 			}
 		}
 		$scope.updateModel = function(){
-			if($scope.LineMachine){
+			//if($scope.LineMachine){
 				$scope.Models = [];
 				$scope.ParetoDetail = [];
 				getData('mod',{line_machine_id:$scope.LineMachine});
-			}
+			//}
 		}
 		
 		$scope.submitPareto = function(){

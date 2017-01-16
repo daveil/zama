@@ -70,7 +70,6 @@ define(['app','api'], function (app) {
 			loadData();
 		}
 		$scope.byParentObj = function(field,id){
-			console.log(field,id);
 			return function(item){
 				return item[field]==id;
 			}

@@ -298,7 +298,8 @@ a.btn-fab.fixed.top{ top:3.33rem;}
     border-bottom-right-radius: 4px;
 }
 .list-group-canvas:active,.list-group-canvas:hover{
-	overflow-y: auto;
+	overflow: auto;
+	width:auto;
 }
 .page-body .list-group-canvas{
 	 height: 37.55rem;

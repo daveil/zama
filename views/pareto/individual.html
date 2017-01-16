@@ -19,7 +19,7 @@
 						<label>Category</label>
 						<select ng-model="Category" name="" id="" class="form-control" ng-disabled="!Categories.length">
 							<option value="">Select Category</option>
-							<option ng-repeat="category in Categories | filter:byParentObj(Department,'deparment_id')" ng-value="category.id">
+							<option ng-repeat="category in Categories " ng-value="category.id">
 								{{category.name}}
 							</option>
 						</select>
@@ -28,7 +28,7 @@
 						<label>KPI</label>
 						<select ng-model="KPI" name="" id="" class="form-control" ng-disabled="!KPIs.length">
 							<option value="">Select KPI</option>
-							<option ng-repeat="kpi in KPIs | filter:byParentObj(Category,'category_id')" ng-value="kpi.id">
+							<option ng-repeat="kpi in KPIs " ng-value="kpi.id">
 								{{kpi.name}}
 							</option>
 						</select>
@@ -37,7 +37,7 @@
 						<label>Sub Category</label>
 						<select ng-model="SubCategory" name="" id="" class="form-control" ng-disabled="!SubCategories.length">
 							<option value="">Select Sub Category</option>
-							<option ng-repeat="subcategory in SubCategories | filter:byParentObj(KPI,'kpi_id')" ng-value="subcategory.id">
+							<option ng-repeat="subcategory in SubCategories" ng-value="subcategory.id">
 								{{subcategory.name}}
 							</option>
 						</select>
@@ -46,7 +46,7 @@
 						<label>Line/Machine</label>
 						<select ng-model="LineMachine" ng-change="updateModel()" class="form-control" ng-disabled="!LineMachines.length">
 							<option value="">Select Line</option>
-							<option ng-repeat="line in LineMachines | filter:byParentObj(SubCategory,'subcategory_id')" ng-value="line.id">
+							<option ng-repeat="line in LineMachines " ng-value="line.id">
 								{{line.name}}
 							</option>
 						</select>
