@@ -7,7 +7,7 @@
 			<div class="list-group-canvas">
 				<div class="list-group-item"> 
 					<div class="form-group" ng-show="__USER.department_id=='all'">
-						<label>Deparment</label>
+						<label>Department</label>
 						<select ng-model="Department" class="form-control" ng-disabled="!Departments.length">
 							<option value="">Select Department</option>
 							<option ng-repeat="department in Departments" ng-value="department.id">
@@ -19,7 +19,7 @@
 						<label>Category</label>
 						<select ng-model="Category" name="" id="" class="form-control" ng-disabled="!Categories.length">
 							<option value="">Select Category</option>
-							<option ng-repeat="category in Categories " ng-value="category.id">
+							<option ng-repeat="category in Categories | filter:{department_id:Department} " ng-value="category.id">
 								{{category.name}}
 							</option>
 						</select>
@@ -28,7 +28,7 @@
 						<label>KPI</label>
 						<select ng-model="KPI" name="" id="" class="form-control" ng-disabled="!KPIs.length">
 							<option value="">Select KPI</option>
-							<option ng-repeat="kpi in KPIs " ng-value="kpi.id">
+							<option ng-repeat="kpi in KPIs | filter:{category_id:Category}" ng-value="kpi.id">
 								{{kpi.name}}
 							</option>
 						</select>
@@ -37,16 +37,16 @@
 						<label>Sub Category</label>
 						<select ng-model="SubCategory" name="" id="" class="form-control" ng-disabled="!SubCategories.length">
 							<option value="">Select Sub Category</option>
-							<option ng-repeat="subcategory in SubCategories" ng-value="subcategory.id">
+							<option ng-repeat="subcategory in SubCategories | filter:{kpi_id:KPI}" ng-value="subcategory.id">
 								{{subcategory.name}}
 							</option>
 						</select>
 					</div>
 					<div class="form-group">
 						<label>Line/Machine</label>
-						<select ng-model="LineMachine" ng-change="updateModel()" class="form-control" ng-disabled="!LineMachines.length">
+						<select ng-model="LineMachine"  class="form-control" ng-disabled="!LineMachines.length">
 							<option value="">Select Line</option>
-							<option ng-repeat="line in LineMachines " ng-value="line.id">
+							<option ng-repeat="line in LineMachines | filter:{subcategory_id:SubCategory}" ng-value="line.id">
 								{{line.name}}
 							</option>
 						</select>
