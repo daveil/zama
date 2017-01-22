@@ -67,4 +67,4 @@
 			"/:controller",
 			array("action"=>"delete", "[method]" => array("DELETE","PUT")),array('routeClass' => 'SlugRoute')
 		);
-	Router::parseExtensions('json');
+	Router::parseExtensions('json','xml');

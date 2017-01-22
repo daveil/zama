@@ -50,17 +50,26 @@ define(['app','utilFilters','api'], function (app) {
             getData('kpi',{category_id:$scope.Category});
         });
         $scope.submitFilter =  function(){
-			var data = {};
-				data.kpi_id = $scope.KPI;
-				//data.month = $filter('date')($scope.MonthFilter,'yyyy-MM')
-				getData('subcat',data);
 			$scope.Submitting=true;
-			api.GET('reports',data,function(response){
+			$scope.Plans =null;
+			$scope.Paretos =null;
+			$scope.SubCategories =null;
+			$scope.Percentages =null;
+			$scope.Totals =null;
+			$scope.ReportDownloadLink = null;
+			var report_filter = {};
+				report_filter.kpi_id = $scope.KPI;
+				report_filter.month = $filter('date')($scope.MonthFilter,'yyyy-MM');
+			api.GET('reports',report_filter,function(response){
+				$scope.ReportDownloadLink  = 'api/reports.xml?';
+				$scope.ReportDownloadLink +='kpi_id='+report_filter.kpi_id;
+				$scope.ReportDownloadLink +='&month='+report_filter.month;
 				$scope.KPI_Name = response.data[0].kpi.name;
 				$scope.Plans = response.data[0].plans;
 				$scope.Paretos = response.data[0].paretos;
 				$scope.Percentages = response.data[0].percentages;
 				$scope.Totals = response.data[0].totals;
+				$scope.SubCategories = response.data[0].subcategories;
 				$scope.Submitting=false;
 			});
 		}
