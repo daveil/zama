@@ -17,6 +17,7 @@ require.config({
         'ui.tree': 'bower_components/angular-ui-tree/dist/angular-ui-tree', 
 		'root': 'controllers/root_controller',
 		'directives': 'directives/bootstrap_directive',
+		'utilFilters': 'filters/utilFilters',
 		'api': 'controllers/api_controller',
 		'moment':'../vendors/node_modules/moment/moment',
 		'chart':'../vendors/node_modules/chart.js/dist/Chart.min',

@@ -16,6 +16,7 @@ class ApiComponent extends Object {
 		){
 		  switch($_SERVER['REQUEST_METHOD']){
 			case 'GET':
+				sleep(1);
 				$this->apiGet($this->controller);
 			break;
 			case 'POST':
