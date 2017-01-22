@@ -1,5 +1,5 @@
 "use strict";
-define(['app','api'], function (app) {
+define(['app','utilFilters','api'], function (app) {
     app.register.controller('ParetoSheetController',['$scope','$rootScope','$filter','api', function ($scope,$rootScope,$filter,api) {
 		var dept  = $rootScope.__USER.department_id;
 		$scope.init = function(){

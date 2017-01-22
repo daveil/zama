@@ -1,14 +1,20 @@
 "use strict";
 define(['app'], function (app) {
 	app.register.filter('isEmpty', function () {
-        var bar;
         return function (obj) {
-            for (bar in obj) {
-                if (obj.hasOwnProperty(bar)) {
+            for (var field in obj) {
+                if (obj.hasOwnProperty(field)) {
                     return false;
                 }
             }
             return true;
         };
+    });
+	app.register.filter('isChild', function () {
+       
+       return function (obj) {
+		   console.log(arguments);
+		   return true;
+	   }
     });
 });

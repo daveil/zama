@@ -24,7 +24,7 @@
 						<label>Category</label>
 						<select ng-model="Category" name="" id="" class="form-control" ng-disabled="!Categories.length">
 							<option value="">Select Category</option>
-							<option ng-repeat="category in Categories" ng-value="category.id">
+							<option ng-repeat="category in Categories | filter:{department_id:Deparment}" ng-value="category.id">
 								{{category.name}}
 							</option>
 						</select>
@@ -33,7 +33,7 @@
 						<label>KPI</label>
 						<select ng-model="KPI"  class="form-control" ng-disabled="!KPIs.length">
 							<option value="">Select KPI</option>
-							<option ng-repeat="kpi in KPIs" ng-value="kpi.id">
+							<option ng-repeat="kpi in KPIs | filter:{category_id:Category} " ng-value="kpi.id">
 								{{kpi.name}}
 							</option>
 						</select>

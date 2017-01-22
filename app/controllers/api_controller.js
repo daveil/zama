@@ -47,8 +47,13 @@ define(['app','demo'], function(app,demo){
 					
 					if(method=='GET') {
 						for(var key in data){
-							if(typeof data[key] == "object")
-								data[key] = data[key].join(',');
+							if(typeof data[key] == "object"){
+								try{ 
+									data[key] = data[key].join(',');
+								}catch(e){
+									
+								}
+							}
 						}
 						request.params = data;
 					}

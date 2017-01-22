@@ -5,6 +5,7 @@ define(['app','api'], function (app) {
 		$scope.init = function(){
 			$scope.LineMachine = null;
 			$scope.ShiftDay = null;
+			$scope.ShiftNight = null;
 			$scope.DateFrom = null;
 			$scope.DateTo = null;
 			$scope.workHour = 0;
@@ -13,6 +14,7 @@ define(['app','api'], function (app) {
 			$scope.targetDelivery = 0;
 			$scope.shiftNo = 0;
 			$scope.Submitting=false;
+			getData('dept');
 		}
 		 $scope.formatDate = function(date){
 			  var dateOut = new Date(date);
@@ -51,59 +53,77 @@ define(['app','api'], function (app) {
 						$scope.Department = {};
 						if(dept!='all')
 							$scope.Department =  response.data[0].id;
-						getData('cat',data);
+						else
+							$scope.Department = null;
                     });
                 break;
                 case 'cav':
-                    api.GET('cavities',data,function(response){
+                    return api.GET('cavities',data,function(response){
                         $scope.Cavities = response.data;
                     });
                 break;
                 case 'cat':
-                    api.GET('categories',data,function(response){
+                    return api.GET('categories',data,function(response){
                         $scope.Categories = response.data;
                     });
                 break;
                 case 'kpi':
-                   api.GET('kpis',data,function(response){
+                   return api.GET('kpis',data,function(response){
                     $scope.KPIs = response.data;
                     });
                 break;
                 case 'subcat':
-                   api.GET('subcategories',data,function(response){
+                   return api.GET('subcategories',data,function(response){
                     $scope.SubCategories = response.data;
                     });
                 break;
                 case 'lnmn':
-                   api.GET('line_machines',data,function(response){
+                   return api.GET('line_machines',data,function(response){
                     $scope.LineMachines = response.data;
                     });
                 break;
 				case 'mod':
-                    api.GET('model_nos',data,function(response){
+                    return api.GET('model_nos',data,function(response){
                         $scope.Models = response.data;
                     });
                 break;
             }
         }
-        getData('dept');
-        $scope.$watch('Category',function(){
-            getData('kpi',{category_id:$scope.Category});
-        });
-        $scope.$watch('KPI',function(){
-            getData('subcat',{kpi_id:$scope.KPI});
-        });
-		$scope.$watch('SubCategory',function(){
-            getData('lnmn',{subcategory_id:$scope.SubCategory});
-        });
-		$scope.$watch('Line',function(){
-            getData('mod',{line_machine_id:$scope.Line});
-        });
-		$scope.byParentObj = function(id,field){
-			return true;
-			return function(item){
-				return item[field]==id;
+		$scope.$watch('Department',function(value){
+			$scope.Category = null;
+			$scope.Categories = [];
+			$scope.KPIs = [];
+			$scope.SubCategories = [];
+			$scope.LineMachines = [];
+			if($scope.Department){
+				var data = {department_id:$scope.Department};
+				var models = 'Categories|KPIs|SubCategories|LineMachines';
+					models = models.split('|');
+				var list = 'cat|kpi|subcat|lnmn';
+					list = list.split('|');
+				(function requestList(index,data){
+					console.log(index);
+					if(index<list.length)
+						getData(list[index],data).then(
+						function success(){
+							return requestList(index+1,data)
+							},
+						function error(){
+							$scope[models[index]] = [{}];
+							return requestList(index+1,data)
+							}
+						);
+				})(0,data);
 			}
-		}
+		});
+		$scope.$watchGroup(['Category','KPI','SubCategory','LineMachine'],function(){
+			if(!$scope.Category)
+				$scope.KPI = null;
+			if(!$scope.KPI)
+				$scope.SubCategory = null;
+			if(!$scope.SubCategory)
+				$scope.LineMachine = null;
+		});
+		
     }]);
 });
