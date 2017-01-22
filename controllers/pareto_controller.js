@@ -94,13 +94,13 @@ define(['app','api'], function (app) {
 			if(!$scope.SubCategory)
 				$scope.LineMachine = null;
 		});
-		$scope.updateModel = function(){
-			//if($scope.LineMachine){
-				$scope.Models = [];
-				$scope.ParetoDetail = [];
+		$scope.$watch('LineMachine',function(){
+			$scope.Models = [];
+			$scope.ParetoDetail = [];
+			if($scope.LineMachine){
 				getData('mod',{line_machine_id:$scope.LineMachine});
-			//}
-		}
+			}
+		});
 		
 		$scope.submitPareto = function(){
 			var data  =  {};
