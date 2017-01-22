@@ -77,12 +77,11 @@ class Report extends AppModel {
 	function generateFile($format,$data){
 		switch($format){
 			case 'xml':
-			$xml_str = '<?xml version="1.0"?><ss:Workbook xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">';
-			$xml_str .='<ss:Worksheet ss:Name="Sheet1">';
-			$xml_str .= '<ss:Table>';
+			$xml_str = '';
 				$rows = array();
 				foreach($data as $i=>$cells){
-					$xml_str .= '<ss:Row>';
+					$style = $i==0?'ss:StyleID="MonthRow"':'';
+					$xml_str .= '<ss:Row '.$style.'>';
 					foreach($cells as $j=>$data){
 						$xml_str .= '<ss:Cell>';
 						$type = is_numeric($data)?'Number':'String';
@@ -91,13 +90,7 @@ class Report extends AppModel {
 					}
 					$xml_str .= '</ss:Row>';
 				}
-				
-			
-			$xml_str .= '</ss:Table>';
-			$xml_str .= '</ss:Worksheet>';
-			$xml_str .= '</ss:Workbook>';
-			$xml_data = new SimpleXMLElement($xml_str);
-			return $xml_data->asXML();
+			return $xml_str;
 			break;
 		}
 	}
