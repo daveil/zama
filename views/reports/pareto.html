@@ -4,8 +4,8 @@
 			<div class="list-group-item list-group-header">
 				<label class="pull-left">Pareto Sheet</label>
 				<div class="btn-group btn-group-xs pull-right">
-					<button class="btn btn-default " ng-click="cancelFilter()">CANCEL</button>
-					<button class="btn btn-primary " ng-click="submitFilter()">SUBMIT</button>
+					<button class="btn btn-default " ng-disabled="PreventCancel || Submitting" ng-click="cancelFilter()">CANCEL</button>
+					<button class="btn btn-primary " ng-disabled="PreventSubmit || Submitting"  ng-click="submitFilter()">SUBMIT</button>
 				</div>
 				<div class="clearfix"></div>
 			</div>

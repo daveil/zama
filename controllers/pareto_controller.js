@@ -8,6 +8,8 @@ define(['app','api'], function (app) {
 			$scope.LineMachine = null;
 			$scope.ParetoDate = null;
 			$scope.Submitting=false;
+			$scope.PreventCancel = true;
+			$scope.PreventSubmit = true;
 		}
          function getData(type,data){
             switch(type){
@@ -47,6 +49,8 @@ define(['app','api'], function (app) {
                 case 'lnmn':
                    api.GET('line_machines',data,function(response){
                     $scope.LineMachines = response.data;
+					$scope.PreventCancel = false;
+					$scope.PreventSubmit = false;
                     });
                 break;
 				case 'mod':
