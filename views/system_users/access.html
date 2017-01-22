@@ -4,8 +4,8 @@
 			<div class="list-group-item list-group-header">
 				<label> Access Control</label>
 				<div class="btn-group btn-group-xs pull-right">
-					<button class="btn btn-default ">CANCEL</button>
-					<button class="btn btn-primary " ng-click="submitAccess()">SUBMIT</button>
+					<button class="btn btn-default " ng-disabled="PreventCancel" ng-click="cancelAccess()">CANCEL</button>
+					<button class="btn btn-primary " ng-disabled="PreventSubmit" ng-click="submitAccess()">SUBMIT</button>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -22,7 +22,7 @@
 							<tr ng-repeat="(mod, module) in Modules">
 								<td>{{module.name}}</td>
 								<td class="text-center" ng-repeat="(grp, group) in Groups">
-									<input type="checkbox" name="{{grp}}-{{mod}}" ng-model="Access[group.id][module.id]">
+									<input type="checkbox" name="{{grp}}-{{mod}}" ng-disabled="PreventSubmit || Access[group.id] | isEmpty " ng-model="Access[group.id][module.id]">
 								</td>
 							</tr>
 						</tbody>
