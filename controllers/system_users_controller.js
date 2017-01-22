@@ -88,6 +88,7 @@ define(['app','utilFilters','api'], function (app) {
 							$scope.AccessCopy[group.id] = angular.copy($scope.Access[group.id]);
 							$scope.RunRequested = false;
 							if(index==$scope.Groups.length-1){
+								alert('Access updated');
 								$scope.PreventCancel = false;
 								$scope.PreventSubmit = false;
 							}
