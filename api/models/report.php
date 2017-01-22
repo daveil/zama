@@ -73,7 +73,34 @@ class Report extends AppModel {
 						";
 		return $this->query($query);
 	}
-
+	
+	function generateFile($format,$data){
+		switch($format){
+			case 'xml':
+			$xml_str = '<?xml version="1.0"?><ss:Workbook xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">';
+			$xml_str .='<ss:Worksheet ss:Name="Sheet1">';
+			$xml_str .= '<ss:Table>';
+				$rows = array();
+				foreach($data as $i=>$cells){
+					$xml_str .= '<ss:Row>';
+					foreach($cells as $j=>$data){
+						$xml_str .= '<ss:Cell>';
+						$type = is_numeric($data)?'Number':'String';
+						$xml_str .= '<ss:Data ss:Type="'.$type.'">'.$data.'</ss:Data>';
+						$xml_str .='</ss:Cell>';
+					}
+					$xml_str .= '</ss:Row>';
+				}
+				
+			
+			$xml_str .= '</ss:Table>';
+			$xml_str .= '</ss:Worksheet>';
+			$xml_str .= '</ss:Workbook>';
+			$xml_data = new SimpleXMLElement($xml_str);
+			return $xml_data->asXML();
+			break;
+		}
 	}
+}
 
 	
