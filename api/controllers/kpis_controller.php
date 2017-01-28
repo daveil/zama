@@ -19,6 +19,8 @@ class KpisController extends AppController {
 	function add() {
 		if (!empty($this->data)) {
 			$this->Kpi->create();
+			if(isset($this->data['Kpi']['old_id']))
+				$this->Kpi->delete($this->data['Kpi']['old_id']);
 			if ($this->Kpi->save($this->data)) {
 				$this->Session->setFlash(__('The kpi has been saved', true));
 				$this->redirect(array('action' => 'index'));

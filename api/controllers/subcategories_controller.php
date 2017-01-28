@@ -19,6 +19,8 @@ class SubcategoriesController extends AppController {
 	function add() {
 		if (!empty($this->data)) {
 			$this->Subcategory->create();
+			if(isset($this->data['Subcategory']['old_id']))
+				$this->Subcategory->delete($this->data['Subcategory']['old_id']);
 			if ($this->Subcategory->save($this->data)) {
 				$this->Session->setFlash(__('The subcategory has been saved', true));
 				$this->redirect(array('action' => 'index'));

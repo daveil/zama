@@ -19,6 +19,8 @@ class CategoriesController extends AppController {
 	function add() {
 		if (!empty($this->data)) {
 			$this->Category->create();
+			if(isset($this->data['Category']['old_id']))
+				$this->Category->delete($this->data['Category']['old_id']);
 			if ($this->Category->save($this->data)) {
 				$this->Session->setFlash(__('The category has been saved', true));
 				$this->redirect(array('action' => 'index'));

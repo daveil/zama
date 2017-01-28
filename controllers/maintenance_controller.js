@@ -14,6 +14,7 @@ define(['app','api'], function (app) {
 		CAVITY:1,
 	};
     app.register.controller('MaintenanceController',['$scope','$rootScope','api', function ($scope,$rootScope,api) {
+		const DEPT  = $rootScope.__USER.department_id;
 		$scope.MNT_FIELDS = {};
 		$scope.MNT_STRUCT = angular.copy(MNT_STRUCT);
 		$scope.init =  function(type){
@@ -59,12 +60,17 @@ define(['app','api'], function (app) {
 				if(index<requests.length){
 					var endpoint = requests[index];
 					api.GET(MNT_APIS[index],function(response){
+						if(endpoint=='departments'){
+							if(DEPT!='all')
+								$scope.MNT_FIELDS.department_id = DEPT;
+							else
+								$scope.MNT_FIELDS.department_id = null;
+						}
 						$scope.UI_DRPDWN[endpoint]=response.data;
 						return req_api($scope,requests,index+1);
 					});
 				}				
 			})($scope,requests,0);
-			console.log(uis);
 			$scope.UI_RENDER =  uis;
 			$scope.RecordMode = 'ADD';
 			loadData();
@@ -78,6 +84,10 @@ define(['app','api'], function (app) {
 			var data =  $scope.MNT_FIELDS;
 			var success = function(response){
 						$scope.MNT_FIELDS={};
+						if(DEPT!='all')
+							$scope.MNT_FIELDS.department_id = DEPT;
+						else
+							$scope.MNT_FIELDS.department_id = null;
 						$scope.RecordMode = 'ADD';
 						loadData();
 					};
@@ -102,13 +112,13 @@ define(['app','api'], function (app) {
 		$scope.setActiveRecord = function(data){
 			$scope.RecordMode = 'EDIT';
 			$scope.MNT_FIELDS =  angular.copy(data);
+			$scope.MNT_FIELDS.old_id = $scope.MNT_FIELDS.id;
 		}
 		$scope.setDeleteRecord = function(data){
 			$scope.RecordMode = 'DELETE';
 			$scope.MNT_FIELDS =  angular.copy(data);	
 		}
 		function loadData(data){
-			console.log(data,$scope.DATA_ENDPOINT);
 			api.GET($scope.DATA_ENDPOINT,data,function(response){
 				$scope.DATA_GRID =  response.data;
 			});
