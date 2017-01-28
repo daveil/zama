@@ -82,6 +82,17 @@ define(['app','api'], function (app) {
 		}
 		$scope.submitData = function(){
 			var data =  $scope.MNT_FIELDS;
+			//Validate data entry
+			if($scope.RecordMode!='DELETE'){
+				for(var i in $scope.UI_RENDER){
+					var ui =  $scope.UI_RENDER[i];
+					var field =  ui.field;
+					if(field!='id'&&field!='name')
+						field+='_id';
+					if(!data[field])
+						return alert('Required field '+ui.label);
+				}
+			}
 			var success = function(response){
 						$scope.MNT_FIELDS={};
 						if(DEPT!='all')
