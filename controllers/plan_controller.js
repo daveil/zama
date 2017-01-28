@@ -1,7 +1,7 @@
 "use strict";
 define(['app','api'], function (app) {
     app.register.controller('IndividualController',['$scope','$rootScope','$filter','api', function ($scope,$rootScope,$filter,api) {
-    	var dept  = $rootScope.__USER.department_id;
+    	const DEPT  = $rootScope.__USER.department_id;
 		$scope.init = function(){
 			$scope.LineMachine = null;
 			$scope.ShiftDay = null;
@@ -46,12 +46,12 @@ define(['app','api'], function (app) {
             switch(type){
                 case 'dept':
 					var data = {};
-					if(dept!='all')
-						data.id = dept;
+					if(DEPT!='all')
+						data.id = DEPT;
                     api.GET('departments',data,function(response){
 						$scope.Departments = response.data;
 						$scope.Department = {};
-						if(dept!='all')
+						if(DEPT!='all')
 							$scope.Department =  response.data[0].id;
 						else
 							$scope.Department = null;
