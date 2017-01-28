@@ -19,7 +19,12 @@ class ModulesController extends AppController {
 				);
 				$treelist = $this->Module->generatetreelist($this->conditions,null,null,' ');
 				$parents = array();
+				
 				foreach($treelist as $id=>$name){
+					if($user_type!='admin' && trim($name)=='Department'){
+						continue;
+					}
+						
 					$mod = $this->Module->findById($id);
 					$link = $mod['Module']['link'];
 					$parent_id = $mod['Module']['parent_id'];
