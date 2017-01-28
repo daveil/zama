@@ -3,6 +3,7 @@ define(['app','api'], function (app) {
     app.register.controller('IndividualController',['$scope','$rootScope','$filter','api', function ($scope,$rootScope,$filter,api) {
     	const DEPT  = $rootScope.__USER.department_id;
 		$scope.init = function(){
+			$scope.Model = null;
 			$scope.LineMachine = null;
 			$scope.ShiftDay = null;
 			$scope.ShiftNight = null;
@@ -22,6 +23,8 @@ define(['app','api'], function (app) {
 		};
 		$scope.submitPlan = function(){
 			var data = {};
+				data.manpower_no =  $scope.ManpowerNo;
+				data.model_id =  $scope.Model;
 				data.line_machine_id =  $scope.LineMachine;
 				data.shift_day =  $scope.ShiftDay;
 				data.shift_night =  $scope.ShiftNight;
@@ -51,6 +54,7 @@ define(['app','api'], function (app) {
                     api.GET('departments',data,function(response){
 						$scope.Departments = response.data;
 						$scope.Department = {};
+						
 						if(DEPT!='all')
 							$scope.Department =  response.data[0].id;
 						else
@@ -90,6 +94,9 @@ define(['app','api'], function (app) {
             }
         }
 		$scope.$watch('Department',function(value){
+			
+			var dept = $filter('filter')($scope.Departments,{id:value});
+			if(value&& dept.length==1)$scope.DepartmentName =dept[0].name;
 			$scope.Category = null;
 			$scope.Categories = [];
 			$scope.KPIs = [];
@@ -97,12 +104,11 @@ define(['app','api'], function (app) {
 			$scope.LineMachines = [];
 			if($scope.Department){
 				var data = {department_id:$scope.Department};
-				var models = 'Categories|KPIs|SubCategories|LineMachines';
+				var models = 'Categories|KPIs|SubCategories|LineMachines|Models';
 					models = models.split('|');
-				var list = 'cat|kpi|subcat|lnmn';
+				var list = 'cat|kpi|subcat|lnmn|mod';
 					list = list.split('|');
 				(function requestList(index,data){
-					console.log(index);
 					if(index<list.length)
 						getData(list[index],data).then(
 						function success(){
@@ -116,13 +122,15 @@ define(['app','api'], function (app) {
 				})(0,data);
 			}
 		});
-		$scope.$watchGroup(['Category','KPI','SubCategory','LineMachine'],function(){
+		$scope.$watchGroup(['Category','KPI','SubCategory','LineMachine','Model'],function(){
 			if(!$scope.Category)
 				$scope.KPI = null;
 			if(!$scope.KPI)
 				$scope.SubCategory = null;
 			if(!$scope.SubCategory)
 				$scope.LineMachine = null;
+			if(!$scope.Model)
+				$scope.Model = null;
 		});
 		
     }]);
