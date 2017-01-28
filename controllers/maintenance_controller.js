@@ -13,7 +13,7 @@ define(['app','api'], function (app) {
 		MODEL:3,
 		CAVITY:1,
 	};
-    app.register.controller('MaintenanceController',['$scope','$rootScope','api', function ($scope,$rootScope,api) {
+    app.register.controller('MaintenanceController',['$scope','$rootScope','$filter','api', function ($scope,$rootScope,$filter,api) {
 		const DEPT  = $rootScope.__USER.department_id;
 		$scope.MNT_FIELDS = {};
 		$scope.MNT_STRUCT = angular.copy(MNT_STRUCT);
@@ -129,9 +129,26 @@ define(['app','api'], function (app) {
 			$scope.RecordMode = 'DELETE';
 			$scope.MNT_FIELDS =  angular.copy(data);	
 		}
+		$scope.updateList = function(ui,data){
+			var label = ui.label;
+			var field = ui.field+'_id';
+			var endpoint = ui.endpoint;
+			var filter={};
+				filter[field]=data;
+				$scope.LoaderLabel=label+' -> ';
+				if(data){
+					$scope.LoaderLabel+=$filter('filter')($scope.UI_DRPDWN[endpoint],{id:data})[0].name;
+					loadData(filter);
+				}
+		}
 		function loadData(data){
-			api.GET($scope.DATA_ENDPOINT,data,function(response){
+			$scope.DATA_GRID=[];
+			$scope.LoadingData = true;
+			api.GET($scope.DATA_ENDPOINT,data,function success(response){
+				$scope.LoadingData = false;
 				$scope.DATA_GRID =  response.data;
+			},function error(response){
+				$scope.LoadingData = false;	
 			});
 		};
 	}]);

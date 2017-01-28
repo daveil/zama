@@ -17,10 +17,16 @@
 						</tr>
 					</thead>
 					<tbody>
+						<tr> 
+							<td ng-show="!DATA_GRID.length" class="text-center" colspan="{{UI_RENDER.length+1}}">
+								{{LoadingData?'Loading':'No data found'}} by <b><i>{{LoaderLabel}}</i></b>
+							</td>
+						</tr>
 						<tr ng-class="{active:ActiveRow==$index}" 
 							ng-repeat="row in DATA_GRID"
 							ng-mouseover="ActiveRow=$index"
 							ng-mouseleave="ActiveRow=null"
+							ng-show="!LoadingData && DATA_GRID.length"
 							>
 							<td ng-click="setActiveRecord(row)"
 							    ng-repeat="(key, value) in row"
