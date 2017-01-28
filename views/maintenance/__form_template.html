@@ -4,9 +4,10 @@
 			ng-if="ui.type=='dropdown'"
 			ng-model="MNT_FIELDS[ui.field+'_id']"
 			ng-disabled="RecordMode=='DELETE' || (ui.field=='department' && __USER.department_id!='all')"
-			ng-change="updateList(ui,MNT_FIELDS[ui.field+'_id'])" >
+			ng-change="updateList(ui,MNT_FIELDS[ui.field+'_id'],$index)"
+			ng-options="obj.id as obj.name for obj in UI_DRPDWN[ui.endpoint]"
+			>
 		<option value="">Select {{ui.label}}</option>
-		<option ng-repeat="obj in UI_DRPDWN[ui.endpoint] | filter:byParentObj(ui.parent_id,MNT_FIELDS[ui.parent_id])" value="{{obj.id}}" ng-selected="obj.id==MNT_FIELDS[ui.field+'_id']">{{obj.name}}</option>
 	</select>
 	<input type="text" class="form-control" 
 			ng-model="MNT_FIELDS[ui.field]"

@@ -82,26 +82,33 @@ define(['app','api'], function (app) {
 		}
 		$scope.submitData = function(){
 			var data =  $scope.MNT_FIELDS;
+			var reset_fields = [];
 			//Validate data entry
-			if($scope.RecordMode!='DELETE'){
-				for(var i in $scope.UI_RENDER){
-					var ui =  $scope.UI_RENDER[i];
-					var field =  ui.field;
-					if(field!='id'&&field!='name')
-						field+='_id';
-					if(!data[field])
-						return alert('Required field '+ui.label);
+			for(var i in $scope.UI_RENDER){
+				var ui =  $scope.UI_RENDER[i];
+				var field =  ui.field;
+				if(field!='id'&&field!='name')
+					field+='_id';
+				if(!data[field]&&$scope.RecordMode!='DELETE')
+					return alert('Required field '+ui.label);
+				if(ui.type=="text"){
+					reset_fields.push(field);
 				}
 			}
+			
 			var success = function(response){
-						$scope.MNT_FIELDS={};
+						for(var i in reset_fields){
+							$scope.MNT_FIELDS[reset_fields[i]]=null;
+						}
 						if(DEPT!='all')
 							$scope.MNT_FIELDS.department_id = DEPT;
 						else
 							$scope.MNT_FIELDS.department_id = null;
 						$scope.RecordMode = 'ADD';
-						loadData();
+						loadData($scope.LastFilter);
+						$scope.DisableButtons = false;
 					};
+			$scope.DisableButtons = true;
 			switch($scope.RecordMode){
 				case 'ADD':case'EDIT':
 					api.POST($scope.DATA_ENDPOINT,data,success);
@@ -129,7 +136,7 @@ define(['app','api'], function (app) {
 			$scope.RecordMode = 'DELETE';
 			$scope.MNT_FIELDS =  angular.copy(data);	
 		}
-		$scope.updateList = function(ui,data){
+		$scope.updateList = function(ui,data,index){
 			var label = ui.label;
 			var field = ui.field+'_id';
 			var endpoint = ui.endpoint;
@@ -140,7 +147,14 @@ define(['app','api'], function (app) {
 					$scope.LoaderLabel+=$filter('filter')($scope.UI_DRPDWN[endpoint],{id:data})[0].name;
 					loadData(filter);
 				}
+			$scope.LastFilter = filter;
+			var len = $scope.UI_RENDER.length;
+			for(var i=index+1; i<len-1;i++){
+				var fld = $scope.UI_RENDER[i].field+'_id';
+				$scope.MNT_FIELDS[fld]=null;
+			}
 		}
+		
 		function loadData(data){
 			$scope.DATA_GRID=[];
 			$scope.LoadingData = true;

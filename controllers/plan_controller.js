@@ -2,6 +2,8 @@
 define(['app','api'], function (app) {
     app.register.controller('IndividualController',['$scope','$rootScope','$filter','api', function ($scope,$rootScope,$filter,api) {
     	const DEPT  = $rootScope.__USER.department_id;
+		const PROD_PLAN_ROUND  = 0;
+		$scope.PROD_PLAN_ROUND = PROD_PLAN_ROUND;
 		$scope.init = function(){
 			$scope.Model = null;
 			$scope.LineMachine = null;
@@ -37,7 +39,7 @@ define(['app','api'], function (app) {
 				data.shift_no =  $scope.shiftNo;
 				
 				var production_plan = $scope.workHour*$scope.cycleTime*$scope.targetEfficiency*$scope.shiftNo;
-				data.production_plan =  production_plan;
+				data.production_plan =  Math.round(production_plan,PROD_PLAN_ROUND);
 				$scope.Submitting=true;
 				api.POST('plans',data,function(response){
 					alert(response.meta.message);
