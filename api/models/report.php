@@ -94,6 +94,56 @@ class Report extends AppModel {
 			break;
 		}
 	}
+	
+	function planMonthly($kpi,$month_filter){
+		$time = strtotime($month_filter);
+		$year =(int)date('Y',$time);
+		$month =(int)date('m',$time);
+		$query = "SELECT 
+			  `line_machines`.`name`,
+			  `model_nos`.`name`,
+			  `plan_details`.`work_hour`,
+			  `plan_details`.`cycle_time`,
+			  `plan_details`.`target_efficiency`,
+			  `plan_details`.`shift_no`,
+			  CONCAT(
+				CASE
+				  WHEN NOT `plans`.`shift_day` IS NULL 
+				  THEN 'D' 
+				  ELSE '' 
+				END,
+				CASE
+				  WHEN NOT `plans`.`shift_night` IS NULL 
+				  THEN 'N' 
+				  ELSE '' 
+				END
+			  ) AS shift_type,
+			  `plans`.`shift_night`,
+			  plans.production_plan AS total_daily,
+			  COUNT(plan_details.id) AS total_days,
+			  plans.production_plan * COUNT(plan_details.id) AS total_monthly 
+			FROM
+			  `line_machines` 
+			  INNER JOIN `plans` 
+				ON (
+				  `line_machines`.`id` = `plans`.`line_machine_id`
+				) 
+			  INNER JOIN `model_nos` 
+				ON (
+				  `model_nos`.`id` = `plans`.`model_id`
+				) 
+			  INNER JOIN `plan_details` 
+				ON (
+				  `plans`.`id` = `plan_details`.`plan_id`
+				) 
+				WHERE 
+				 model_nos.kpi_id = '$kpi'
+				 AND YEAR(plan_details.`target_delivery`) = $year 
+				 AND MONTH(plan_details.`target_delivery`) = $month 
+			GROUP BY `model_nos`.`name` 
+			ORDER BY `model_nos`.id ";
+			return $this->query($query);
+	}
 }
 
 	
