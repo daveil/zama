@@ -119,6 +119,10 @@ class ReportsController extends AppController {
 		
 		
 	}
+	function testing(){
+		$daily = $this->Report->planDaily('meff','2017-01');
+		$monthly = $this->Report->planMonthly('meff','2017-01');
+	}
 	
 }
 	
