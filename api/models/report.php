@@ -145,6 +145,7 @@ class Report extends AppModel {
 			$planMonthly = array();
 			$header = explode('|',"Line|Models|Work Hour|Cycle Time|Target Eff|ShiftNo|Shift Type|Total Daily|Total Days |Total Monthly");
 			array_push($planMonthly,$header);
+			
 			foreach($monthly as $item){
 				$model =  array();
 				$model[] = $item['line_machines']['name'];
@@ -156,6 +157,7 @@ class Report extends AppModel {
 				$model[] = $item['0']['shift_type'];
 				$model[] = $item['0']['total_days'];
 				$model[] = $item['plans']['total_daily'];
+				$model[] = $item['0']['total_monthly'];
 				array_push($planMonthly,$model);
 				
 			}
@@ -204,7 +206,7 @@ class Report extends AppModel {
 		$planDaily = array();
 		$header = explode('|',"Line|Model");
 		foreach($days as $date=>$day){
-			array_push($header,$date);
+			array_push($header,date('d-M',strtotime($date)));
 		}
 		array_push($planDaily,$header);
 		foreach($models as $index=>$model){
