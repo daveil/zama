@@ -139,7 +139,7 @@ class Report extends AppModel {
 				 model_nos.kpi_id = '$kpi'
 				 AND YEAR(plan_details.`target_delivery`) = $year 
 				 AND MONTH(plan_details.`target_delivery`) = $month 
-			GROUP BY `model_nos`.`name` 
+			GROUP BY `model_nos`.`id` 
 			ORDER BY `model_nos`.id ";
 			$monthly =$this->query($query);
 			$planMonthly = array();
