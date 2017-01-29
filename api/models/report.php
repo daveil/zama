@@ -220,7 +220,83 @@ class Report extends AppModel {
 		
 		return $planDaily;
 	}
-
+	function planMonthlyTotal($kpi,$month_filter){
+		$time = strtotime($month_filter);
+		$year =(int)date('Y',$time);
+		$month =(int)date('m',$time);
+		$query = "
+			SELECT SUM(total_monthly) AS total_production_plan FROM (
+			SELECT 
+			  plans.production_plan * COUNT(plan_details.id) AS total_monthly 
+			FROM
+			 `plans` 
+			  LEFT JOIN `model_nos` 
+				ON (
+				  `model_nos`.`id` = `plans`.`model_id`
+				) 
+			  LEFT JOIN `plan_details` 
+				ON (
+				  `plans`.`id` = `plan_details`.`plan_id`
+				) 
+				WHERE 
+				 (model_nos.kpi_id = '$kpi' OR model_nos.kpi_id IS NULL)
+				 AND YEAR(plan_details.`target_delivery`) = $year 
+				 AND MONTH(plan_details.`target_delivery`) = $month 
+			GROUP BY `model_nos`.`id` 
+			ORDER BY `model_nos`.id ) AS production_plan";
+			$monthly =$this->query($query);
+			$planMonthlyTotal = $monthly[0]['0']['total_production_plan'];
+			return $planMonthlyTotal;
+	}
+	
+	function planDailyTotal($kpi,$month_filter){
+		$time = strtotime($month_filter);
+		$year =(int)date('Y',$time);
+		$month =(int)date('m',$time);
+		$first_dom =date('Y-m-01',$time);
+		$query = "SELECT month_date,
+				CASE WHEN production_plan IS NULL THEN 0 ELSE
+				 SUM(production_plan) END AS total_daily_plan
+					FROM (SELECT 
+				  month_date,
+				  line_machines.name AS line_name,
+				  model_nos.name AS model_name,
+				  model_nos.id,
+				  plans.production_plan 
+				FROM
+				  (SELECT 
+					a.Date AS month_date 
+				  FROM
+					(SELECT 
+					  LAST_DAY('$first_dom') - INTERVAL (a.a + (10 * b.a) + (100 * c.a)) DAY AS DATE 
+					FROM
+					  (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS a
+					CROSS JOIN (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS b
+					CROSS JOIN (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS c) a 
+				 WHERE a.Date BETWEEN '$first_dom' AND LAST_DAY('$first_dom') 
+				  ORDER BY a.Date) AS month_days 
+				  LEFT JOIN plan_details 
+					ON (
+					  plan_details.`target_delivery` = month_days.month_date
+					) 
+				   
+				  LEFT JOIN plans 
+					ON (plans.id = plan_details.plan_id) 
+					LEFT JOIN  model_nos
+					ON (model_nos.id = plans.`model_id`)
+				  LEFT JOIN line_machines 
+					ON (
+					  line_machines.id = plans.`line_machine_id`
+					) 
+					WHERE (model_nos.kpi_id = '$kpi' OR model_nos.kpi_id IS NULL)
+				ORDER BY month_date, line_machines.id, model_nos.id) AS daily_plan GROUP BY month_date";
+		$totals=   $this->query($query);
+		$planDailyTotal = array();
+		foreach($totals as $total){
+			array_push($planDailyTotal, $total['0']['total_daily_plan']);
+		}
+		return $planDailyTotal;
+	}
 }
 
 	
