@@ -119,9 +119,15 @@ class ReportsController extends AppController {
 		
 		
 	}
-	function testing(){
-		$daily = $this->Report->planDaily('meff','2017-01');
-		$monthly = $this->Report->planMonthly('meff','2017-01');
+	function export($kpi_id,$month){
+		$daily = $this->Report->planDaily($kpi_id,$month);
+		$monthly = $this->Report->planMonthly($kpi_id,$month);
+		$kpi = $this->Kpi->findById($kpi_id)['Kpi'];
+		$KPI =  $kpi['name'];
+		$MONTH=date_create($month);
+		$MONTH = $MONTH->format('F Y');
+		$filename = "Plan Report $KPI - $MONTH ";
+		$this->set(compact('MONTH','filename','daily','monthly'));
 	}
 	
 }
