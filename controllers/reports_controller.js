@@ -65,6 +65,10 @@ define(['app','utilFilters','api'], function (app) {
 				$scope.ReportDownloadLink +='kpi_id='+report_filter.kpi_id;
 				$scope.ReportDownloadLink +='&month='+report_filter.month;
 				$scope.KPI_Name = response.data[0].kpi.name;
+				var pareto = response.data[0].pareto;
+				$scope.ParetoHeader = pareto.header;
+				$scope.ParetoEntry = pareto.entry;
+				$scope.ParetoPercentage = pareto.percentage;
 				$scope.Plans = response.data[0].plans;
 				$scope.Paretos = response.data[0].paretos;
 				$scope.Percentages = response.data[0].percentages;

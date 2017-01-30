@@ -59,26 +59,15 @@
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th>{{KPI_Name}}</th>
-								<th ng-repeat="(day,total) in Plans" class="text-center">{{day}}</th>
-								<th class="text-center">Total</th>
+								<th ng-repeat="header in ParetoHeader">{{header}}</th>
 							</tr>
 						</thead>
 						<tbody> 
-							<tr>
-								<td>Prouction Plan (100%)</td>
-								<td ng-repeat="(day,total) in Plans" class="text-center">{{total}}</td>
-								<td class="text-center">{{Totals.plan}}</td>
+							<tr ng-repeat=" rows in ParetoEntry track by $index">
+								<td ng-repeat=" entry in rows track by $index">{{entry}}</td>
 							</tr>
-							<tr ng-repeat="subcat in SubCategories">
-								<td>{{subcat.name}}</td>
-								<td ng-repeat="(day,total) in Paretos" class="text-center">{{total[subcat.id]?total[subcat.id]:0}}</td>
-								<td class="text-center">{{Totals.paretos[subcat.id]}}</td>
-							</tr>
-							<tr ng-repeat="subcat in SubCategories">
-								<td><b>{{subcat.name}}</b></td>
-								<td ng-repeat="(day,percent) in Percentages" class="text-right">{{percent[subcat.id]?percent[subcat.id]:'0%'}}</td>
-								<td class="text-center">{{Totals.percentages[subcat.id]}}</td>
+							<tr ng-repeat=" rows in ParetoPercentage track by $index">
+								<td ng-repeat=" entry in rows track by $index"><b>{{entry}}</b></td>
 							</tr>
 						</tbody>
 					</table>

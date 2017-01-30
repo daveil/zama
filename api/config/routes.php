@@ -54,10 +54,6 @@
 			array("action" => "index", "[method]" => "GET")
 		);
 	Router::connect(
-			"/reports/:action",
-			array("controller"=>'reports',"[method]" => "GET")
-		);
-	Router::connect(
 			"/:controller/:id",
 			array("action" => "view", "[method]" => "GET"),
 			array("pass"=>array("id"))

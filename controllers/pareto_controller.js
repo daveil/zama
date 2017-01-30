@@ -107,6 +107,9 @@ define(['app','api'], function (app) {
 				data.line_machine_id = $scope.LineMachine;
 				data.pareto_date  = $filter('date')($scope.ParetoDate,'yyyy-MM-dd');
 				data.pareto_details =  $scope.ParetoDetail;
+				for(var i in data.pareto_details){
+					data.pareto_details[i]['model_no_id']=$scope.Models[i].id;
+				}
 			$scope.Submitting=true;
 			api.POST('paretos',data,function(response){
 				alert(response.meta.message);

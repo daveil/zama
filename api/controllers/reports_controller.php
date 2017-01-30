@@ -10,7 +10,44 @@ class ReportsController extends AppController {
 			$kpi_id =$_GET['kpi_id'];
 			$month = $_GET['month'];
 			$kpi = $this->Kpi->findById($kpi_id)['Kpi'];
-			$conditions = array('Subcategories.kpi_id'=>$kpi_id);
+			$report['kpi'] =  array('id'=>$kpi['id'],'name'=>$kpi['name']);
+			$paretoDaily = $pareto =   $this->Report->paretoDaily($kpi_id,$month);
+			$report['pareto']=array();
+			$report['pareto']['header'] = array_shift($pareto);
+			$pareto_parts = array_chunk($pareto,count($pareto)/2);
+			$report['pareto']['entry'] =$pareto_parts[0];
+			$report['pareto']['percentage'] = $pareto_parts[1];
+			$reports = array(array('Report'=>$report));
+			if($this->RequestHandler->ext=='xml'){
+				$kpi = $this->Kpi->findById($kpi_id)['Kpi'];
+				$KPI =  $kpi['name'];
+				$MONTH=date_create($month);
+				$MONTH = $MONTH->format('F Y');
+				$filename = "Pareto Report $KPI - $MONTH ";
+				$this->set('title_for_layout',$filename);
+				$this->set(compact('MONTH','filename','paretoDaily'));
+			}
+		}
+		$this->set(compact('reports'));
+		
+		
+		
+	}
+	function export($kpi_id,$month){
+		$daily = $this->Report->planDaily($kpi_id,$month);
+		$monthly = $this->Report->planMonthly($kpi_id,$month);
+		$dailyTotal = $this->Report->planDailyTotal($kpi_id,$month);
+		$monthlyTotal = $this->Report->planMonthlyTotal($kpi_id,$month);
+		$paretoDaily = $this->Report->paretoDaily($kpi_id,$month);
+		$kpi = $this->Kpi->findById($kpi_id)['Kpi'];
+		$KPI =  $kpi['name'];
+		$MONTH=date_create($month);
+		$MONTH = $MONTH->format('F Y');
+		$filename = "Plan Report $KPI - $MONTH ";
+		$this->set(compact('MONTH','filename','daily','monthly','dailyTotal','monthlyTotal'));
+	}
+	function oldCode(){
+		$conditions = array('Subcategories.kpi_id'=>$kpi_id);
 			$order = array('Subcategories.index_order');
 			$subcats =  $this->Subcategories->find('all',compact('conditions','order'));
 			$report['kpi'] =  array('id'=>$kpi['id'],'name'=>$kpi['name']);
@@ -113,25 +150,7 @@ class ReportsController extends AppController {
 				$this->set('title_for_layout',"Pareto Report $KPI - $MONTH ");
 				$reports = $this->Report->generateFile('xml',$rows);
 			}
-		}
-			$this->set(compact('reports'));
-		
-		
-		
 	}
-	function export($kpi_id,$month){
-		$daily = $this->Report->planDaily($kpi_id,$month);
-		$monthly = $this->Report->planMonthly($kpi_id,$month);
-		$dailyTotal = $this->Report->planDailyTotal($kpi_id,$month);
-		$monthlyTotal = $this->Report->planMonthlyTotal($kpi_id,$month);
-		$kpi = $this->Kpi->findById($kpi_id)['Kpi'];
-		$KPI =  $kpi['name'];
-		$MONTH=date_create($month);
-		$MONTH = $MONTH->format('F Y');
-		$filename = "Plan Report $KPI - $MONTH ";
-		$this->set(compact('MONTH','filename','daily','monthly','dailyTotal','monthlyTotal'));
-	}
-	
 }
 	
 	

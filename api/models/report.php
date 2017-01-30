@@ -297,6 +297,100 @@ class Report extends AppModel {
 		}
 		return $planDailyTotal;
 	}
+	
+	function paretoDaily($kpi,$month_filter){
+		$time = strtotime($month_filter);
+		$year =(int)date('Y',$time);
+		$month =(int)date('m',$time);
+		$first_dom =date('Y-m-01',$time);
+		$query = "SELECT `date`,name, subcategory_id, CASE WHEN quantity IS NULL THEN  0 ELSE  SUM(quantity) END AS total_pareto FROM 
+					(
+					SELECT`date`,name,subcategory_id,model_id, quantity FROM 
+					(SELECT `date`,subcategories.name AS name, subcategories.id AS subcategory_id, model_nos.`line_machine_id` AS line_id, model_nos.id AS model_id, subcategories.index_order
+					FROM 
+					subcategories  LEFT JOIN model_nos ON (
+					`subcategories`.`kpi_id` = '$kpi'  AND 
+					model_nos.subcategory_id = subcategories.id
+					),
+					(
+						SELECT LAST_DAY('$first_dom') - INTERVAL (a.a + (10 * b.a) + (100 * c.a)) DAY AS `date`
+						FROM (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS a
+						CROSS JOIN (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS b
+						CROSS JOIN (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS c
+					  ) calendar WHERE DATE BETWEEN '$first_dom'  AND LAST_DAY('$first_dom') ORDER BY DATE, index_order
+					  ) AS daily_models 
+					LEFT JOIN paretos
+					ON (paretos.`pareto_date` =  `date` AND paretos.`line_machine_id` = line_id)
+					LEFT JOIN pareto_details
+					ON (pareto_details.`model_no_id` =  model_id AND pareto_details.`pareto_id` =  paretos.id)
+
+					  ORDER BY `date`,index_order, model_id
+					   ) AS dtl GROUP BY `date`, `subcategory_id`";
+		$calendar_query = "(
+				SELECT LAST_DAY('$first_dom') - INTERVAL (a.a + (10 * b.a) + (100 * c.a)) DAY AS `date`
+				FROM (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS a
+				CROSS JOIN (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS b
+				CROSS JOIN (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS c
+			) as calendar 
+			WHERE calendar.Date BETWEEN '$first_dom' AND LAST_DAY('$first_dom') ORDER BY calendar.date";
+		$calendar = $this->query("SELECT * FROM $calendar_query ");
+		$dailies =  $this->query($query);
+		$paretoDaily = array();
+		
+		$days = array();
+		$subcats = array();
+		$header = explode('|',"KPI");
+		
+		foreach($calendar as $day){
+			$days[$day['calendar']['date']] =array();
+		}
+		
+		foreach($days as $date=>$day){
+			array_push($header,date('d-M',strtotime($date)));
+		}
+		array_push($paretoDaily,$header);
+		
+		$production_plan = $this->planDailyTotal($kpi,$month_filter);
+		$plan = array_merge(array('Production Plan (100%)'),$production_plan);
+		array_push($paretoDaily,$plan);
+		
+		foreach($dailies as $entry){
+			$date= $entry['dtl']['date'];
+			array_push($days[$date],$entry);
+		}
+		foreach($days[$first_dom] as $col){
+			array_push($subcats,$col['dtl']['name']);
+		}
+		
+		foreach($subcats as $index=>$subcat){
+			$row = array($subcat);
+			foreach($days as $day){
+				array_push($row,$day[$index]['0']['total_pareto']);
+				
+			}
+			array_push($paretoDaily,$row);
+		}
+		
+		foreach($paretoDaily as $line=>$pareto){
+			
+			if($line>0){
+				$row=array();
+				foreach($pareto as $index=>$item){
+					
+					if($index==0){
+						array_push($row,$item);
+					}else{
+						$plan = $production_plan[$index-1];
+						$percentage=$plan?($item/$plan):0;
+						$percentage = round($percentage*100,0).'%';
+						array_push($row,$percentage);
+					}
+				}
+				array_push($paretoDaily,$row);
+			}
+		}
+		return $paretoDaily;
+	}
 }
 
 	
