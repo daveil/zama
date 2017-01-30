@@ -1,0 +1,88 @@
+<div class="row" ng-controller="PlanSheetController" ng-init="init()">
+	<div class="col-md-3">
+		<div class="list-group">
+			<div class="list-group-item list-group-header">
+				<label class="pull-left">Plan Sheet</label>
+				<div class="btn-group btn-group-xs pull-right">
+					<button class="btn btn-default " ng-disabled="PreventCancel || Submitting" ng-click="cancelFilter()">CANCEL</button>
+					<button class="btn btn-primary " ng-disabled="PreventSubmit || Submitting"  ng-click="submitFilter()">SUBMIT</button>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="list-group-canvas">
+				<div class="list-group-item">
+					<div class="form-group" ng-show="__USER.department_id=='all'">
+						<label>Deparment</label>
+						<select ng-model="Deparment" class="form-control" ng-disabled="!Departments.length">
+							<option value="">Select Department</option>
+							<option ng-repeat="department in Departments" ng-value="department.id">
+								{{department.name}}
+							</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Category</label>
+						<select ng-model="Category" name="" id="" class="form-control" ng-disabled="!Categories.length">
+							<option value="">Select Category</option>
+							<option ng-repeat="category in Categories | filter:{department_id:Deparment}" ng-value="category.id">
+								{{category.name}}
+							</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>KPI</label>
+						<select ng-model="KPI"  class="form-control" ng-disabled="!KPIs.length">
+							<option value="">Select KPI</option>
+							<option ng-repeat="kpi in KPIs | filter:{category_id:Category} " ng-value="kpi.id">
+								{{kpi.name}}
+							</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Month</label>
+						<input type="month" class="form-control" ng-model="MonthFilter"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="list-group">
+			<div class="list-group-item list-group-header">
+				<label class="pull-left">Plan Sheet Detail</label>
+				<a href="{{ReportDownloadLink}}" target="_blank" ng-disabled="!ReportDownloadLink" class="btn btn-xs btn-primary pull-right">DOWNLOAD</a>
+				<div class="clearfix"></div>
+				
+			</div>
+			<div class="list-group-canvas">
+				<div class="list-group-item">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th ng-repeat="header in PlanMonthlyHeader">{{header}}</th>
+							</tr>
+						</thead>
+						<tbody> 
+							<tr ng-repeat=" rows in PlanMonthlyEntry track by $index">
+								<td ng-repeat=" entry in rows track by $index">{{entry}}</td>
+							</tr>
+						</tbody>
+					</table>
+					<hr />
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th ng-repeat="header in PlanDailyHeader">{{header}}</th>
+							</tr>
+						</thead>
+						<tbody> 
+							<tr ng-repeat=" rows in PlanDailyEntry track by $index">
+								<td ng-repeat=" entry in rows track by $index">{{entry}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
