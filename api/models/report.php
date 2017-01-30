@@ -346,11 +346,18 @@ class Report extends AppModel {
 		}
 		
 		foreach($days as $date=>$day){
-			array_push($header,date('d-M',strtotime($date)));
+			array_push($header,date('d',strtotime($date)));
 		}
+		array_push($header,'Total');
 		array_push($paretoDaily,$header);
 		
 		$production_plan = $this->planDailyTotal($kpi,$month_filter);
+		$total_production_plan = 0;
+		foreach($production_plan as  $pp){
+			$total_production_plan+=$pp;
+		}
+		array_push($production_plan,$total_production_plan);
+		
 		$plan = array_merge(array('Production Plan (100%)'),$production_plan);
 		array_push($paretoDaily,$plan);
 		
@@ -364,10 +371,13 @@ class Report extends AppModel {
 		
 		foreach($subcats as $index=>$subcat){
 			$row = array($subcat);
+			$line_total = 0;
 			foreach($days as $day){
-				array_push($row,$day[$index]['0']['total_pareto']);
-				
+				$total_pareto = $day[$index]['0']['total_pareto'];
+				$line_total+=$total_pareto;
+				array_push($row,$total_pareto);
 			}
+			array_push($row,$line_total);
 			array_push($paretoDaily,$row);
 		}
 		
@@ -376,14 +386,17 @@ class Report extends AppModel {
 			if($line>0){
 				$row=array();
 				foreach($pareto as $index=>$item){
-					
 					if($index==0){
 						array_push($row,$item);
+					}else if($index==count($pareto)-1){
+						$percentage = $item/$total_production_plan;
+						$percentage = round($percentage*100,0);
+						array_push($row,$percentage.'%');
 					}else{
 						$plan = $production_plan[$index-1];
 						$percentage=$plan?($item/$plan):0;
-						$percentage = round($percentage*100,0).'%';
-						array_push($row,$percentage);
+						$percentage = round($percentage*100,0);
+						array_push($row,$percentage.'%');
 					}
 				}
 				array_push($paretoDaily,$row);
