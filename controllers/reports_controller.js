@@ -63,7 +63,8 @@ define(['app','utilFilters','api'], function (app) {
 				report_filter.month = $filter('date')($scope.MonthFilter,'yyyy-MM');
 			api.GET('reports',report_filter,function(response){
 				$scope.ReportDownloadLink  = 'api/reports.xml?';
-				$scope.ReportDownloadLink +='kpi_id='+report_filter.kpi_id;
+				$scope.ReportDownloadLink +='type='+report_filter.type;
+				$scope.ReportDownloadLink +='&kpi_id='+report_filter.kpi_id;
 				$scope.ReportDownloadLink +='&month='+report_filter.month;
 				$scope.KPI_Name = response.data[0].kpi.name;
 				var pareto = response.data[0].pareto;
@@ -142,7 +143,8 @@ define(['app','utilFilters','api'], function (app) {
 				report_filter.month = $filter('date')($scope.MonthFilter,'yyyy-MM');
 			api.GET('reports',report_filter,function(response){
 				$scope.ReportDownloadLink  = 'api/reports.xml?';
-				$scope.ReportDownloadLink +='kpi_id='+report_filter.kpi_id;
+				$scope.ReportDownloadLink +='type='+report_filter.type;
+				$scope.ReportDownloadLink +='&kpi_id='+report_filter.kpi_id;
 				$scope.ReportDownloadLink +='&month='+report_filter.month;
 				$scope.KPI_Name = response.data[0].kpi.name;
 				var plan = response.data[0].plan;
@@ -150,6 +152,8 @@ define(['app','utilFilters','api'], function (app) {
 				$scope.PlanDailyHeader = plan.daily.header;
 				$scope.PlanMonthlyEntry = plan.monthly.entry;
 				$scope.PlanDailyEntry = plan.daily.entry;
+				$scope.PlanMonthlyTotal = plan.monthly.total;
+				$scope.PlanDailyTotal = plan.daily.total;
 				
 				$scope.Plans = response.data[0].plans;
 				$scope.Paretos = response.data[0].paretos;

@@ -67,6 +67,12 @@
 								<td ng-repeat=" entry in rows track by $index">{{entry}}</td>
 							</tr>
 						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="{{PlanMonthlyHeader.length-1}}" class="text-right"><b>TOTAL PRODUCTION PLAN</b></td>
+								<td >{{PlanMonthlyTotal}}</td>
+							</tr>
+						</tfoot>
 					</table>
 					<hr />
 					<table class="table table-bordered">
@@ -80,6 +86,12 @@
 								<td ng-repeat=" entry in rows track by $index">{{entry}}</td>
 							</tr>
 						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="2" class="text-right"><b>TOTAL DAILY PLAN</b></td>
+								<td ng-repeat="total in PlanDailyTotal track by $index" >{{total}}</td>
+							</tr>
+						</tfoot>
 					</table>
 				</div>
 			</div>
