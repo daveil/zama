@@ -10,27 +10,52 @@ class ReportsController extends AppController {
 			$type =$_GET['type'];
 			$kpi_id =$_GET['kpi_id'];
 			$month = $_GET['month'];
-			$kpi = $this->Kpi->findById($kpi_id)['Kpi'];
-			$KPI =  $kpi['name'];
 			$MONTH=date_create($month);
 			$MONTH = $MONTH->format('F Y');
-			$filename = Inflector::classify($type)." Report $KPI - $MONTH ";
-			$this->set(compact('MONTH','type','filename'));
-			$this->set('title_for_layout',$filename);
+			if(preg_match('/all/',$kpi_id)){
+				$cat_id = str_replace('all-','',$kpi_id);
+				$this->Kpi->recursive = -1;
+				$kpis = $this->Kpi->findAllByCategoryId($cat_id);
+				$KPI ="";
+			}else{
+				$kpi = $this->Kpi->findById($kpi_id);
+				$kpis = array($kpi);
+				$kpi = $kpi['Kpi'];
+				$cat_id = $kpi['category_id'];
+				$KPI =  ' - ' .$kpi['name'];
+			}
 			
+			
+			$category = $this->Kpi->Category->findById($cat_id)['Category'];
+			$CATEGORY = $category['name'];
+			$filename = Inflector::classify($type)." Report $CATEGORY $KPI - $MONTH ";
+			$this->set(compact('MONTH','CATEGORY','type','filename'));
+			$this->set('title_for_layout',$filename);
 			$report = array();
-			$report['kpi'] =  array('id'=>$kpi['id'],'name'=>$kpi['name']);
+			
 			switch($type){
 				case 'pareto':
-					$paretoDaily = $pareto =   $this->Report->paretoDaily($kpi_id,$month);
-					$report['pareto']=array();
-					$report['pareto']['header'] = array_shift($pareto);
-					$pareto_parts = array_chunk($pareto,count($pareto)/2);
-					$report['pareto']['entry'] =$pareto_parts[0];
-					$report['pareto']['percentage'] = $pareto_parts[1];
-					$this->set(compact('paretoDaily'));
+					$paretoDailies = array();
+					foreach($kpis as $i=>$kpi){
+						$kpi = $kpi['Kpi'];
+						$kpi_id  = $kpi['id'];
+						$report[$i]['kpi'] =  array('id'=>$kpi['id'],'name'=>$kpi['name']);
+						$paretoDaily = $pareto =   $this->Report->paretoDaily($kpi_id,$month);
+						$report[$i]['pareto']=array();
+						$report[$i]['pareto']['header'] = array_shift($pareto);
+						$pareto_parts = array_chunk($pareto,count($pareto)/2);
+						$report[$i]['pareto']['entry'] =$pareto_parts[0];
+						$report[$i]['pareto']['percentage'] = $pareto_parts[1];
+						array_push($paretoDailies,$paretoDaily);
+					}
+					$this->set(compact('paretoDailies'));
+					$reports = array();
+					foreach($report as $r){
+						array_push($reports, array('Report'=>$r));
+					}
 				break;
 				case 'plan':
+					$report['kpi'] =  array('id'=>$kpi['id'],'name'=>$kpi['name']);
 					$planDaily   = $daily = $this->Report->planDaily($kpi_id,$month);
 					$planMonthly = $monthly = $this->Report->planMonthly($kpi_id,$month);
 					$dailyTotal = $this->Report->planDailyTotal($kpi_id,$month);
@@ -43,10 +68,11 @@ class ReportsController extends AppController {
 					$report['plan']['monthly']['entry'] = $planMonthly;
 					$report['plan']['monthly']['total'] = $monthlyTotal;
 					$this->set(compact('daily','monthly','dailyTotal','monthlyTotal'));
+					$reports = array(array('Report'=>$report));
 				break;
 			}
 			
-			$reports = array(array('Report'=>$report));
+			
 			
 		}
 		$this->set(compact('reports'));

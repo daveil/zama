@@ -66,7 +66,8 @@ define(['app','utilFilters','api'], function (app) {
 				$scope.ReportDownloadLink +='type='+report_filter.type;
 				$scope.ReportDownloadLink +='&kpi_id='+report_filter.kpi_id;
 				$scope.ReportDownloadLink +='&month='+report_filter.month;
-				$scope.KPI_Name = response.data[0].kpi.name;
+				$scope.Paretos = response.data;
+				/* 
 				var pareto = response.data[0].pareto;
 				$scope.ParetoHeader = pareto.header;
 				$scope.ParetoEntry = pareto.entry;
@@ -76,6 +77,7 @@ define(['app','utilFilters','api'], function (app) {
 				$scope.Percentages = response.data[0].percentages;
 				$scope.Totals = response.data[0].totals;
 				$scope.SubCategories = response.data[0].subcategories;
+				*/
 				$scope.Submitting=false;
 			});
 		}

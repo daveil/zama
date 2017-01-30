@@ -33,6 +33,7 @@
 						<label>KPI</label>
 						<select ng-model="KPI"  class="form-control" ng-disabled="!KPIs.length">
 							<option value="">Select KPI</option>
+							<option value="all-{{Category}}">All</option>
 							<option ng-repeat="kpi in KPIs | filter:{category_id:Category} " ng-value="kpi.id">
 								{{kpi.name}}
 							</option>
@@ -56,17 +57,17 @@
 			</div>
 			<div class="list-group-canvas">
 				<div class="list-group-item">
-					<table class="table table-bordered">
+					<table class="table table-bordered" ng-repeat="P in Paretos track by $index">
 						<thead>
 							<tr>
-								<th ng-repeat="header in ParetoHeader">{{header}}</th>
+								<th ng-repeat="header in P.pareto.header  track by $index">{{header}}</th>
 							</tr>
 						</thead>
 						<tbody> 
-							<tr ng-repeat=" rows in ParetoEntry track by $index">
+							<tr ng-repeat=" rows in P.pareto.entry track by $index">
 								<td ng-repeat=" entry in rows track by $index">{{entry}}</td>
 							</tr>
-							<tr ng-repeat=" rows in ParetoPercentage track by $index">
+							<tr ng-repeat=" rows in P.pareto.percentage track by $index">
 								<td ng-repeat=" entry in rows track by $index"><b>{{entry}}</b></td>
 							</tr>
 						</tbody>

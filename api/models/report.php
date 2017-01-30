@@ -303,15 +303,16 @@ class Report extends AppModel {
 		$year =(int)date('Y',$time);
 		$month =(int)date('m',$time);
 		$first_dom =date('Y-m-01',$time);
-		$query = "SELECT `date`,name, subcategory_id, CASE WHEN quantity IS NULL THEN  0 ELSE  SUM(quantity) END AS total_pareto FROM 
+		$query = "SELECT `date`,name, subcategory_id, kpi_id, CASE WHEN quantity IS NULL THEN  0 ELSE  SUM(quantity) END AS total_pareto FROM 
 					(
-					SELECT`date`,name,subcategory_id,model_id, quantity FROM 
-					(SELECT `date`,subcategories.name AS name, subcategories.id AS subcategory_id, model_nos.`line_machine_id` AS line_id, model_nos.id AS model_id, subcategories.index_order
+					SELECT`date`,name,subcategory_id,model_id,kpi_id, quantity FROM 
+					(SELECT `date`,subcategories.name AS name, subcategories.id AS subcategory_id,subcategories.kpi_id, model_nos.`line_machine_id` AS line_id, model_nos.id AS model_id, subcategories.index_order
 					FROM 
-					subcategories  LEFT JOIN model_nos ON (
-					`subcategories`.`kpi_id` = '$kpi'  AND 
+					subcategories  
+					LEFT JOIN model_nos ON (
 					model_nos.subcategory_id = subcategories.id
-					),
+					)
+					,
 					(
 						SELECT LAST_DAY('$first_dom') - INTERVAL (a.a + (10 * b.a) + (100 * c.a)) DAY AS `date`
 						FROM (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS a
@@ -323,7 +324,7 @@ class Report extends AppModel {
 					ON (paretos.`pareto_date` =  `date` AND paretos.`line_machine_id` = line_id)
 					LEFT JOIN pareto_details
 					ON (pareto_details.`model_no_id` =  model_id AND pareto_details.`pareto_id` =  paretos.id)
-
+						WHERE `kpi_id` = '$kpi'
 					  ORDER BY `date`,index_order, model_id
 					   ) AS dtl GROUP BY `date`, `subcategory_id`";
 		$calendar_query = "(
@@ -334,12 +335,16 @@ class Report extends AppModel {
 			) as calendar 
 			WHERE calendar.Date BETWEEN '$first_dom' AND LAST_DAY('$first_dom') ORDER BY calendar.date";
 		$calendar = $this->query("SELECT * FROM $calendar_query ");
+		
 		$dailies =  $this->query($query);
 		$paretoDaily = array();
 		
 		$days = array();
 		$subcats = array();
-		$header = explode('|',"KPI");
+		App::import('Model','Kpi');
+		$Kpi =  new Kpi();
+		$KPI = $Kpi->findById($kpi)['Kpi']['name'];
+		$header = explode('|',"KPI - $KPI");
 		
 		foreach($calendar as $day){
 			$days[$day['calendar']['date']] =array();
@@ -352,55 +357,81 @@ class Report extends AppModel {
 		array_push($paretoDaily,$header);
 		
 		$production_plan = $this->planDailyTotal($kpi,$month_filter);
+		
 		$total_production_plan = 0;
-		foreach($production_plan as  $pp){
-			$total_production_plan+=$pp;
-		}
-		array_push($production_plan,$total_production_plan);
-		
-		$plan = array_merge(array('Production Plan (100%)'),$production_plan);
-		array_push($paretoDaily,$plan);
-		
-		foreach($dailies as $entry){
-			$date= $entry['dtl']['date'];
-			array_push($days[$date],$entry);
-		}
-		foreach($days[$first_dom] as $col){
-			array_push($subcats,$col['dtl']['name']);
-		}
-		
-		foreach($subcats as $index=>$subcat){
-			$row = array($subcat);
-			$line_total = 0;
-			foreach($days as $day){
-				$total_pareto = $day[$index]['0']['total_pareto'];
-				$line_total+=$total_pareto;
-				array_push($row,$total_pareto);
+		if(count($production_plan)>9){
+			foreach($production_plan as  $pp){
+				$total_production_plan+=$pp;
 			}
-			array_push($row,$line_total);
-			array_push($paretoDaily,$row);
-		}
-		
-		foreach($paretoDaily as $line=>$pareto){
+			array_push($production_plan,$total_production_plan);
 			
-			if($line>0){
-				$row=array();
-				foreach($pareto as $index=>$item){
-					if($index==0){
-						array_push($row,$item);
-					}else if($index==count($pareto)-1){
-						$percentage = $item/$total_production_plan;
-						$percentage = round($percentage*100,0);
-						array_push($row,$percentage.'%');
-					}else{
-						$plan = $production_plan[$index-1];
-						$percentage=$plan?($item/$plan):0;
-						$percentage = round($percentage*100,0);
-						array_push($row,$percentage.'%');
-					}
+			$plan = array_merge(array('Production Plan (100%)'),$production_plan);
+			
+		}else{
+			$no_plan = array();
+			foreach($calendar as $date=>$day){
+				array_push($no_plan,0);
+			}
+			array_push($no_plan,0);
+			$plan = array_merge(array('Production Plan (0%)'),$no_plan);
+			
+		}
+		array_push($paretoDaily,$plan);
+		if(count($dailies)){
+			foreach($dailies as $entry){
+				$date= $entry['dtl']['date'];
+				array_push($days[$date],$entry);
+			}
+			foreach($days[$first_dom] as $col){
+				array_push($subcats,$col['dtl']['name']);
+			}
+			
+			foreach($subcats as $index=>$subcat){
+				$row = array($subcat);
+				$line_total = 0;
+				foreach($days as $day){
+					$total_pareto = $day[$index]['0']['total_pareto'];
+					$line_total+=$total_pareto;
+					array_push($row,$total_pareto);
 				}
+				array_push($row,$line_total);
 				array_push($paretoDaily,$row);
 			}
+			
+			foreach($paretoDaily as $line=>$pareto){
+				
+				if($line>0){
+					$row=array();
+					foreach($pareto as $index=>$item){
+						if($index==0){
+							array_push($row,$item);
+						}else if($index==count($pareto)-1){
+							$tpp = $total_production_plan;
+							$percentage = $tpp==0?0:$item/$tpp;
+							$percentage = round($percentage*100,0);
+							array_push($row,$percentage.'%');
+						}else{
+							$plan=0;
+							if(isset($production_plan[$index-1])){
+								$plan = $production_plan[$index-1];
+							}
+							$percentage=$plan?($item/$plan):0;
+							$percentage = round($percentage*100,0);
+							array_push($row,$percentage.'%');
+						}
+					}
+					array_push($paretoDaily,$row);
+				}
+			}
+		}else{
+			$no_entries = array();
+			foreach($calendar as $day){
+				array_push($no_entries,'-');
+			}
+			array_push($no_entries,'0%');
+			$row = array_merge(array('No Entries'),$no_entries);
+			array_push($paretoDaily,$row);
+			array_push($paretoDaily,$row);
 		}
 		return $paretoDaily;
 	}

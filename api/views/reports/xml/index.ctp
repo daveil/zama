@@ -5,16 +5,22 @@ require_once(APP.DS.'vendors/excel-php/PHPExcel/Classes/PHPExcel.php');
 $objPHPExcel = new PHPExcel();
 $objPHPExcel->setActiveSheetIndex(0);
 
-$objPHPExcel->getActiveSheet()->setCellValue('A1','Assembly Plan');
+$objPHPExcel->getActiveSheet()->setCellValue('A1',"$CATEGORY Plan");
 $objPHPExcel->getActiveSheet()->setCellValue('A2',"For the month of $MONTH");
 
 switch($type){
 	case 'pareto':
 		$row_ctr = 4;
-		foreach($paretoDaily as $row=>$cols){
-			foreach($cols as $col=>$value){
-				$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($col,$row+$row_ctr ,$value);
+		
+		foreach($paretoDailies as $paretoDaily){
+			$line_ctr=0;
+			foreach($paretoDaily as $row=>$cols){
+				foreach($cols as $col=>$value){
+					$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($col,$row+$row_ctr ,$value);
+				}
+				$line_ctr++;
 			}
+			$row_ctr+=$line_ctr+2;
 		}
 	break;
 	case 'plan':
