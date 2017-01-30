@@ -6,27 +6,74 @@ class ReportsController extends AppController {
 	function index(){
 		$reports = array();
 		if($this->RequestHandler->isAjax()||$this->RequestHandler->ext=='json'||$this->RequestHandler->ext=='xml'){
-			$report = array('kpi'=>null,'plans'=>array(),'paretos'=>array(),'percentages'=>array(),'totals'=>array());
+			
+			$type =$_GET['type'];
 			$kpi_id =$_GET['kpi_id'];
 			$month = $_GET['month'];
-			$kpi = $this->Kpi->findById($kpi_id)['Kpi'];
-			$report['kpi'] =  array('id'=>$kpi['id'],'name'=>$kpi['name']);
-			$paretoDaily = $pareto =   $this->Report->paretoDaily($kpi_id,$month);
-			$report['pareto']=array();
-			$report['pareto']['header'] = array_shift($pareto);
-			$pareto_parts = array_chunk($pareto,count($pareto)/2);
-			$report['pareto']['entry'] =$pareto_parts[0];
-			$report['pareto']['percentage'] = $pareto_parts[1];
-			$reports = array(array('Report'=>$report));
-			if($this->RequestHandler->ext=='xml'){
-				$kpi = $this->Kpi->findById($kpi_id)['Kpi'];
-				$KPI =  $kpi['name'];
-				$MONTH=date_create($month);
-				$MONTH = $MONTH->format('F Y');
-				$filename = "Pareto Report $KPI - $MONTH ";
-				$this->set('title_for_layout',$filename);
-				$this->set(compact('MONTH','filename','paretoDaily'));
+			$MONTH=date_create($month);
+			$MONTH = $MONTH->format('F Y');
+			if(preg_match('/all/',$kpi_id)){
+				$cat_id = str_replace('all-','',$kpi_id);
+				$this->Kpi->recursive = -1;
+				$kpis = $this->Kpi->findAllByCategoryId($cat_id);
+				$KPI ="";
+			}else{
+				$kpi = $this->Kpi->findById($kpi_id);
+				$kpis = array($kpi);
+				$kpi = $kpi['Kpi'];
+				$cat_id = $kpi['category_id'];
+				$KPI =  ' - ' .$kpi['name'];
 			}
+			
+			
+			$category = $this->Kpi->Category->findById($cat_id)['Category'];
+			$CATEGORY = $category['name'];
+			$filename = Inflector::classify($type)." Report $CATEGORY $KPI - $MONTH ";
+			$this->set(compact('MONTH','CATEGORY','type','filename'));
+			$this->set('title_for_layout',$filename);
+			$report = array();
+			
+			switch($type){
+				case 'pareto':
+					$paretoDailies = array();
+					foreach($kpis as $i=>$kpi){
+						$kpi = $kpi['Kpi'];
+						$kpi_id  = $kpi['id'];
+						$report[$i]['kpi'] =  array('id'=>$kpi['id'],'name'=>$kpi['name']);
+						$paretoDaily = $pareto =   $this->Report->paretoDaily($kpi_id,$month);
+						$report[$i]['pareto']=array();
+						$report[$i]['pareto']['header'] = array_shift($pareto);
+						$pareto_parts = array_chunk($pareto,count($pareto)/2);
+						$report[$i]['pareto']['entry'] =$pareto_parts[0];
+						$report[$i]['pareto']['percentage'] = $pareto_parts[1];
+						array_push($paretoDailies,$paretoDaily);
+					}
+					$this->set(compact('paretoDailies'));
+					$reports = array();
+					foreach($report as $r){
+						array_push($reports, array('Report'=>$r));
+					}
+				break;
+				case 'plan':
+					$report['kpi'] =  array('id'=>$kpi['id'],'name'=>$kpi['name']);
+					$planDaily   = $daily = $this->Report->planDaily($kpi_id,$month);
+					$planMonthly = $monthly = $this->Report->planMonthly($kpi_id,$month);
+					$dailyTotal = $this->Report->planDailyTotal($kpi_id,$month);
+					$monthlyTotal = $this->Report->planMonthlyTotal($kpi_id,$month);
+					$report['plan']=array('daily'=>array(),'monthly'=>array());
+					$report['plan']['daily']['header'] = array_shift($planDaily);
+					$report['plan']['daily']['entry'] = $planDaily;
+					$report['plan']['daily']['total'] = $dailyTotal;
+					$report['plan']['monthly']['header'] = array_shift($planMonthly);
+					$report['plan']['monthly']['entry'] = $planMonthly;
+					$report['plan']['monthly']['total'] = $monthlyTotal;
+					$this->set(compact('daily','monthly','dailyTotal','monthlyTotal'));
+					$reports = array(array('Report'=>$report));
+				break;
+			}
+			
+			
+			
 		}
 		$this->set(compact('reports'));
 		

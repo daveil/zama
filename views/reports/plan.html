@@ -1,8 +1,8 @@
-<div class="row" ng-controller="ParetoSheetController" ng-init="init()">
+<div class="row" ng-controller="PlanSheetController" ng-init="init()">
 	<div class="col-md-3">
 		<div class="list-group">
 			<div class="list-group-item list-group-header">
-				<label class="pull-left">Pareto Sheet</label>
+				<label class="pull-left">Plan Sheet</label>
 				<div class="btn-group btn-group-xs pull-right">
 					<button class="btn btn-default " ng-disabled="PreventCancel || Submitting" ng-click="cancelFilter()">CANCEL</button>
 					<button class="btn btn-primary " ng-disabled="PreventSubmit || Submitting"  ng-click="submitFilter()">SUBMIT</button>
@@ -33,7 +33,6 @@
 						<label>KPI</label>
 						<select ng-model="KPI"  class="form-control" ng-disabled="!KPIs.length">
 							<option value="">Select KPI</option>
-							<option value="all-{{Category}}">All</option>
 							<option ng-repeat="kpi in KPIs | filter:{category_id:Category} " ng-value="kpi.id">
 								{{kpi.name}}
 							</option>
@@ -50,27 +49,49 @@
 	<div class="col-md-9">
 		<div class="list-group">
 			<div class="list-group-item list-group-header">
-				<label class="pull-left">Pareto Sheet Detail</label>
+				<label class="pull-left">Plan Sheet Detail</label>
 				<a href="{{ReportDownloadLink}}" target="_blank" ng-disabled="!ReportDownloadLink" class="btn btn-xs btn-primary pull-right">DOWNLOAD</a>
 				<div class="clearfix"></div>
 				
 			</div>
 			<div class="list-group-canvas">
 				<div class="list-group-item">
-					<table class="table table-bordered" ng-repeat="P in Paretos track by $index">
+					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th ng-repeat="header in P.pareto.header  track by $index">{{header}}</th>
+								<th ng-repeat="header in PlanMonthlyHeader">{{header}}</th>
 							</tr>
 						</thead>
 						<tbody> 
-							<tr ng-repeat=" rows in P.pareto.entry track by $index">
+							<tr ng-repeat=" rows in PlanMonthlyEntry track by $index">
 								<td ng-repeat=" entry in rows track by $index">{{entry}}</td>
 							</tr>
-							<tr ng-repeat=" rows in P.pareto.percentage track by $index">
-								<td ng-repeat=" entry in rows track by $index"><b>{{entry}}</b></td>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="{{PlanMonthlyHeader.length-1}}" class="text-right"><b>TOTAL PRODUCTION PLAN</b></td>
+								<td >{{PlanMonthlyTotal}}</td>
+							</tr>
+						</tfoot>
+					</table>
+					<hr />
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th ng-repeat="header in PlanDailyHeader">{{header}}</th>
+							</tr>
+						</thead>
+						<tbody> 
+							<tr ng-repeat=" rows in PlanDailyEntry track by $index">
+								<td ng-repeat=" entry in rows track by $index">{{entry}}</td>
 							</tr>
 						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="2" class="text-right"><b>TOTAL DAILY PLAN</b></td>
+								<td ng-repeat="total in PlanDailyTotal track by $index" >{{total}}</td>
+							</tr>
+						</tfoot>
 					</table>
 				</div>
 			</div>
