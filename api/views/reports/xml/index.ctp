@@ -5,7 +5,7 @@ require_once(APP.DS.'vendor/phpoffice/phpexcel/Classes/PHPExcel.php');
 $objPHPExcel = new PHPExcel();
 $objPHPExcel->setActiveSheetIndex(0);
 
-$objPHPExcel->getActiveSheet()->setCellValue('A1',"$CATEGORY Plan ".rand());
+$objPHPExcel->getActiveSheet()->setCellValue('A1',"$CATEGORY Plan ");
 $objPHPExcel->getActiveSheet()->setCellValue('A2',"For the month of $MONTH");
 
 switch($type){
@@ -87,8 +87,6 @@ switch($type){
 		}
 	break;
 }
-$title_for_layout.=rand();
-
 header('Content-Type: application/vnd.ms-excel');
 header("Content-Disposition: attachment;Filename=$title_for_layout.xlsx");
 header('Cache-Control: max-age=0');
