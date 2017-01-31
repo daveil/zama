@@ -1,0 +1,12 @@
+{
+    "name": "daveadev/vendor",
+    "authors": [
+        {
+            "name": "Dave Arroyo",
+            "email": "arroyo.daveil@gmail.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpexcel": "^1.8"
+    }
+}
