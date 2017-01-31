@@ -11,7 +11,7 @@
 			</div>
 			<div class="list-group-canvas">
 				<div class="list-group-item">
-					<div class="form-group" ng-show="__USER.department_id=='all'">
+					<div class="form-group" ng-show="__USER.department_id=='all' || ShowDept">
 						<label>Deparment</label>
 						<select ng-model="Deparment" class="form-control" ng-disabled="!Departments.length">
 							<option value="">Select Department</option>

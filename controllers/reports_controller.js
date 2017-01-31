@@ -2,6 +2,9 @@
 define(['app','utilFilters','api'], function (app) {
     app.register.controller('ParetoSheetController',['$scope','$rootScope','$filter','api', function ($scope,$rootScope,$filter,api) {
 		var dept  = $rootScope.__USER.department_id;
+		if($rootScope.__USER.user_type=='admin'||$rootScope.__USER.user_type=='manager')
+			dept='all';
+		$scope.ShowDept = dept=='all';
 		$scope.init = function(){
 			getData('dept');
 			$scope.PreventCancel = true;
@@ -50,6 +53,7 @@ define(['app','utilFilters','api'], function (app) {
             getData('kpi',{category_id:$scope.Category});
         });
         $scope.submitFilter =  function(){
+			if(!$scope.KPI&&!$scope.MonthFilter) return alert('Required KPI/Month');
 			$scope.Submitting=true;
 			$scope.Plans =null;
 			$scope.Paretos =null;
@@ -84,6 +88,9 @@ define(['app','utilFilters','api'], function (app) {
     }]);
 	app.register.controller('PlanSheetController',['$scope','$rootScope','$filter','api', function ($scope,$rootScope,$filter,api) {
 		var dept  = $rootScope.__USER.department_id;
+		if($rootScope.__USER.user_type=='admin'||$rootScope.__USER.user_type=='manager')
+			dept='all';
+		$scope.ShowDept = dept=='all';
 		$scope.init = function(){
 			getData('dept');
 			$scope.PreventCancel = true;
@@ -132,6 +139,7 @@ define(['app','utilFilters','api'], function (app) {
             getData('kpi',{category_id:$scope.Category});
         });
         $scope.submitFilter =  function(){
+			if(!$scope.KPI&&!$scope.MonthFilter) return alert('Required KPI/Month');
 			$scope.Submitting=true;
 			$scope.Plans =null;
 			$scope.Paretos =null;
