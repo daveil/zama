@@ -1,6 +1,6 @@
 <?php
 
-require_once(APP.DS.'vendor/phpoffice/phpexcel/Classes/PHPExcel.php');
+require_once(APP.DS.'vendors/excel-php/PHPExcel/Classes/PHPExcel.php');
 
 $objPHPExcel = new PHPExcel();
 $objPHPExcel->setActiveSheetIndex(0);
@@ -22,6 +22,7 @@ switch($type){
 			}
 			$row_ctr+=$line_ctr+2;
 		}
+		if(false){
 		$dsl=array(
                 new \PHPExcel_Chart_DataSeriesValues('Number', 'Worksheet!$A$14', NULL, 1),
             );
@@ -57,6 +58,7 @@ switch($type){
 
 		$chart->setTopLeftPosition('K1');
 		$chart->setBottomRightPosition('M5');
+		}
 		//$objPHPExcel->getActiveSheet()->addChart($chart);
 	break;
 	case 'plan':
