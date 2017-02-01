@@ -48,7 +48,7 @@ class ReportsController extends AppController {
 						$report[$i]['pareto']['percentage'] = $pareto_parts[1];
 						array_push($paretoDailies,$paretoDaily);
 					}
-					$this->set(compact('paretoDailies'));
+					$this->set(compact('paretoDailies','report'));
 					$reports = array();
 					foreach($report as $r){
 						array_push($reports, array('Report'=>$r));
@@ -78,6 +78,9 @@ class ReportsController extends AppController {
 		$this->set(compact('reports'));
 		
 		
+		
+	}
+	function view($params){
 		
 	}
 	function export($kpi_id,$month){
