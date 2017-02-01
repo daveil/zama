@@ -9,6 +9,21 @@ define(['app','utilFilters','api'], function (app) {
 			getData('dept');
 			$scope.PreventCancel = true;
 			$scope.PreventSubmit = true;
+			$scope.chartOptions = {
+				 scales: {
+						xAxes: [{
+							stacked: true
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					},
+				legend: {display: true}
+			}
+					
+		}
+		$scope.setActiveKPI = function(kpi_id){
+			$scope.ActiveKPI = kpi_id;
 		}
 		function getData(type,data){
             switch(type){
@@ -71,6 +86,8 @@ define(['app','utilFilters','api'], function (app) {
 				$scope.ReportDownloadLink +='&kpi_id='+report_filter.kpi_id;
 				$scope.ReportDownloadLink +='&month='+report_filter.month;
 				$scope.Paretos = response.data;
+				
+				renderGraphs(angular.copy($scope.Paretos));
 				/* 
 				var pareto = response.data[0].pareto;
 				$scope.ParetoHeader = pareto.header;
@@ -82,8 +99,36 @@ define(['app','utilFilters','api'], function (app) {
 				$scope.Totals = response.data[0].totals;
 				$scope.SubCategories = response.data[0].subcategories;
 				*/
+				
 				$scope.Submitting=false;
 			});
+			function renderGraphs(data){
+				var graphs  = [];
+				for(var i in data){
+					var d = data[i];
+					var graph = {};
+						d.pareto.header.shift();
+						graph.labels = d.pareto.header;
+						graph.data = [];
+						graph.datasets = [];
+					for(var j in d.pareto.percentage){
+						if(j==0) continue;
+						var p  = d.pareto.percentage[j];
+						var subcat ={
+							label:p.shift(),
+						}
+						graph.datasets.push(subcat);
+						var e = [];
+						for(var l in p){
+							e.push(parseFloat(p[l]));
+						}
+						graph.data.push(e);
+					}
+					graphs.push(graph);
+						
+				}
+				$scope.ParetoGraphs = graphs;
+			}
 		}
     }]);
 	app.register.controller('PlanSheetController',['$scope','$rootScope','$filter','api', function ($scope,$rootScope,$filter,api) {

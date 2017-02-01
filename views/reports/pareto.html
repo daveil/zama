@@ -57,21 +57,44 @@
 			</div>
 			<div class="list-group-canvas">
 				<div class="list-group-item">
-					<table class="table table-bordered" ng-repeat="P in Paretos track by $index">
-						<thead>
-							<tr>
-								<th ng-repeat="header in P.pareto.header  track by $index">{{header}}</th>
-							</tr>
-						</thead>
-						<tbody> 
-							<tr ng-repeat=" rows in P.pareto.entry track by $index">
-								<td ng-repeat=" entry in rows track by $index">{{entry}}</td>
-							</tr>
-							<tr ng-repeat=" rows in P.pareto.percentage track by $index">
-								<td ng-repeat=" entry in rows track by $index"><b>{{entry}}</b></td>
-							</tr>
-						</tbody>
-					</table>
+					<ul  class="nav nav-pills">
+						<li ng-class="{'active':ActiveKPI==P.kpi.id}" ng-repeat="P in Paretos">
+							<a  ng-click="setActiveKPI(P.kpi.id)">{{P.kpi.name}}</a>
+						</li>
+					</ul>
+					<div class="tab-content clearfix">
+					<div class="tab-pane" ng-class="{'active':ActiveKPI==P.kpi.id}"  ng-repeat="(i,P) in Paretos track by $index">
+						<div ng-if="ParetoGraphs[i].data.length">
+							<canvas id="chart-{{id}}" class="chart-bar"
+								chart-data="ParetoGraphs[i].data"
+								chart-labels="ParetoGraphs[i].labels" 
+								chart-dataset-override="ParetoGraphs[i].datasets" 
+								chart-options="chartOptions"
+								>
+							</canvas> 
+						</div>
+						<div class="well text-center col-md-12" ng-if="!ParetoGraphs[i].data.length">
+							No data for <b>{{P.pareto.header[0]}}</b>
+						</div>
+						<div>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th ng-repeat="header in P.pareto.header  track by $index">{{header}}</th>
+									</tr>
+								</thead>
+								<tbody> 
+									<tr ng-repeat=" rows in P.pareto.entry track by $index">
+										<td ng-repeat=" entry in rows track by $index">{{entry}}</td>
+									</tr>
+									<tr ng-repeat=" rows in P.pareto.percentage track by $index">
+										<td ng-repeat=" entry in rows track by $index"><b>{{entry}}</b></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					</div>
 				</div>
 			</div>
 		</div>
