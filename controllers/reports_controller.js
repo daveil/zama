@@ -88,6 +88,7 @@ define(['app','utilFilters','api'], function (app) {
 				$scope.Paretos = response.data;
 				
 				renderGraphs(angular.copy($scope.Paretos));
+				$scope.ActiveKPI = $scope.Paretos[0].kpi.id;
 				/* 
 				var pareto = response.data[0].pareto;
 				$scope.ParetoHeader = pareto.header;
