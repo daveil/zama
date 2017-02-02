@@ -5,7 +5,7 @@ require_once(APP.DS.'vendors/excel-php/PHPExcel/Classes/PHPExcel.php');
 $objPHPExcel = new PHPExcel();
 $objPHPExcel->setActiveSheetIndex(0);
 $sheet =$objPHPExcel->getActiveSheet();
-$objPHPExcel->getActiveSheet()->setCellValue('A1',"$CATEGORY Plan ");
+$objPHPExcel->getActiveSheet()->setCellValue('A1',"$CATEGORY $REPORT_TYPE ");
 $objPHPExcel->getActiveSheet()->setCellValue('A2',"For the month of $MONTH");
 
 switch($type){

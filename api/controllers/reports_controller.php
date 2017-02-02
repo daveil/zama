@@ -35,6 +35,7 @@ class ReportsController extends AppController {
 			
 			switch($type){
 				case 'pareto':
+					$REPORT_TYPE = "Pareto Report";
 					$paretoDailies = array();
 					foreach($kpis as $i=>$kpi){
 						$kpi = $kpi['Kpi'];
@@ -55,6 +56,7 @@ class ReportsController extends AppController {
 					}
 				break;
 				case 'plan':
+					$REPORT_TYPE = "Plan";
 					$report['kpi'] =  array('id'=>$kpi['id'],'name'=>$kpi['name']);
 					$planDaily   = $daily = $this->Report->planDaily($kpi_id,$month);
 					$planMonthly = $monthly = $this->Report->planMonthly($kpi_id,$month);
@@ -75,7 +77,7 @@ class ReportsController extends AppController {
 			
 			
 		}
-		$this->set(compact('reports'));
+		$this->set(compact('reports','REPORT_TYPE'));
 		
 		
 		
